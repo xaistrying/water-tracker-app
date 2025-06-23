@@ -38,5 +38,5 @@ flutter:
   uses-material-design: true
   generate: true
 
-  # assets:
-  # - asset/
+  assets:
+  - assets/icons/

@@ -1,3 +1,6 @@
 {
-    "@@locale": "en"
+    "@@locale": "en",
+    "home": "Home",
+    "statistics": "Statistics",
+    "settings": "Settings"
 }

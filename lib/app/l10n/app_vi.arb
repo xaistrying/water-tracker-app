@@ -1,3 +1,6 @@
 {
-    "@@locale": "vi"
+    "@@locale": "vi",
+    "home": "Trang chủ",
+    "statistics": "Thống kê",
+    "settings": "Cài đặt"
 }

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:google_fonts/google_fonts.dart';
 
+// Project imports:
+import 'package:water_tracker_app/app/theme/app_color.dart';
+
 class AppTheme {
   AppTheme._();
 
@@ -13,14 +16,26 @@ class AppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     textTheme: textTheme,
-    appBarTheme: AppBarTheme(color: Colors.transparent),
+    scaffoldBackgroundColor: Colors.transparent,
+    navigationBarTheme: NavigationBarThemeData(
+      indicatorColor: Colors.transparent,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      height: kBottomNavigationBarHeight,
+      backgroundColor: AppColor.white,
+    ),
   );
 
   static final _darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     textTheme: textTheme,
-    appBarTheme: AppBarTheme(color: Colors.transparent),
+    scaffoldBackgroundColor: Colors.transparent,
+    navigationBarTheme: NavigationBarThemeData(
+      indicatorColor: Colors.transparent,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      height: kBottomNavigationBarHeight,
+      backgroundColor: AppColor.slate800,
+    ),
   );
 
   static ThemeData get lightTheme => _lightTheme;
