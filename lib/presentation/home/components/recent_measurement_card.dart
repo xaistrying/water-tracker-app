@@ -51,14 +51,14 @@ class RecentMeasurementCard extends StatelessWidget {
             AppColor.getGreyColorForText(context),
             BlendMode.srcIn,
           ),
-          height: AppDimens.iconSize16,
+          height: AppDimens.iconSize20,
         ),
         Text(
           'Recent',
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
-            color: AppColor.getGreyColorForText(context),
+            color: AppColor.getWhiteBlack(context),
           ),
         ),
       ],

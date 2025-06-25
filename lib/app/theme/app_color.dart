@@ -28,6 +28,8 @@ class AppColor {
   static const gray700 = Color(0xFF374151);
   static const gray900 = Color(0xFF111827);
 
+  static const green500 = Color(0xFF22C55E);
+
   // Dark Theme Colors
   static const slate300 = Color(0xFFCBD5E1);
   static const slate400 = Color(0xFF94A3B8);
@@ -40,6 +42,7 @@ class AppColor {
   static const cyan600 = Color(0xFF0891B2);
   static const teal500 = Color(0xFF14B8A6);
   static const teal600 = Color(0xFF0D9488);
+  static const emerald400 = Color(0xFF34D399);
 
   static Color getWhiteBlack(BuildContext context, {bool? reverse}) {
     return reverse == true
@@ -137,6 +140,27 @@ class AppColor {
     } else {
       return context.isDarkMode ? slate600 : blue300;
     }
+  }
+
+  static Color getGreenColor(BuildContext context) {
+    return context.isDarkMode ? emerald400 : green500;
+  }
+
+  static Color getProgressBarColor(
+    BuildContext context, {
+    bool? isCompleted = false,
+    bool? isBackground = false,
+  }) {
+    if (isBackground == true) {
+      return context.isDarkMode ? slate700 : blue200;
+    }
+    return isCompleted == true
+        ? context.isDarkMode
+              ? emerald400
+              : green500
+        : context.isDarkMode
+        ? cyan400
+        : blue500;
   }
 
   static const backgroundColor = LinearGradient(
