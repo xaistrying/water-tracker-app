@@ -26,7 +26,7 @@ class NavScreen extends StatelessWidget {
         children: [
           Divider(
             height: 0,
-            thickness: AppDimens.borderWidth,
+            thickness: AppDimens.borderWidth2,
             color: AppColor.getNavBorderColor(context),
           ),
 
@@ -47,7 +47,7 @@ class NavScreen extends StatelessWidget {
                         : AppColor.getWhiteBlack(context),
                     BlendMode.srcIn,
                   ),
-                  height: AppDimens.navIconHeight,
+                  height: AppDimens.iconSize20,
                 ),
                 label: context.loc.home,
               ),
@@ -60,7 +60,7 @@ class NavScreen extends StatelessWidget {
                         : AppColor.getWhiteBlack(context),
                     BlendMode.srcIn,
                   ),
-                  height: AppDimens.navIconHeight,
+                  height: AppDimens.iconSize20,
                 ),
                 label: context.loc.statistics,
               ),
@@ -73,7 +73,7 @@ class NavScreen extends StatelessWidget {
                         : AppColor.getWhiteBlack(context),
                     BlendMode.srcIn,
                   ),
-                  height: AppDimens.navIconHeight,
+                  height: AppDimens.iconSize20,
                 ),
                 label: context.loc.settings,
               ),

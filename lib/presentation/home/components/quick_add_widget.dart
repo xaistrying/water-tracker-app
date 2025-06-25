@@ -1,0 +1,100 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_svg/flutter_svg.dart';
+
+// Project imports:
+import 'package:water_tracker_app/app/theme/app_dimens.dart';
+import '../../../app/constant/image_constant.dart';
+import '../../../app/theme/app_color.dart';
+
+class QuickAddWidget extends StatelessWidget {
+  const QuickAddWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: AppDimens.padding12,
+      children: [
+        Row(
+          spacing: AppDimens.padding12,
+          children: [
+            Expanded(
+              child: _buildQuickAddButton(
+                context,
+                onPressed: () {},
+                label: '200ml',
+              ),
+            ),
+            Expanded(
+              child: _buildQuickAddButton(
+                context,
+                onPressed: () {},
+                label: '200ml',
+              ),
+            ),
+            Expanded(
+              child: _buildQuickAddButton(
+                context,
+                onPressed: () {},
+                label: '200ml',
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: _buildQuickAddButton(
+            context,
+            onPressed: () {},
+            label: 'Custom',
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuickAddButton(
+    BuildContext context, {
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: AppColor.getCardColor(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+        ),
+        side: BorderSide(
+          color: AppColor.getNavBorderColor(context),
+          width: AppDimens.borderWidth2,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimens.padding12,
+          vertical: AppDimens.padding20,
+        ),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        foregroundColor: AppColor.getWhiteBlack(context),
+        overlayColor: Colors.transparent,
+      ),
+      icon: SvgPicture.asset(
+        ImageConstant.add,
+        colorFilter: ColorFilter.mode(
+          AppColor.getWhiteBlack(context),
+          BlendMode.srcIn,
+        ),
+        height: AppDimens.iconSize16,
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: AppDimens.fontSizeDefault,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}

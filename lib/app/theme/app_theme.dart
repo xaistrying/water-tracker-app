@@ -10,7 +10,7 @@ import 'package:water_tracker_app/app/theme/app_color.dart';
 class AppTheme {
   AppTheme._();
 
-  static TextTheme? textTheme = GoogleFonts.robotoMonoTextTheme();
+  static TextTheme? textTheme = GoogleFonts.openSansTextTheme();
 
   static final _lightTheme = ThemeData(
     useMaterial3: true,
