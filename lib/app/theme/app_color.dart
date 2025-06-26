@@ -163,6 +163,52 @@ class AppColor {
         : blue500;
   }
 
+  static Color getTipCardColor(BuildContext context) {
+    return context.isDarkMode
+        ? slate700.withValues(alpha: 0.6)
+        : blue100.withValues(alpha: 0.6);
+  }
+
+  static Color getInputFieldColor(BuildContext context) {
+    return context.isDarkMode
+        ? slate700.withValues(alpha: 0.4)
+        : gray200.withValues(alpha: 0.4);
+  }
+
+  static Color getTextFieldBorderColor(BuildContext context) {
+    return context.isDarkMode ? gray200 : gray600;
+  }
+
+  static Color getSelectedSegmentedButtonColor(BuildContext context) {
+    return context.isDarkMode ? cyan500 : blue200;
+  }
+
+  static Color getSliderTrackColor(BuildContext context) {
+    return context.isDarkMode
+        ? slate600.withValues(alpha: 0.4)
+        : gray300.withValues(alpha: 0.4);
+  }
+
+  static Color getSwitchColor(
+    BuildContext context, {
+    bool? isTrack,
+    bool? isActive,
+  }) {
+    return isTrack == true
+        ? isActive == true
+              ? getBlueCyanColor(context)
+              : context.isDarkMode
+              ? slate600
+              : gray200
+        : isActive == true
+        ? context.isDarkMode
+              ? white
+              : white
+        : context.isDarkMode
+        ? gray200
+        : white;
+  }
+
   static const backgroundColor = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

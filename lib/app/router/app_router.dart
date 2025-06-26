@@ -2,6 +2,7 @@
 import 'package:go_router/go_router.dart';
 
 // Project imports:
+import 'package:water_tracker_app/presentation/settings/components/settings_language.dart';
 import '../../presentation/home/home_screen.dart';
 import '../../presentation/nav/nav_screen.dart';
 import '../../presentation/settings/settings_screen.dart';
@@ -15,6 +16,7 @@ class AppRouter {
   static const String home = '/home';
   static const String statistics = '/statistics';
   static const String settings = '/settings';
+  static const String language = '/settings/langauge';
 
   static final GoRouter _router = GoRouter(
     initialLocation: '/',
@@ -53,6 +55,12 @@ class AppRouter {
         path: splash,
         builder: (context, state) {
           return const SplashScreen();
+        },
+      ),
+      GoRoute(
+        path: language,
+        builder: (context, state) {
+          return const SettingsLanguage();
         },
       ),
     ],

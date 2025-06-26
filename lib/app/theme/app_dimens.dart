@@ -1,6 +1,7 @@
 class AppDimens {
   AppDimens._();
 
+  static const double borderWidth1 = 1.0;
   static const double borderWidth2 = 2.0;
 
   static const double borderRadius4 = 4.0;

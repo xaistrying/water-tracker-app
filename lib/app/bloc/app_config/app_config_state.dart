@@ -5,6 +5,8 @@ abstract class AppConfigStateData with _$AppConfigStateData {
   const factory AppConfigStateData({
     final Locale? locale,
     @Default(ThemeMode.system) ThemeMode? themeMode,
+    @Default(UnitType.milliliters) UnitType volumeUnitType,
+    @Default(UnitType.kilograms) UnitType weightUnitType,
   }) = _AppConfigStateData;
 }
 
@@ -16,4 +18,8 @@ abstract class AppConfigState with _$AppConfigState {
       UpdateLocaleState;
   const factory AppConfigState.updateThemeMode(AppConfigStateData data) =
       UpdateThemeMode;
+  const factory AppConfigState.updateVolumeUnitType(AppConfigStateData data) =
+      UpdateVolumeUnitType;
+  const factory AppConfigState.updateWeightUnitType(AppConfigStateData data) =
+      UpdateWeightUnitType;
 }

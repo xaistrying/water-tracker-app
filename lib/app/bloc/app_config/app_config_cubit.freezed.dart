@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfigStateData {
 
- Locale? get locale; ThemeMode? get themeMode;
+ Locale? get locale; ThemeMode? get themeMode; UnitType get volumeUnitType; UnitType get weightUnitType;
 /// Create a copy of AppConfigStateData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AppConfigStateDataCopyWith<AppConfigStateData> get copyWith => _$AppConfigState
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfigStateData&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfigStateData&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locale,themeMode);
+int get hashCode => Object.hash(runtimeType,locale,themeMode,volumeUnitType,weightUnitType);
 
 @override
 String toString() {
-  return 'AppConfigStateData(locale: $locale, themeMode: $themeMode)';
+  return 'AppConfigStateData(locale: $locale, themeMode: $themeMode, volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AppConfigStateDataCopyWith<$Res>  {
   factory $AppConfigStateDataCopyWith(AppConfigStateData value, $Res Function(AppConfigStateData) _then) = _$AppConfigStateDataCopyWithImpl;
 @useResult
 $Res call({
- Locale? locale, ThemeMode? themeMode
+ Locale? locale, ThemeMode? themeMode, UnitType volumeUnitType, UnitType weightUnitType
 });
 
 
@@ -63,11 +63,13 @@ class _$AppConfigStateDataCopyWithImpl<$Res>
 
 /// Create a copy of AppConfigStateData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? locale = freezed,Object? themeMode = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? locale = freezed,Object? themeMode = freezed,Object? volumeUnitType = null,Object? weightUnitType = null,}) {
   return _then(_self.copyWith(
 locale: freezed == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
 as Locale?,themeMode: freezed == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
-as ThemeMode?,
+as ThemeMode?,volumeUnitType: null == volumeUnitType ? _self.volumeUnitType : volumeUnitType // ignore: cast_nullable_to_non_nullable
+as UnitType,weightUnitType: null == weightUnitType ? _self.weightUnitType : weightUnitType // ignore: cast_nullable_to_non_nullable
+as UnitType,
   ));
 }
 
@@ -78,11 +80,13 @@ as ThemeMode?,
 
 
 class _AppConfigStateData implements AppConfigStateData {
-  const _AppConfigStateData({this.locale, this.themeMode = ThemeMode.system});
+  const _AppConfigStateData({this.locale, this.themeMode = ThemeMode.system, this.volumeUnitType = UnitType.milliliters, this.weightUnitType = UnitType.kilograms});
   
 
 @override final  Locale? locale;
 @override@JsonKey() final  ThemeMode? themeMode;
+@override@JsonKey() final  UnitType volumeUnitType;
+@override@JsonKey() final  UnitType weightUnitType;
 
 /// Create a copy of AppConfigStateData
 /// with the given fields replaced by the non-null parameter values.
@@ -94,16 +98,16 @@ _$AppConfigStateDataCopyWith<_AppConfigStateData> get copyWith => __$AppConfigSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfigStateData&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfigStateData&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,locale,themeMode);
+int get hashCode => Object.hash(runtimeType,locale,themeMode,volumeUnitType,weightUnitType);
 
 @override
 String toString() {
-  return 'AppConfigStateData(locale: $locale, themeMode: $themeMode)';
+  return 'AppConfigStateData(locale: $locale, themeMode: $themeMode, volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType)';
 }
 
 
@@ -114,7 +118,7 @@ abstract mixin class _$AppConfigStateDataCopyWith<$Res> implements $AppConfigSta
   factory _$AppConfigStateDataCopyWith(_AppConfigStateData value, $Res Function(_AppConfigStateData) _then) = __$AppConfigStateDataCopyWithImpl;
 @override @useResult
 $Res call({
- Locale? locale, ThemeMode? themeMode
+ Locale? locale, ThemeMode? themeMode, UnitType volumeUnitType, UnitType weightUnitType
 });
 
 
@@ -131,11 +135,13 @@ class __$AppConfigStateDataCopyWithImpl<$Res>
 
 /// Create a copy of AppConfigStateData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? locale = freezed,Object? themeMode = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? locale = freezed,Object? themeMode = freezed,Object? volumeUnitType = null,Object? weightUnitType = null,}) {
   return _then(_AppConfigStateData(
 locale: freezed == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
 as Locale?,themeMode: freezed == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
-as ThemeMode?,
+as ThemeMode?,volumeUnitType: null == volumeUnitType ? _self.volumeUnitType : volumeUnitType // ignore: cast_nullable_to_non_nullable
+as UnitType,weightUnitType: null == weightUnitType ? _self.weightUnitType : weightUnitType // ignore: cast_nullable_to_non_nullable
+as UnitType,
   ));
 }
 
@@ -420,6 +426,156 @@ class _$UpdateThemeModeCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(UpdateThemeMode(
+null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AppConfigStateData,
+  ));
+}
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppConfigStateDataCopyWith<$Res> get data {
+  
+  return $AppConfigStateDataCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class UpdateVolumeUnitType implements AppConfigState {
+  const UpdateVolumeUnitType(this.data);
+  
+
+@override final  AppConfigStateData data;
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateVolumeUnitTypeCopyWith<UpdateVolumeUnitType> get copyWith => _$UpdateVolumeUnitTypeCopyWithImpl<UpdateVolumeUnitType>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateVolumeUnitType&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AppConfigState.updateVolumeUnitType(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateVolumeUnitTypeCopyWith<$Res> implements $AppConfigStateCopyWith<$Res> {
+  factory $UpdateVolumeUnitTypeCopyWith(UpdateVolumeUnitType value, $Res Function(UpdateVolumeUnitType) _then) = _$UpdateVolumeUnitTypeCopyWithImpl;
+@override @useResult
+$Res call({
+ AppConfigStateData data
+});
+
+
+@override $AppConfigStateDataCopyWith<$Res> get data;
+
+}
+/// @nodoc
+class _$UpdateVolumeUnitTypeCopyWithImpl<$Res>
+    implements $UpdateVolumeUnitTypeCopyWith<$Res> {
+  _$UpdateVolumeUnitTypeCopyWithImpl(this._self, this._then);
+
+  final UpdateVolumeUnitType _self;
+  final $Res Function(UpdateVolumeUnitType) _then;
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(UpdateVolumeUnitType(
+null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AppConfigStateData,
+  ));
+}
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppConfigStateDataCopyWith<$Res> get data {
+  
+  return $AppConfigStateDataCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class UpdateWeightUnitType implements AppConfigState {
+  const UpdateWeightUnitType(this.data);
+  
+
+@override final  AppConfigStateData data;
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateWeightUnitTypeCopyWith<UpdateWeightUnitType> get copyWith => _$UpdateWeightUnitTypeCopyWithImpl<UpdateWeightUnitType>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateWeightUnitType&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AppConfigState.updateWeightUnitType(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateWeightUnitTypeCopyWith<$Res> implements $AppConfigStateCopyWith<$Res> {
+  factory $UpdateWeightUnitTypeCopyWith(UpdateWeightUnitType value, $Res Function(UpdateWeightUnitType) _then) = _$UpdateWeightUnitTypeCopyWithImpl;
+@override @useResult
+$Res call({
+ AppConfigStateData data
+});
+
+
+@override $AppConfigStateDataCopyWith<$Res> get data;
+
+}
+/// @nodoc
+class _$UpdateWeightUnitTypeCopyWithImpl<$Res>
+    implements $UpdateWeightUnitTypeCopyWith<$Res> {
+  _$UpdateWeightUnitTypeCopyWithImpl(this._self, this._then);
+
+  final UpdateWeightUnitType _self;
+  final $Res Function(UpdateWeightUnitType) _then;
+
+/// Create a copy of AppConfigState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(UpdateWeightUnitType(
 null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as AppConfigStateData,
   ));

@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
+import '../../enum/unit_type.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 part 'app_config_state.dart';
@@ -30,5 +31,13 @@ class AppConfigCubit extends Cubit<AppConfigState> {
     } else {
       emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.dark)));
     }
+  }
+
+  void updateVolumeUnitType(UnitType unitType) {
+    emit(UpdateVolumeUnitType(state.data.copyWith(volumeUnitType: unitType)));
+  }
+
+  void updateWeightUnitType(UnitType unitType) {
+    emit(UpdateWeightUnitType(state.data.copyWith(weightUnitType: unitType)));
   }
 }

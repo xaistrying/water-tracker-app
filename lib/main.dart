@@ -37,7 +37,7 @@ class MainApp extends StatelessWidget {
           routerConfig: AppRouter.router,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light,
+          themeMode: state.data.themeMode,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: state.data.locale,

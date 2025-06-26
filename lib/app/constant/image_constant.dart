@@ -11,4 +11,7 @@ class ImageConstant {
   static const String calendar = 'assets/icons/calendar_line.svg';
   static const String time = 'assets/icons/time_line.svg';
   static const String trendingUp = 'assets/icons/trending_up_line.svg';
+  static const String user = 'assets/icons/user_line.svg';
+  static const String palette = 'assets/icons/palette_line.svg';
+  static const String notification = 'assets/icons/notification_line.svg';
 }
