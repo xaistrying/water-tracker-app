@@ -41,7 +41,7 @@ class SettingsProfile extends StatelessWidget {
             ),
           ),
         ),
-        SliderWidget(min: 1000, max: 4000, unit1: 'ml', divisions: 30),
+        SliderWidget(min: 1000, max: 4000, unit: 'ml', divisions: 30),
       ],
     );
   }

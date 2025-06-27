@@ -14,6 +14,7 @@ import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/router/app_router.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/image_constant.dart';
+import '../../../app/enum/language_code.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../widget/feature_item_widget.dart';
@@ -80,20 +81,27 @@ class SettingsAppearance extends StatelessWidget {
             },
           ),
         ),
-        FeatureItemWidget(
-          title: 'Language',
-          subtitle: 'Change app language',
-          trailing: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimens.padding12,
-            ),
-            child: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: AppColor.getGreyColorForText(context),
-              size: AppDimens.iconSize16,
-            ),
-          ),
-          onTap: () => context.push(AppRouter.language),
+        BlocBuilder<AppConfigCubit, AppConfigState>(
+          buildWhen: (prev, curr) => prev.data.locale != curr.data.locale,
+          builder: (context, state) {
+            return FeatureItemWidget(
+              title: 'Language',
+              subtitle: LanguageCodeExtension.fromRawValue(
+                state.data.locale?.languageCode ?? '',
+              ).rawValue,
+              trailing: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimens.padding12,
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppColor.getGreyColorForText(context),
+                  size: AppDimens.iconSize16,
+                ),
+              ),
+              onTap: () => context.push(AppRouter.language),
+            );
+          },
         ),
       ],
     );

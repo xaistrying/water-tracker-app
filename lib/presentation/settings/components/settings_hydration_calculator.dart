@@ -119,7 +119,7 @@ class SettingsHydrationCalculator extends StatelessWidget {
             ),
           ),
         ),
-        SliderWidget(max: 180, unit1: 'min', unit2: 'hours', divisions: 12),
+        SliderWidget(max: 180, unit: 'min', divisions: 12),
 
         // MARK: Recommendation
         Container(
@@ -206,6 +206,8 @@ class SettingsHydrationCalculator extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
               ),
+              splashFactory: NoSplash.splashFactory,
+              overlayColor: Colors.transparent,
             ),
             child: Text(
               'Apply Recommended Goal',

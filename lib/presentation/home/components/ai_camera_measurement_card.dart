@@ -61,6 +61,8 @@ class AiCameraMeasurementCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
                 ),
+                splashFactory: NoSplash.splashFactory,
+                overlayColor: Colors.transparent,
               ),
               child: Text(
                 'Open Camera',

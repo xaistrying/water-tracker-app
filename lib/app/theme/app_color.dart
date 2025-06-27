@@ -209,6 +209,10 @@ class AppColor {
         : white;
   }
 
+  static Color getDialogColor(BuildContext context) {
+    return context.isDarkMode ? slate800 : white;
+  }
+
   static const backgroundColor = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

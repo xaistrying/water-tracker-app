@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
+import 'package:water_tracker_app/presentation/home/components/quick_add_custom_dialog.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 
@@ -47,7 +48,10 @@ class QuickAddWidget extends StatelessWidget {
           width: double.infinity,
           child: _buildQuickAddButton(
             context,
-            onPressed: () {},
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => QuickAddCustomDialog(),
+            ),
             label: 'Custom',
           ),
         ),

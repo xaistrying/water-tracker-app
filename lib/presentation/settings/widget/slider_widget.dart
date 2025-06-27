@@ -10,16 +10,14 @@ class SliderWidget extends StatefulWidget {
     super.key,
     this.min = 0,
     required this.max,
-    this.unit1 = '',
-    this.unit2 = '',
+    this.unit = '',
     this.divisions,
     this.onChanged,
   });
 
   final double min;
   final double max;
-  final String unit1;
-  final String unit2;
+  final String unit;
   final int? divisions;
   final Function(double)? onChanged;
 
@@ -76,15 +74,15 @@ class _SliderWidgetState extends State<SliderWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${widget.min.toStringAsFixed(0)} ${widget.unit1}',
+              '${widget.min.toStringAsFixed(0)} ${widget.unit}',
               style: TextStyle(color: AppColor.getGreyColorForText(context)),
             ),
             Text(
-              '${_currentSliderValue.toStringAsFixed(0)} ${widget.unit1}',
+              '${_currentSliderValue.toStringAsFixed(0)} ${widget.unit}',
               style: TextStyle(color: AppColor.getGreyColorForText(context)),
             ),
             Text(
-              '${widget.max.toStringAsFixed(0)} ${widget.unit2 == '' ? widget.unit1 : widget.unit2}',
+              '${widget.max.toStringAsFixed(0)} ${widget.unit}',
               style: TextStyle(color: AppColor.getGreyColorForText(context)),
             ),
           ],
