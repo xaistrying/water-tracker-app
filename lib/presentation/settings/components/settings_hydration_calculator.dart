@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
-import 'package:water_tracker_app/app/bloc/app_config/app_config_cubit.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
 import 'package:water_tracker_app/presentation/settings/widget/segmented_button_widget.dart';
+import '../../../app/bloc/app_data/app_data_cubit.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -55,17 +55,17 @@ class SettingsHydrationCalculator extends StatelessWidget {
           spacing: AppDimens.padding12,
           children: [
             Expanded(child: TextFormFieldWidget()),
-            BlocBuilder<AppConfigCubit, AppConfigState>(
+            BlocBuilder<AppDataCubit, AppDataState>(
               builder: (context, state) {
                 return SegmentedButtonWidget(
                   values: [
-                    UnitType.kilograms.rawValue,
-                    UnitType.pounds.rawValue,
+                    WeightUnitType.kilograms.rawValue,
+                    WeightUnitType.pounds.rawValue,
                   ],
                   selected: {state.data.weightUnitType.rawValue},
                   onSelectionChanged: (newSelected) =>
-                      context.read<AppConfigCubit>().updateWeightUnitType(
-                        UnitTypeExtension.fromRawValue(newSelected.first),
+                      context.read<AppDataCubit>().updateWeightUnitType(
+                        WeightUnitTypeExtension.fromRawValue(newSelected.first),
                       ),
                 );
               },
@@ -167,7 +167,7 @@ class SettingsHydrationCalculator extends StatelessWidget {
               backgroundColor: AppColor.getBlueCyanColor(context),
               padding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.padding16,
-                vertical: AppDimens.padding20,
+                vertical: AppDimens.padding16,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimens.borderRadius4),

@@ -63,7 +63,7 @@ class SettingsProfile extends StatelessWidget {
               backgroundColor: AppColor.getBlueCyanColor(context),
               padding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.padding16,
-                vertical: AppDimens.padding20,
+                vertical: AppDimens.padding16,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimens.borderRadius4),

@@ -18,22 +18,24 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(gradient: AppColor.getBackgroundColor(context)),
-      child: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.all(AppDimens.padding16),
-          children: [
-            SettingsHeader(),
-            SizedBox(height: AppDimens.padding16),
-            SettingsProfile(),
-            SizedBox(height: AppDimens.padding16),
-            SettingsAppearance(),
-            SizedBox(height: AppDimens.padding16),
-            SettingsReminder(),
-            SizedBox(height: AppDimens.padding16),
-            SettingsHydrationCalculator(),
-            SizedBox(height: AppDimens.padding16),
-            SettingsQuickAddAmounts(),
-          ],
+      child: SafeArea(
+        child: Scaffold(
+          body: ListView(
+            padding: const EdgeInsets.all(AppDimens.padding16),
+            children: [
+              SettingsHeader(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsProfile(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsAppearance(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsReminder(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsHydrationCalculator(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsQuickAddAmounts(),
+            ],
+          ),
         ),
       ),
     );

@@ -13,6 +13,7 @@ import 'package:water_tracker_app/app/enum/unit_type.dart';
 import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/router/app_router.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
+import '../../../app/bloc/app_data/app_data_cubit.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/enum/language_code.dart';
 import '../../../app/theme/app_color.dart';
@@ -65,17 +66,17 @@ class SettingsAppearance extends StatelessWidget {
         FeatureItemWidget(
           title: 'Units',
           subtitle: 'Milliliters or fluid ounces',
-          trailing: BlocBuilder<AppConfigCubit, AppConfigState>(
+          trailing: BlocBuilder<AppDataCubit, AppDataState>(
             builder: (context, state) {
               return SegmentedButtonWidget(
                 values: [
-                  UnitType.milliliters.rawValue,
-                  UnitType.ounces.rawValue,
+                  VolumeUnitType.milliliters.rawValue,
+                  VolumeUnitType.ounces.rawValue,
                 ],
                 selected: {state.data.volumeUnitType.rawValue},
                 onSelectionChanged: (newSelection) =>
-                    context.read<AppConfigCubit>().updateVolumeUnitType(
-                      UnitTypeExtension.fromRawValue(newSelection.first),
+                    context.read<AppDataCubit>().updateVolumeUnitType(
+                      VolumeUnitTypeExtension.fromRawValue(newSelection.first),
                     ),
               );
             },

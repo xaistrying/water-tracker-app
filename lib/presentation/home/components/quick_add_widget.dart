@@ -71,7 +71,7 @@ class QuickAddWidget extends StatelessWidget {
           side: BorderSide.none,
           padding: EdgeInsets.symmetric(
             horizontal: AppDimens.padding12,
-            vertical: AppDimens.padding20,
+            vertical: AppDimens.padding16,
           ),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           overlayColor: Colors.transparent,
@@ -112,7 +112,7 @@ class QuickAddWidget extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(
           horizontal: AppDimens.padding12,
-          vertical: AppDimens.padding20,
+          vertical: AppDimens.padding16,
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         foregroundColor: AppColor.getWhiteBlack(context),

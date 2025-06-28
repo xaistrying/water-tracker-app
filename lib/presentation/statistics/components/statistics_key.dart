@@ -63,7 +63,7 @@ class StatisticsKey extends StatelessWidget {
             icon ?? const SizedBox.shrink(),
             const SizedBox(height: 8.0),
             Text(
-              volume.toString(),
+              volume.toStringAsFixed(0),
               style: TextStyle(
                 fontSize: AppDimens.fontSize20,
                 color: AppColor.getWhiteBlack(context),

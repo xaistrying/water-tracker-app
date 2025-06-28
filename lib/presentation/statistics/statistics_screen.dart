@@ -16,18 +16,20 @@ class StatisticsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(gradient: AppColor.getBackgroundColor(context)),
-      child: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.all(AppDimens.padding16),
-          children: [
-            StatisticsHeader(),
-            SizedBox(height: AppDimens.padding16),
-            StatisticsKey(),
-            SizedBox(height: AppDimens.padding16),
-            StatisticsWeaklyChart(),
-            SizedBox(height: AppDimens.padding16),
-            StatisticsMonthlySummary(),
-          ],
+      child: SafeArea(
+        child: Scaffold(
+          body: ListView(
+            padding: const EdgeInsets.all(AppDimens.padding16),
+            children: [
+              StatisticsHeader(),
+              SizedBox(height: AppDimens.padding16),
+              StatisticsKey(),
+              SizedBox(height: AppDimens.padding16),
+              StatisticsWeaklyChart(),
+              SizedBox(height: AppDimens.padding16),
+              StatisticsMonthlySummary(),
+            ],
+          ),
         ),
       ),
     );

@@ -13,18 +13,21 @@ class TextFormFieldWidget extends StatelessWidget {
     this.keyboardType,
     this.controller,
     this.isDense = true,
+    this.onTapOutside,
   });
 
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final bool? isDense;
+  final Function()? onTapOutside;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       onTapOutside: (_) {
+        onTapOutside?.call();
         FocusScope.of(context).unfocus();
       },
       style: TextStyle(

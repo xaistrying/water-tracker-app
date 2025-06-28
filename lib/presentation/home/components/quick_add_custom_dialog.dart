@@ -66,7 +66,7 @@ class QuickAddCustomDialog extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppDimens.padding16,
-                        vertical: AppDimens.padding20,
+                        vertical: AppDimens.padding16,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -97,7 +97,7 @@ class QuickAddCustomDialog extends StatelessWidget {
                       backgroundColor: AppColor.getBlueCyanColor(context),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppDimens.padding16,
-                        vertical: AppDimens.padding20,
+                        vertical: AppDimens.padding16,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(

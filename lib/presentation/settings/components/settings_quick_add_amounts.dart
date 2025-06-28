@@ -26,7 +26,37 @@ class SettingsQuickAddAmounts extends StatelessWidget {
           _buildInfo(context),
           _buildFeature(context),
           _buildTipContent(context),
+          _buildApplyButton(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildApplyButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: () {},
+        style: TextButton.styleFrom(
+          backgroundColor: AppColor.getBlueCyanColor(context),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimens.padding16,
+            vertical: AppDimens.padding16,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+          ),
+          splashFactory: NoSplash.splashFactory,
+          overlayColor: Colors.transparent,
+        ),
+        child: Text(
+          'Apply New Quick Add Amounts',
+          style: TextStyle(
+            fontSize: AppDimens.fontSizeDefault,
+            fontWeight: FontWeight.bold,
+            color: AppColor.getWhiteBlack(context, reverse: true),
+          ),
+        ),
       ),
     );
   }

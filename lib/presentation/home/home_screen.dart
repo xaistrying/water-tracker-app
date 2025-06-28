@@ -18,20 +18,22 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(gradient: AppColor.getBackgroundColor(context)),
-      child: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.all(AppDimens.padding16),
-          children: [
-            HydrationInsightsCard(),
-            SizedBox(height: AppDimens.padding16),
-            DailyProgressCard(),
-            SizedBox(height: AppDimens.padding16),
-            // AiCameraMeasurementCard(),
-            // SizedBox(height: AppDimens.padding16),
-            QuickAddWidget(),
-            SizedBox(height: AppDimens.padding16),
-            RecentMeasurementCard(),
-          ],
+      child: SafeArea(
+        child: Scaffold(
+          body: ListView(
+            padding: const EdgeInsets.all(AppDimens.padding16),
+            children: [
+              HydrationInsightsCard(),
+              SizedBox(height: AppDimens.padding16),
+              DailyProgressCard(),
+              SizedBox(height: AppDimens.padding16),
+              // AiCameraMeasurementCard(),
+              // SizedBox(height: AppDimens.padding16),
+              QuickAddWidget(),
+              SizedBox(height: AppDimens.padding16),
+              RecentMeasurementCard(),
+            ],
+          ),
         ),
       ),
     );

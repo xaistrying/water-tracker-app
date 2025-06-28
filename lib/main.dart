@@ -8,14 +8,20 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:water_tracker_app/app/router/app_router.dart';
 import 'app/bloc/app_config/app_config_cubit.dart';
+import 'app/bloc/app_data/app_data_cubit.dart';
+import 'app/di/injector.dart';
 import 'app/l10n/generated/app_localizations.dart';
 import 'app/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AppConfigCubit())],
+      providers: [
+        BlocProvider(create: (context) => AppConfigCubit()),
+        BlocProvider(create: (context) => AppDataCubit()),
+      ],
       child: const MainApp(),
     ),
   );

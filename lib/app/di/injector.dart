@@ -1,0 +1,30 @@
+// Package imports:
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:water_tracker_app/data/datasources/profile_data_source.dart';
+import 'package:water_tracker_app/data/datasources/units_data_source.dart';
+import 'package:water_tracker_app/data/repositories/units_repository_impl.dart';
+import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
+import 'package:water_tracker_app/domain/repositories/units_repository.dart';
+import '../../data/repositories/profile_repository_impl.dart';
+import '../service/app_prefs_service.dart';
+
+final getIt = GetIt.instance;
+
+Future<void> initDependencies() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(sharedPreferences);
+
+  // Service //
+  getIt.registerSingleton<AppPrefsServiceHelper>(AppPrefsServiceHelper());
+
+  // Data Source //
+  getIt.registerLazySingleton<UnitsDataSource>(() => UnitsDataSourceImpl());
+  getIt.registerLazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl());
+
+  // Repository //
+  getIt.registerLazySingleton<UnitsRepository>(() => UnitsRepositoryImpl());
+  getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl());
+}
