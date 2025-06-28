@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/image_constant.dart';
+import '../../../app/router/app_router.dart';
 
 class RecentMeasurementCard extends StatelessWidget {
   const RecentMeasurementCard({super.key});
@@ -59,6 +61,25 @@ class RecentMeasurementCard extends StatelessWidget {
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
             color: AppColor.getWhiteBlack(context),
+          ),
+        ),
+        Spacer(),
+        TextButton.icon(
+          onPressed: () => context.push(AppRouter.recentMore),
+          label: Text(
+            'More',
+            style: TextStyle(color: AppColor.getGreyColorForText(context)),
+          ),
+          iconAlignment: IconAlignment.end,
+          style: TextButton.styleFrom(
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+          ),
+          icon: Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: AppColor.getGreyColorForText(context),
+            size: AppDimens.iconSize16,
           ),
         ),
       ],

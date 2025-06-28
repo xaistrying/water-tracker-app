@@ -46,16 +46,50 @@ class QuickAddWidget extends StatelessWidget {
         ),
         SizedBox(
           width: double.infinity,
-          child: _buildQuickAddButton(
+          child: _buildCustomButton(
             context,
             onPressed: () => showDialog(
               context: context,
               builder: (context) => QuickAddCustomDialog(),
             ),
-            label: 'Custom',
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCustomButton(BuildContext context, {Function()? onPressed}) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: AppColor.getColorfullCardColor(context),
+        borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+      ),
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          side: BorderSide.none,
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimens.padding12,
+            vertical: AppDimens.padding20,
+          ),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          overlayColor: Colors.transparent,
+        ),
+        icon: SvgPicture.asset(
+          ImageConstant.add,
+          colorFilter: ColorFilter.mode(AppColor.white, BlendMode.srcIn),
+          height: AppDimens.iconSize16,
+        ),
+        label: Text(
+          'Custom',
+          style: TextStyle(
+            fontSize: AppDimens.fontSizeDefault,
+            fontWeight: FontWeight.bold,
+            color: AppColor.white,
+          ),
+        ),
+      ),
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 // Project imports:
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
+import '../../../app/widget/text_form_field_widget.dart';
 
 class QuickAddCustomDialog extends StatelessWidget {
   const QuickAddCustomDialog({super.key});
@@ -52,35 +53,7 @@ class QuickAddCustomDialog extends StatelessWidget {
                 ),
               ),
             ),
-            TextFormField(
-              onTapOutside: (_) {
-                FocusScope.of(context).unfocus();
-              },
-              style: TextStyle(
-                fontSize: AppDimens.fontSizeDefault,
-                color: AppColor.getWhiteBlack(context),
-              ),
-              textAlign: TextAlign.left,
-              cursorColor: AppColor.getContentColor(context),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: AppColor.getInputFieldColor(context),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-                  borderSide: BorderSide(
-                    color: AppColor.getGreyColorForText(context),
-                    width: 1.0,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-                  borderSide: BorderSide(
-                    color: AppColor.getTextFieldBorderColor(context),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-            ),
+            TextFormFieldWidget(isDense: false),
             const SizedBox(height: AppDimens.padding20),
             // MARK: Actions
             Row(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
 import 'package:water_tracker_app/presentation/settings/widget/slider_widget.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
@@ -33,6 +34,18 @@ class SettingsProfile extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding4),
           child: Text(
+            'How Should We Call You?',
+            style: TextStyle(
+              fontSize: AppDimens.fontSizeDefault,
+              fontWeight: FontWeight.bold,
+              color: AppColor.getWhiteBlack(context),
+            ),
+          ),
+        ),
+        TextFormFieldWidget(isDense: false),
+        Padding(
+          padding: const EdgeInsets.only(top: AppDimens.padding4),
+          child: Text(
             'Daily Goal',
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,
@@ -42,6 +55,32 @@ class SettingsProfile extends StatelessWidget {
           ),
         ),
         SliderWidget(min: 1000, max: 4000, unit: 'ml', divisions: 30),
+        SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              backgroundColor: AppColor.getBlueCyanColor(context),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimens.padding16,
+                vertical: AppDimens.padding20,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
+              ),
+              splashFactory: NoSplash.splashFactory,
+              overlayColor: Colors.transparent,
+            ),
+            child: Text(
+              'Apply Goal',
+              style: TextStyle(
+                fontSize: AppDimens.fontSizeDefault,
+                fontWeight: FontWeight.bold,
+                color: AppColor.getWhiteBlack(context, reverse: true),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

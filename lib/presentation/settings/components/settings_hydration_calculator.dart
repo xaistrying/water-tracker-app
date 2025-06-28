@@ -13,6 +13,7 @@ import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/custom_card_widget.dart';
+import '../../../app/widget/text_form_field_widget.dart';
 import '../widget/slider_widget.dart';
 
 class SettingsHydrationCalculator extends StatelessWidget {
@@ -53,42 +54,7 @@ class SettingsHydrationCalculator extends StatelessWidget {
         Row(
           spacing: AppDimens.padding12,
           children: [
-            Expanded(
-              child: TextFormField(
-                onTapOutside: (_) {
-                  FocusScope.of(context).unfocus();
-                },
-                style: TextStyle(
-                  fontSize: AppDimens.fontSizeDefault,
-                  color: AppColor.getWhiteBlack(context),
-                ),
-                textAlign: TextAlign.left,
-                cursorColor: AppColor.getContentColor(context),
-                decoration: InputDecoration(
-                  isDense: true,
-                  filled: true,
-                  fillColor: AppColor.getInputFieldColor(context),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      AppDimens.borderRadius4,
-                    ),
-                    borderSide: BorderSide(
-                      color: AppColor.getGreyColorForText(context),
-                      width: 1.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      AppDimens.borderRadius4,
-                    ),
-                    borderSide: BorderSide(
-                      color: AppColor.getTextFieldBorderColor(context),
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Expanded(child: TextFormFieldWidget()),
             BlocBuilder<AppConfigCubit, AppConfigState>(
               builder: (context, state) {
                 return SegmentedButtonWidget(

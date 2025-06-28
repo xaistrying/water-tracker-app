@@ -14,8 +14,8 @@ import '../../../app/enum/language_code.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
-class SettingsLanguage extends StatelessWidget {
-  const SettingsLanguage({super.key});
+class SettingsLanguageScreen extends StatelessWidget {
+  const SettingsLanguageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class SettingsLanguage extends StatelessWidget {
           vertical: AppDimens.padding20,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
+          borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
           color: isSelected == false ? AppColor.getCardColor(context) : null,
           gradient: isSelected ? AppColor.getColorfullCardColor(context) : null,
         ),
