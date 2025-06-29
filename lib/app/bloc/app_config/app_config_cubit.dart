@@ -6,6 +6,9 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/enum/language_code.dart';
+import 'package:water_tracker_app/domain/repositories/config_repository.dart';
+import '../../di/injector.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 part 'app_config_state.dart';
@@ -16,19 +19,45 @@ class AppConfigCubit extends Cubit<AppConfigState> {
     _init();
   }
 
+  final _repo = getIt<ConfigRepository>();
+
   void _init() {
-    updateLocale(AppLocalizations.supportedLocales.first);
+    final languageCode = _repo.getLanguageCode().getOrElse(
+      (_) => LanguageCode.en.name,
+    );
+    final darkModeStatus = _repo.getDarkModeStatus().getOrElse((_) => null);
+    updateLocale(
+      AppLocalizations.supportedLocales.firstWhere(
+        (locale) => locale.languageCode == languageCode,
+      ),
+    );
+    initThemeMode(darkModeStatus);
   }
 
   void updateLocale(Locale? locale) {
+    _repo.cacheLanguageCode(
+      languageCode: locale?.languageCode ?? LanguageCode.en.name,
+    );
     emit(UpdateLocaleState(state.data.copyWith(locale: locale)));
   }
 
   void updateThemeMode(BuildContext context) {
     if (Theme.of(context).brightness == Brightness.dark) {
+      _repo.cacheDarkModeStatus(status: false);
       emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.light)));
     } else {
+      _repo.cacheDarkModeStatus(status: true);
       emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.dark)));
+    }
+  }
+
+  void initThemeMode(bool? darkModeStatus) {
+    if (darkModeStatus == null) {
+      return;
+    } else if (darkModeStatus) {
+      emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.dark)));
+    } else {
+      emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.light)));
     }
   }
 }

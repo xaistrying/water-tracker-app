@@ -48,6 +48,6 @@ class AppDataCubit extends Cubit<AppDataState> {
 
   void updateUserName(String userName) {
     _profileRepo.cacheUserName(userName: userName);
-    emit(UpdateWeightUnitType(state.data.copyWith(userName: userName)));
+    emit(UpdateUserName(state.data.copyWith(userName: userName)));
   }
 }

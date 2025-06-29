@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
 import 'package:water_tracker_app/presentation/settings/widget/slider_widget.dart';
 import '../../../app/constant/image_constant.dart';
@@ -12,8 +14,22 @@ import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/custom_card_widget.dart';
 
-class SettingsProfile extends StatelessWidget {
+class SettingsProfile extends StatefulWidget {
   const SettingsProfile({super.key});
+
+  @override
+  State<SettingsProfile> createState() => _SettingsProfileState();
+}
+
+class _SettingsProfileState extends State<SettingsProfile> {
+  final _userNameTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final appDataCubit = context.read<AppDataCubit>().state.data;
+    _userNameTextController.text = appDataCubit.userName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +50,7 @@ class SettingsProfile extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding4),
           child: Text(
-            'How Should We Call You?',
+            'Your Name',
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,
               fontWeight: FontWeight.bold,
@@ -42,7 +58,13 @@ class SettingsProfile extends StatelessWidget {
             ),
           ),
         ),
-        TextFormFieldWidget(isDense: false),
+        TextFormFieldWidget(
+          controller: _userNameTextController,
+          onTapOutside: () => context.read<AppDataCubit>().updateUserName(
+            _userNameTextController.text,
+          ),
+          isDense: false,
+        ),
         Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding4),
           child: Text(

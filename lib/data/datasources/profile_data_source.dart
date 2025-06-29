@@ -14,11 +14,11 @@ class ProfileDataSourceImpl implements ProfileDataSource {
 
   @override
   Future<void> cacheUserName({required String userName}) async {
-    await _pref.setValue(profileKey, userName);
+    await _pref.setValue<String>(profileKey, userName);
   }
 
   @override
   String getUserName() {
-    return _pref.getValue(profileKey);
+    return _pref.getValue<String>(profileKey) ?? '';
   }
 }

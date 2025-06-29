@@ -17,7 +17,6 @@ class StatisticsWeaklyChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<WeeklyData> weeklyData = [
       WeeklyData(day: "Mon", amount: 1800, goal: 2000),
-      WeeklyData(day: "Mon", amount: 1800, goal: 2000),
       WeeklyData(day: "Tue", amount: 2200, goal: 2000),
       WeeklyData(day: "Wed", amount: 2250, goal: 2000),
       WeeklyData(day: "Thu", amount: 1800, goal: 2000),
@@ -47,7 +46,7 @@ class StatisticsWeaklyChart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 40,
+                  width: 36,
                   child: Text(
                     data.day,
                     style: TextStyle(
