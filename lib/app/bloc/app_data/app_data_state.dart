@@ -6,6 +6,9 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(VolumeUnitType.milliliters) VolumeUnitType volumeUnitType,
     @Default(WeightUnitType.kilograms) WeightUnitType weightUnitType,
     @Default('') String userName,
+    @Default('') String quickAddValue1,
+    @Default('') String quickAddValue2,
+    @Default('') String quickAddValue3,
   }) = _AppDataStateData;
 }
 
@@ -19,4 +22,12 @@ abstract class AppDataState with _$AppDataState {
       UpdateWeightUnitType;
   const factory AppDataState.updateUserName(AppDataStateData data) =
       UpdateUserName;
+  const factory AppDataState.updateQuickAddValue1(AppDataStateData data) =
+      UpdateQuickAddValue1;
+  const factory AppDataState.updateQuickAddValue2(AppDataStateData data) =
+      UpdateQuickAddValue2;
+  const factory AppDataState.updateQuickAddValue3(AppDataStateData data) =
+      UpdateQuickAddValue3;
+  const factory AppDataState.updateQuickAddValueAll(AppDataStateData data) =
+      UpdateQuickAddValueAll;
 }

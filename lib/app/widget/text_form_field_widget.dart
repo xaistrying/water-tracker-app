@@ -34,6 +34,10 @@ class TextFormFieldWidget extends StatelessWidget {
         fontSize: AppDimens.fontSizeDefault,
         color: AppColor.getWhiteBlack(context),
       ),
+      onEditingComplete: () {
+        onTapOutside?.call();
+        FocusScope.of(context).unfocus();
+      },
       textAlign: TextAlign.left,
       cursorColor: AppColor.getContentColor(context),
       inputFormatters: inputFormatters,

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -26,9 +29,10 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 3; i++) {
-      _controllers.add(TextEditingController());
-    }
+    final appDataCubit = context.read<AppDataCubit>().state.data;
+    _controllers.add(TextEditingController(text: appDataCubit.quickAddValue1));
+    _controllers.add(TextEditingController(text: appDataCubit.quickAddValue2));
+    _controllers.add(TextEditingController(text: appDataCubit.quickAddValue3));
   }
 
   @override
@@ -49,20 +53,33 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
 
   Widget _buildFeature(BuildContext context) {
     return Column(
-      children: List.generate(
-        3,
-        (index) => _buildQuickAddButton(
+      children: [
+        _buildQuickAddButton(
           context,
-          controller: _controllers[index],
-          title: 'Button ${index + 1}',
+          controller: _controllers[QuickAddOption.first.rawValue],
+          option: QuickAddOption.first,
+          title: 'Button ${QuickAddOption.first.rawValue + 1}',
         ),
-      ),
+        _buildQuickAddButton(
+          context,
+          controller: _controllers[QuickAddOption.second.rawValue],
+          option: QuickAddOption.second,
+          title: 'Button ${QuickAddOption.first.rawValue + 1}',
+        ),
+        _buildQuickAddButton(
+          context,
+          controller: _controllers[QuickAddOption.third.rawValue],
+          option: QuickAddOption.third,
+          title: 'Button ${QuickAddOption.first.rawValue + 1}',
+        ),
+      ],
     );
   }
 
   Widget _buildQuickAddButton(
     BuildContext context, {
     required TextEditingController controller,
+    required QuickAddOption option,
     required String title,
   }) {
     return ListTile(
@@ -84,6 +101,12 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
               child: TextFormFieldWidget(
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
+                controller: controller,
+                onTapOutside: () =>
+                    context.read<AppDataCubit>().updateSpecificQuickAddValue(
+                      option: option,
+                      value: controller.text,
+                    ),
               ),
             ),
             Text(

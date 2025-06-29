@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/presentation/home/components/quick_add_custom_dialog.dart';
 import '../../../app/constant/image_constant.dart';
@@ -18,31 +20,35 @@ class QuickAddWidget extends StatelessWidget {
     return Column(
       spacing: AppDimens.padding12,
       children: [
-        Row(
-          spacing: AppDimens.padding12,
-          children: [
-            Expanded(
-              child: _buildQuickAddButton(
-                context,
-                onPressed: () {},
-                label: '200ml',
-              ),
-            ),
-            Expanded(
-              child: _buildQuickAddButton(
-                context,
-                onPressed: () {},
-                label: '200ml',
-              ),
-            ),
-            Expanded(
-              child: _buildQuickAddButton(
-                context,
-                onPressed: () {},
-                label: '200ml',
-              ),
-            ),
-          ],
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            return Row(
+              spacing: AppDimens.padding12,
+              children: [
+                Expanded(
+                  child: _buildQuickAddButton(
+                    context,
+                    onPressed: () {},
+                    label: '${state.data.quickAddValue1}ml',
+                  ),
+                ),
+                Expanded(
+                  child: _buildQuickAddButton(
+                    context,
+                    onPressed: () {},
+                    label: '${state.data.quickAddValue2}ml',
+                  ),
+                ),
+                Expanded(
+                  child: _buildQuickAddButton(
+                    context,
+                    onPressed: () {},
+                    label: '${state.data.quickAddValue3}ml',
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         SizedBox(
           width: double.infinity,
