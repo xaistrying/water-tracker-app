@@ -1,12 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/widget/dialog_widget.dart';
+import 'package:water_tracker_app/presentation/settings/cubit/hydration_calculator_cubit.dart';
 import 'package:water_tracker_app/presentation/settings/widget/segmented_button_widget.dart';
 import '../../../app/bloc/app_data/app_data_cubit.dart';
 import '../../../app/constant/image_constant.dart';
@@ -16,8 +20,40 @@ import '../../../app/widget/custom_card_widget.dart';
 import '../../../app/widget/text_form_field_widget.dart';
 import '../widget/slider_widget.dart';
 
-class SettingsHydrationCalculator extends StatelessWidget {
+class SettingsHydrationCalculator extends StatefulWidget {
   const SettingsHydrationCalculator({super.key});
+
+  @override
+  State<SettingsHydrationCalculator> createState() =>
+      SettingsHydrationCalculatorState();
+}
+
+class SettingsHydrationCalculatorState
+    extends State<SettingsHydrationCalculator> {
+  final bodyWeightTextController = TextEditingController();
+  final excerciseTimeNotifier = ValueNotifier<double>(0.0);
+
+  void _calculateResult({
+    required double bodyWeight,
+    required double excerciseTime,
+  }) {
+    final calculationResult =
+        bodyWeight * DataDefault.bodyWeightMultiplier +
+        excerciseTime * DataDefault.exerciseTimeMultiplier;
+    context.read<HydrationCalculatorCubit>().updateCalculationResult(
+      calculationResult,
+    );
+  }
+
+  String _calculateBase({required double bodyWeight}) {
+    return (bodyWeight * DataDefault.bodyWeightMultiplier).toStringAsFixed(0);
+  }
+
+  String _calculateExercise({required double exerciseTime}) {
+    return (exerciseTime * DataDefault.exerciseTimeMultiplier).toStringAsFixed(
+      0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +90,20 @@ class SettingsHydrationCalculator extends StatelessWidget {
         Row(
           spacing: AppDimens.padding12,
           children: [
-            Expanded(child: TextFormFieldWidget()),
+            Expanded(
+              child: TextFormFieldWidget(
+                controller: bodyWeightTextController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                onTapOutside: () {
+                  _calculateResult(
+                    bodyWeight:
+                        double.tryParse(bodyWeightTextController.text) ?? 0,
+                    excerciseTime: excerciseTimeNotifier.value,
+                  );
+                },
+              ),
+            ),
             BlocBuilder<AppDataCubit, AppDataState>(
               buildWhen: (previous, current) => current is UpdateWeightUnitType,
               builder: (context, state) {
@@ -86,7 +135,25 @@ class SettingsHydrationCalculator extends StatelessWidget {
             ),
           ),
         ),
-        SliderWidget(max: 180, unit: 'min', divisions: 12),
+        ValueListenableBuilder(
+          valueListenable: excerciseTimeNotifier,
+          builder: (context, value, child) {
+            return SliderWidget(
+              max: 180,
+              unit: 'min',
+              divisions: 12,
+              value: value,
+              onChangeEnd: (newValue) {
+                _calculateResult(
+                  bodyWeight:
+                      double.tryParse(bodyWeightTextController.text) ?? 0,
+                  excerciseTime: newValue,
+                );
+                excerciseTimeNotifier.value = newValue;
+              },
+            );
+          },
+        ),
 
         // MARK: Recommendation
         Container(
@@ -113,13 +180,20 @@ class SettingsHydrationCalculator extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      '2700ml',
-                      style: TextStyle(
-                        fontSize: AppDimens.fontSize20,
-                        color: AppColor.getBlueCyanColor(context),
-                      ),
-                      textAlign: TextAlign.center,
+                    BlocBuilder<
+                      HydrationCalculatorCubit,
+                      HydrationCalculatorState
+                    >(
+                      builder: (context, state) {
+                        return Text(
+                          state.data.calculationResult.toStringAsFixed(0),
+                          style: TextStyle(
+                            fontSize: AppDimens.fontSize20,
+                            color: AppColor.getBlueCyanColor(context),
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      },
                     ),
                   ],
                 )
@@ -135,56 +209,110 @@ class SettingsHydrationCalculator extends StatelessWidget {
                         color: AppColor.getWhiteBlack(context),
                       ),
                     ),
-                    Text(
-                      '2700ml',
-                      style: TextStyle(
-                        fontSize: AppDimens.fontSize20,
-                        color: AppColor.getBlueCyanColor(context),
-                      ),
+                    BlocBuilder<
+                      HydrationCalculatorCubit,
+                      HydrationCalculatorState
+                    >(
+                      builder: (context, state) {
+                        return Text(
+                          state.data.calculationResult.toStringAsFixed(0),
+                          style: TextStyle(
+                            fontSize: AppDimens.fontSize20,
+                            color: AppColor.getBlueCyanColor(context),
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      },
                     ),
                   ],
                 ),
 
               SizedBox(height: AppDimens.padding8),
-              _buildListItem(
-                context,
-                text: 'Base: 2450ml (based on body weight)',
+              ValueListenableBuilder(
+                valueListenable: bodyWeightTextController,
+                builder: (context, value, child) {
+                  return _buildListItem(
+                    context,
+                    text:
+                        'Base: ${_calculateBase(bodyWeight: double.tryParse(value.text) ?? 0)} '
+                        '(based on body weight)',
+                  );
+                },
               ),
               SizedBox(height: AppDimens.padding4),
-              _buildListItem(
-                context,
-                text: 'Exercise: +250ml (30 min activity)',
+              ValueListenableBuilder(
+                valueListenable: excerciseTimeNotifier,
+                builder: (context, value, child) {
+                  return _buildListItem(
+                    context,
+                    text:
+                        'Exercise: +${_calculateExercise(exerciseTime: value)} '
+                        '(${value.toStringAsFixed(0)} min activity)',
+                  );
+                },
               ),
             ],
           ),
         ),
 
         // MARK: Apply Button
-        SizedBox(
-          width: double.infinity,
-          child: TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              backgroundColor: AppColor.getBlueCyanColor(context),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimens.padding16,
-                vertical: AppDimens.padding16,
+        BlocBuilder<HydrationCalculatorCubit, HydrationCalculatorState>(
+          builder: (context, state) {
+            final calculationResult = state.data.calculationResult;
+            return SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () {
+                  if (calculationResult > 0 &&
+                      calculationResult <= DataDefault.maxDailyGoal) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DialogWidget(
+                        title: 'Apply Recommended Goal',
+                        body: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: AppDimens.padding16,
+                            ),
+                            child: Text('Confirm to change'),
+                          ),
+                        ),
+                      ),
+                    ).then((value) {
+                      if (!context.mounted) return;
+                      if (value) {
+                        context.read<AppDataCubit>().updateDailyGoal(
+                          calculationResult,
+                        );
+                      }
+                    });
+                  }
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColor.getBlueCyanColor(context),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppDimens.padding16,
+                    vertical: AppDimens.padding16,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppDimens.borderRadius4,
+                    ),
+                  ),
+                  splashFactory: NoSplash.splashFactory,
+                  overlayColor: Colors.transparent,
+                ),
+                child: Text(
+                  'Apply Recommended Goal',
+                  style: TextStyle(
+                    fontSize: AppDimens.fontSizeDefault,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.getWhiteBlack(context, reverse: true),
+                  ),
+                ),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-              ),
-              splashFactory: NoSplash.splashFactory,
-              overlayColor: Colors.transparent,
-            ),
-            child: Text(
-              'Apply Recommended Goal',
-              style: TextStyle(
-                fontSize: AppDimens.fontSizeDefault,
-                fontWeight: FontWeight.bold,
-                color: AppColor.getWhiteBlack(context, reverse: true),
-              ),
-            ),
-          ),
+            );
+          },
         ),
       ],
     );

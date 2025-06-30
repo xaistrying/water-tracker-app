@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
 import 'package:water_tracker_app/presentation/settings/widget/slider_widget.dart';
@@ -87,8 +88,8 @@ class _SettingsProfileState extends State<SettingsProfile> {
           builder: (context, state) {
             final dailyGoal = state.data.dailyGoal;
             return SliderWidget(
-              min: 1000,
-              max: 4000,
+              min: DataDefault.minDailyGoal,
+              max: DataDefault.maxDailyGoal,
               value: dailyGoal,
               unit: 'ml',
               divisions: 30,
