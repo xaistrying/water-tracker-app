@@ -56,6 +56,7 @@ class SettingsHydrationCalculator extends StatelessWidget {
           children: [
             Expanded(child: TextFormFieldWidget()),
             BlocBuilder<AppDataCubit, AppDataState>(
+              buildWhen: (previous, current) => current is UpdateWeightUnitType,
               builder: (context, state) {
                 return SegmentedButtonWidget(
                   values: [

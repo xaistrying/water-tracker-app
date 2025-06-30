@@ -1,3 +1,6 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
 // Package imports:
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +12,10 @@ import '../../presentation/nav/nav_screen.dart';
 import '../../presentation/settings/settings_screen.dart';
 import '../../presentation/splash/splash_screen.dart';
 import '../../presentation/statistics/statistics_screen.dart';
+
+final _homeScreenKey = GlobalKey<HomeScreenState>();
+final _statisticsScreenKey = GlobalKey<StatisticsScreenState>();
+final _settingsScreenKey = GlobalKey<SettingsScreenState>();
 
 class AppRouter {
   AppRouter._();
@@ -24,14 +31,18 @@ class AppRouter {
     initialLocation: '/',
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            NavScreen(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) => NavScreen(
+          navigationShell: navigationShell,
+          homeScreenKey: _homeScreenKey,
+          statisticsScreenKey: _statisticsScreenKey,
+          settingsScreenKey: _settingsScreenKey,
+        ),
         branches: [
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: home,
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) => HomeScreen(key: _homeScreenKey),
               ),
             ],
           ),
@@ -39,7 +50,8 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: statistics,
-                builder: (context, state) => const StatisticsScreen(),
+                builder: (context, state) =>
+                    StatisticsScreen(key: _statisticsScreenKey),
               ),
             ],
           ),
@@ -47,7 +59,8 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: settings,
-                builder: (context, state) => const SettingsScreen(),
+                builder: (context, state) =>
+                    SettingsScreen(key: _settingsScreenKey),
               ),
             ],
           ),

@@ -11,8 +11,27 @@ import 'components/settings_header.dart';
 import 'components/settings_hydration_calculator.dart';
 import 'components/settings_profile.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => SettingsScreenState();
+}
+
+class SettingsScreenState extends State<SettingsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  void scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0.0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +40,7 @@ class SettingsScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           body: ListView(
+            controller: _scrollController,
             padding: const EdgeInsets.all(AppDimens.padding16),
             children: [
               SettingsHeader(),

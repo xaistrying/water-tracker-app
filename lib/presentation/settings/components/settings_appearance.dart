@@ -41,25 +41,18 @@ class SettingsAppearance extends StatelessWidget {
         FeatureItemWidget(
           title: 'Dark Mode',
           subtitle: 'Switch to dark theme',
-          trailing: BlocBuilder<AppConfigCubit, AppConfigState>(
-            builder: (context, state) {
-              return CupertinoSwitch(
-                activeTrackColor: AppColor.getSwitchColor(
-                  context,
-                  isTrack: true,
-                  isActive: true,
-                ),
-                inactiveTrackColor: AppColor.getSwitchColor(
-                  context,
-                  isTrack: true,
-                ),
-                thumbColor: AppColor.getSwitchColor(context, isActive: true),
-                inactiveThumbColor: AppColor.getSwitchColor(context),
-                value: context.isDarkMode ? true : false,
-                onChanged: (value) {
-                  context.read<AppConfigCubit>().updateThemeMode(context);
-                },
-              );
+          trailing: CupertinoSwitch(
+            activeTrackColor: AppColor.getSwitchColor(
+              context,
+              isTrack: true,
+              isActive: true,
+            ),
+            inactiveTrackColor: AppColor.getSwitchColor(context, isTrack: true),
+            thumbColor: AppColor.getSwitchColor(context, isActive: true),
+            inactiveThumbColor: AppColor.getSwitchColor(context),
+            value: context.isDarkMode ? true : false,
+            onChanged: (value) {
+              context.read<AppConfigCubit>().updateThemeMode(context);
             },
           ),
         ),
@@ -67,6 +60,7 @@ class SettingsAppearance extends StatelessWidget {
           title: 'Units',
           subtitle: 'Milliliters or fluid ounces',
           trailing: BlocBuilder<AppDataCubit, AppDataState>(
+            buildWhen: (previous, current) => current is UpdateVolumeUnitType,
             builder: (context, state) {
               return SegmentedButtonWidget(
                 values: [
@@ -83,7 +77,7 @@ class SettingsAppearance extends StatelessWidget {
           ),
         ),
         BlocBuilder<AppConfigCubit, AppConfigState>(
-          buildWhen: (prev, curr) => prev.data.locale != curr.data.locale,
+          buildWhen: (previous, current) => current is UpdateLocaleState,
           builder: (context, state) {
             return FeatureItemWidget(
               title: 'Language',

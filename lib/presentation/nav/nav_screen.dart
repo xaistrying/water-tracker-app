@@ -8,13 +8,25 @@ import 'package:go_router/go_router.dart';
 // Project imports:
 import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
+import 'package:water_tracker_app/presentation/home/home_screen.dart';
+import 'package:water_tracker_app/presentation/settings/settings_screen.dart';
+import 'package:water_tracker_app/presentation/statistics/statistics_screen.dart';
 import '../../app/constant/image_constant.dart';
 import '../../app/theme/app_color.dart';
 
 class NavScreen extends StatelessWidget {
-  const NavScreen({super.key, required this.navigationShell});
+  const NavScreen({
+    super.key,
+    required this.navigationShell,
+    required this.homeScreenKey,
+    required this.statisticsScreenKey,
+    required this.settingsScreenKey,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final GlobalKey<HomeScreenState> homeScreenKey;
+  final GlobalKey<StatisticsScreenState> statisticsScreenKey;
+  final GlobalKey<SettingsScreenState> settingsScreenKey;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,22 @@ class NavScreen extends StatelessWidget {
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             indicatorColor: Colors.transparent,
             overlayColor: WidgetStatePropertyAll(Colors.transparent),
-            onDestinationSelected: (index) => navigationShell.goBranch(index),
+            onDestinationSelected: (index) {
+              if (index != navigationShell.currentIndex) {
+                switch (index) {
+                  case 0:
+                    homeScreenKey.currentState?.scrollToTop();
+                    break;
+                  case 1:
+                    statisticsScreenKey.currentState?.scrollToTop();
+                    break;
+                  case 2:
+                    settingsScreenKey.currentState?.scrollToTop();
+                    break;
+                }
+              }
+              navigationShell.goBranch(index);
+            },
             destinations: [
               NavigationDestination(
                 icon: SvgPicture.asset(

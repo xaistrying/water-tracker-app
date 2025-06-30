@@ -9,8 +9,27 @@ import 'components/statistics_key.dart';
 import 'components/statistics_monthly_summary.dart';
 import 'components/statistics_weakly_chart.dart';
 
-class StatisticsScreen extends StatelessWidget {
+class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
+
+  @override
+  State<StatisticsScreen> createState() => StatisticsScreenState();
+}
+
+class StatisticsScreenState extends State<StatisticsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  void scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0.0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

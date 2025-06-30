@@ -20,35 +20,52 @@ class QuickAddWidget extends StatelessWidget {
     return Column(
       spacing: AppDimens.padding12,
       children: [
-        BlocBuilder<AppDataCubit, AppDataState>(
-          builder: (context, state) {
-            return Row(
-              spacing: AppDimens.padding12,
-              children: [
-                Expanded(
-                  child: _buildQuickAddButton(
+        Row(
+          spacing: AppDimens.padding12,
+          children: [
+            Expanded(
+              child: BlocBuilder<AppDataCubit, AppDataState>(
+                buildWhen: (previous, current) =>
+                    current is UpdateQuickAddValueAll ||
+                    current is UpdateQuickAddValue1,
+                builder: (context, state) {
+                  return _buildQuickAddButton(
                     context,
                     onPressed: () {},
                     label: '${state.data.quickAddValue1}ml',
-                  ),
-                ),
-                Expanded(
-                  child: _buildQuickAddButton(
+                  );
+                },
+              ),
+            ),
+            Expanded(
+              child: BlocBuilder<AppDataCubit, AppDataState>(
+                buildWhen: (previous, current) =>
+                    current is UpdateQuickAddValueAll ||
+                    current is UpdateQuickAddValue2,
+                builder: (context, state) {
+                  return _buildQuickAddButton(
                     context,
                     onPressed: () {},
                     label: '${state.data.quickAddValue2}ml',
-                  ),
-                ),
-                Expanded(
-                  child: _buildQuickAddButton(
+                  );
+                },
+              ),
+            ),
+            Expanded(
+              child: BlocBuilder<AppDataCubit, AppDataState>(
+                buildWhen: (previous, current) =>
+                    current is UpdateQuickAddValueAll ||
+                    current is UpdateQuickAddValue3,
+                builder: (context, state) {
+                  return _buildQuickAddButton(
                     context,
                     onPressed: () {},
                     label: '${state.data.quickAddValue3}ml',
-                  ),
-                ),
-              ],
-            );
-          },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
         SizedBox(
           width: double.infinity,

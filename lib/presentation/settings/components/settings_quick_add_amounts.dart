@@ -36,6 +36,14 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomCardWidget(
       child: Column(
@@ -64,13 +72,13 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
           context,
           controller: _controllers[QuickAddOption.second.rawValue],
           option: QuickAddOption.second,
-          title: 'Button ${QuickAddOption.first.rawValue + 1}',
+          title: 'Button ${QuickAddOption.second.rawValue + 1}',
         ),
         _buildQuickAddButton(
           context,
           controller: _controllers[QuickAddOption.third.rawValue],
           option: QuickAddOption.third,
-          title: 'Button ${QuickAddOption.first.rawValue + 1}',
+          title: 'Button ${QuickAddOption.third.rawValue + 1}',
         ),
       ],
     );

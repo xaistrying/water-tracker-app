@@ -32,6 +32,12 @@ class _SettingsProfileState extends State<SettingsProfile> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _userNameTextController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomCardWidget(
       child: Column(

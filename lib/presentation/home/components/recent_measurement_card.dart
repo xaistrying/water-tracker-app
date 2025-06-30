@@ -18,7 +18,10 @@ class RecentMeasurementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCardWidget(
-      padding: const EdgeInsets.all(AppDimens.padding12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimens.padding16,
+        vertical: AppDimens.padding8,
+      ),
       child: Column(
         children: [
           _buildRecentMeasurementHeader(context),
