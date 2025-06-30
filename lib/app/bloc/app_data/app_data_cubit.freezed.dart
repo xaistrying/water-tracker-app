@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppDataStateData {
 
- VolumeUnitType get volumeUnitType; WeightUnitType get weightUnitType; String get userName; String get quickAddValue1; String get quickAddValue2; String get quickAddValue3;
+ VolumeUnitType get volumeUnitType; WeightUnitType get weightUnitType; String get userName; String get quickAddValue1; String get quickAddValue2; String get quickAddValue3; double get dailyGoal;
 /// Create a copy of AppDataStateData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AppDataStateDataCopyWith<AppDataStateData> get copyWith => _$AppDataStateDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppDataStateData&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.quickAddValue1, quickAddValue1) || other.quickAddValue1 == quickAddValue1)&&(identical(other.quickAddValue2, quickAddValue2) || other.quickAddValue2 == quickAddValue2)&&(identical(other.quickAddValue3, quickAddValue3) || other.quickAddValue3 == quickAddValue3));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppDataStateData&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.quickAddValue1, quickAddValue1) || other.quickAddValue1 == quickAddValue1)&&(identical(other.quickAddValue2, quickAddValue2) || other.quickAddValue2 == quickAddValue2)&&(identical(other.quickAddValue3, quickAddValue3) || other.quickAddValue3 == quickAddValue3)&&(identical(other.dailyGoal, dailyGoal) || other.dailyGoal == dailyGoal));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,volumeUnitType,weightUnitType,userName,quickAddValue1,quickAddValue2,quickAddValue3);
+int get hashCode => Object.hash(runtimeType,volumeUnitType,weightUnitType,userName,quickAddValue1,quickAddValue2,quickAddValue3,dailyGoal);
 
 @override
 String toString() {
-  return 'AppDataStateData(volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType, userName: $userName, quickAddValue1: $quickAddValue1, quickAddValue2: $quickAddValue2, quickAddValue3: $quickAddValue3)';
+  return 'AppDataStateData(volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType, userName: $userName, quickAddValue1: $quickAddValue1, quickAddValue2: $quickAddValue2, quickAddValue3: $quickAddValue3, dailyGoal: $dailyGoal)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AppDataStateDataCopyWith<$Res>  {
   factory $AppDataStateDataCopyWith(AppDataStateData value, $Res Function(AppDataStateData) _then) = _$AppDataStateDataCopyWithImpl;
 @useResult
 $Res call({
- VolumeUnitType volumeUnitType, WeightUnitType weightUnitType, String userName, String quickAddValue1, String quickAddValue2, String quickAddValue3
+ VolumeUnitType volumeUnitType, WeightUnitType weightUnitType, String userName, String quickAddValue1, String quickAddValue2, String quickAddValue3, double dailyGoal
 });
 
 
@@ -63,7 +63,7 @@ class _$AppDataStateDataCopyWithImpl<$Res>
 
 /// Create a copy of AppDataStateData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? volumeUnitType = null,Object? weightUnitType = null,Object? userName = null,Object? quickAddValue1 = null,Object? quickAddValue2 = null,Object? quickAddValue3 = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? volumeUnitType = null,Object? weightUnitType = null,Object? userName = null,Object? quickAddValue1 = null,Object? quickAddValue2 = null,Object? quickAddValue3 = null,Object? dailyGoal = null,}) {
   return _then(_self.copyWith(
 volumeUnitType: null == volumeUnitType ? _self.volumeUnitType : volumeUnitType // ignore: cast_nullable_to_non_nullable
 as VolumeUnitType,weightUnitType: null == weightUnitType ? _self.weightUnitType : weightUnitType // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,8 @@ as WeightUnitType,userName: null == userName ? _self.userName : userName // igno
 as String,quickAddValue1: null == quickAddValue1 ? _self.quickAddValue1 : quickAddValue1 // ignore: cast_nullable_to_non_nullable
 as String,quickAddValue2: null == quickAddValue2 ? _self.quickAddValue2 : quickAddValue2 // ignore: cast_nullable_to_non_nullable
 as String,quickAddValue3: null == quickAddValue3 ? _self.quickAddValue3 : quickAddValue3 // ignore: cast_nullable_to_non_nullable
-as String,
+as String,dailyGoal: null == dailyGoal ? _self.dailyGoal : dailyGoal // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -82,7 +83,7 @@ as String,
 
 
 class _AppDataStateData implements AppDataStateData {
-  const _AppDataStateData({this.volumeUnitType = VolumeUnitType.milliliters, this.weightUnitType = WeightUnitType.kilograms, this.userName = '', this.quickAddValue1 = '', this.quickAddValue2 = '', this.quickAddValue3 = ''});
+  const _AppDataStateData({this.volumeUnitType = VolumeUnitType.milliliters, this.weightUnitType = WeightUnitType.kilograms, this.userName = '', this.quickAddValue1 = '', this.quickAddValue2 = '', this.quickAddValue3 = '', this.dailyGoal = 0.0});
   
 
 @override@JsonKey() final  VolumeUnitType volumeUnitType;
@@ -91,6 +92,7 @@ class _AppDataStateData implements AppDataStateData {
 @override@JsonKey() final  String quickAddValue1;
 @override@JsonKey() final  String quickAddValue2;
 @override@JsonKey() final  String quickAddValue3;
+@override@JsonKey() final  double dailyGoal;
 
 /// Create a copy of AppDataStateData
 /// with the given fields replaced by the non-null parameter values.
@@ -102,16 +104,16 @@ _$AppDataStateDataCopyWith<_AppDataStateData> get copyWith => __$AppDataStateDat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppDataStateData&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.quickAddValue1, quickAddValue1) || other.quickAddValue1 == quickAddValue1)&&(identical(other.quickAddValue2, quickAddValue2) || other.quickAddValue2 == quickAddValue2)&&(identical(other.quickAddValue3, quickAddValue3) || other.quickAddValue3 == quickAddValue3));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppDataStateData&&(identical(other.volumeUnitType, volumeUnitType) || other.volumeUnitType == volumeUnitType)&&(identical(other.weightUnitType, weightUnitType) || other.weightUnitType == weightUnitType)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.quickAddValue1, quickAddValue1) || other.quickAddValue1 == quickAddValue1)&&(identical(other.quickAddValue2, quickAddValue2) || other.quickAddValue2 == quickAddValue2)&&(identical(other.quickAddValue3, quickAddValue3) || other.quickAddValue3 == quickAddValue3)&&(identical(other.dailyGoal, dailyGoal) || other.dailyGoal == dailyGoal));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,volumeUnitType,weightUnitType,userName,quickAddValue1,quickAddValue2,quickAddValue3);
+int get hashCode => Object.hash(runtimeType,volumeUnitType,weightUnitType,userName,quickAddValue1,quickAddValue2,quickAddValue3,dailyGoal);
 
 @override
 String toString() {
-  return 'AppDataStateData(volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType, userName: $userName, quickAddValue1: $quickAddValue1, quickAddValue2: $quickAddValue2, quickAddValue3: $quickAddValue3)';
+  return 'AppDataStateData(volumeUnitType: $volumeUnitType, weightUnitType: $weightUnitType, userName: $userName, quickAddValue1: $quickAddValue1, quickAddValue2: $quickAddValue2, quickAddValue3: $quickAddValue3, dailyGoal: $dailyGoal)';
 }
 
 
@@ -122,7 +124,7 @@ abstract mixin class _$AppDataStateDataCopyWith<$Res> implements $AppDataStateDa
   factory _$AppDataStateDataCopyWith(_AppDataStateData value, $Res Function(_AppDataStateData) _then) = __$AppDataStateDataCopyWithImpl;
 @override @useResult
 $Res call({
- VolumeUnitType volumeUnitType, WeightUnitType weightUnitType, String userName, String quickAddValue1, String quickAddValue2, String quickAddValue3
+ VolumeUnitType volumeUnitType, WeightUnitType weightUnitType, String userName, String quickAddValue1, String quickAddValue2, String quickAddValue3, double dailyGoal
 });
 
 
@@ -139,7 +141,7 @@ class __$AppDataStateDataCopyWithImpl<$Res>
 
 /// Create a copy of AppDataStateData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? volumeUnitType = null,Object? weightUnitType = null,Object? userName = null,Object? quickAddValue1 = null,Object? quickAddValue2 = null,Object? quickAddValue3 = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? volumeUnitType = null,Object? weightUnitType = null,Object? userName = null,Object? quickAddValue1 = null,Object? quickAddValue2 = null,Object? quickAddValue3 = null,Object? dailyGoal = null,}) {
   return _then(_AppDataStateData(
 volumeUnitType: null == volumeUnitType ? _self.volumeUnitType : volumeUnitType // ignore: cast_nullable_to_non_nullable
 as VolumeUnitType,weightUnitType: null == weightUnitType ? _self.weightUnitType : weightUnitType // ignore: cast_nullable_to_non_nullable
@@ -147,7 +149,8 @@ as WeightUnitType,userName: null == userName ? _self.userName : userName // igno
 as String,quickAddValue1: null == quickAddValue1 ? _self.quickAddValue1 : quickAddValue1 // ignore: cast_nullable_to_non_nullable
 as String,quickAddValue2: null == quickAddValue2 ? _self.quickAddValue2 : quickAddValue2 // ignore: cast_nullable_to_non_nullable
 as String,quickAddValue3: null == quickAddValue3 ? _self.quickAddValue3 : quickAddValue3 // ignore: cast_nullable_to_non_nullable
-as String,
+as String,dailyGoal: null == dailyGoal ? _self.dailyGoal : dailyGoal // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -807,6 +810,156 @@ class _$UpdateQuickAddValueAllCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(UpdateQuickAddValueAll(
+null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AppDataStateData,
+  ));
+}
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppDataStateDataCopyWith<$Res> get data {
+  
+  return $AppDataStateDataCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class UpdateDailyGoal implements AppDataState {
+  const UpdateDailyGoal(this.data);
+  
+
+@override final  AppDataStateData data;
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateDailyGoalCopyWith<UpdateDailyGoal> get copyWith => _$UpdateDailyGoalCopyWithImpl<UpdateDailyGoal>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateDailyGoal&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AppDataState.updateDailyGoal(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateDailyGoalCopyWith<$Res> implements $AppDataStateCopyWith<$Res> {
+  factory $UpdateDailyGoalCopyWith(UpdateDailyGoal value, $Res Function(UpdateDailyGoal) _then) = _$UpdateDailyGoalCopyWithImpl;
+@override @useResult
+$Res call({
+ AppDataStateData data
+});
+
+
+@override $AppDataStateDataCopyWith<$Res> get data;
+
+}
+/// @nodoc
+class _$UpdateDailyGoalCopyWithImpl<$Res>
+    implements $UpdateDailyGoalCopyWith<$Res> {
+  _$UpdateDailyGoalCopyWithImpl(this._self, this._then);
+
+  final UpdateDailyGoal _self;
+  final $Res Function(UpdateDailyGoal) _then;
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(UpdateDailyGoal(
+null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AppDataStateData,
+  ));
+}
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppDataStateDataCopyWith<$Res> get data {
+  
+  return $AppDataStateDataCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class UpdateInProgress implements AppDataState {
+  const UpdateInProgress(this.data);
+  
+
+@override final  AppDataStateData data;
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateInProgressCopyWith<UpdateInProgress> get copyWith => _$UpdateInProgressCopyWithImpl<UpdateInProgress>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateInProgress&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AppDataState.updateInProgress(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateInProgressCopyWith<$Res> implements $AppDataStateCopyWith<$Res> {
+  factory $UpdateInProgressCopyWith(UpdateInProgress value, $Res Function(UpdateInProgress) _then) = _$UpdateInProgressCopyWithImpl;
+@override @useResult
+$Res call({
+ AppDataStateData data
+});
+
+
+@override $AppDataStateDataCopyWith<$Res> get data;
+
+}
+/// @nodoc
+class _$UpdateInProgressCopyWithImpl<$Res>
+    implements $UpdateInProgressCopyWith<$Res> {
+  _$UpdateInProgressCopyWithImpl(this._self, this._then);
+
+  final UpdateInProgress _self;
+  final $Res Function(UpdateInProgress) _then;
+
+/// Create a copy of AppDataState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(UpdateInProgress(
 null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as AppDataStateData,
   ));

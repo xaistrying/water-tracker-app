@@ -9,6 +9,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default('') String quickAddValue1,
     @Default('') String quickAddValue2,
     @Default('') String quickAddValue3,
+    @Default(0.0) double dailyGoal,
   }) = _AppDataStateData;
 }
 
@@ -30,4 +31,8 @@ abstract class AppDataState with _$AppDataState {
       UpdateQuickAddValue3;
   const factory AppDataState.updateQuickAddValueAll(AppDataStateData data) =
       UpdateQuickAddValueAll;
+  const factory AppDataState.updateDailyGoal(AppDataStateData data) =
+      UpdateDailyGoal;
+  const factory AppDataState.updateInProgress(AppDataStateData data) =
+      UpdateInProgress;
 }

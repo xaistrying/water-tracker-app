@@ -12,9 +12,12 @@ import 'package:water_tracker_app/domain/repositories/config_repository.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
 import 'package:water_tracker_app/domain/repositories/units_repository.dart';
+import '../../data/datasources/progress_data_source.dart';
 import '../../data/repositories/config_repository_impl.dart';
 import '../../data/repositories/profile_repository_impl.dart';
+import '../../data/repositories/progress_repository_impl.dart';
 import '../../data/repositories/quick_add_repository_impl.dart';
+import '../../domain/repositories/progress_repository.dart';
 import '../service/app_prefs_service.dart';
 
 final getIt = GetIt.instance;
@@ -33,6 +36,9 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<QuickAddDataSource>(
     () => QuickAddDataSourceImpl(),
   );
+  getIt.registerLazySingleton<ProgressDataSource>(
+    () => ProgressDataSourceImpl(),
+  );
 
   // Repository //
   getIt.registerLazySingleton<UnitsRepository>(() => UnitsRepositoryImpl());
@@ -40,5 +46,8 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<ConfigRepository>(() => ConfigRepositoryImpl());
   getIt.registerLazySingleton<QuickAddRepository>(
     () => QuickAddRepositoryImpl(),
+  );
+  getIt.registerLazySingleton<ProgressRepository>(
+    () => ProgressRepositoryImpl(),
   );
 }

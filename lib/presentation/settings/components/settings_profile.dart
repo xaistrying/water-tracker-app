@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
 import 'package:water_tracker_app/presentation/settings/widget/slider_widget.dart';
 import '../../../app/constant/image_constant.dart';
@@ -82,32 +83,41 @@ class _SettingsProfileState extends State<SettingsProfile> {
             ),
           ),
         ),
-        SliderWidget(min: 1000, max: 4000, unit: 'ml', divisions: 30),
-        SizedBox(
-          width: double.infinity,
-          child: TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              backgroundColor: AppColor.getBlueCyanColor(context),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimens.padding16,
-                vertical: AppDimens.padding16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-              ),
-              splashFactory: NoSplash.splashFactory,
-              overlayColor: Colors.transparent,
-            ),
-            child: Text(
-              'Apply Goal',
-              style: TextStyle(
-                fontSize: AppDimens.fontSizeDefault,
-                fontWeight: FontWeight.bold,
-                color: AppColor.getWhiteBlack(context, reverse: true),
-              ),
-            ),
-          ),
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            final dailyGoal = state.data.dailyGoal;
+            return SliderWidget(
+              min: 1000,
+              max: 4000,
+              value: dailyGoal,
+              unit: 'ml',
+              divisions: 30,
+              onChangeEnd: (newDailyGoal) {
+                showDialog(
+                  context: context,
+                  builder: (context) => DialogWidget(
+                    title: 'Change Daily Goal',
+                    body: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: AppDimens.padding16,
+                        ),
+                        child: Text('Confirm to change'),
+                      ),
+                    ),
+                    buttonName: 'Confỉrm',
+                  ),
+                ).then((value) {
+                  if (!context.mounted) return;
+                  if (value == true) {
+                    context.read<AppDataCubit>().updateDailyGoal(newDailyGoal);
+                  } else {
+                    context.read<AppDataCubit>().updateDailyGoal(dailyGoal);
+                  }
+                });
+              },
+            );
+          },
         ),
       ],
     );

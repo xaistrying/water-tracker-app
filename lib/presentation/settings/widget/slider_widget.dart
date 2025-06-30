@@ -12,6 +12,8 @@ class SliderWidget extends StatefulWidget {
     required this.max,
     this.unit = '',
     this.divisions,
+    this.onChangeEnd,
+    this.value,
     this.onChanged,
   });
 
@@ -19,7 +21,9 @@ class SliderWidget extends StatefulWidget {
   final double max;
   final String unit;
   final int? divisions;
-  final Function(double)? onChanged;
+  final Function()? onChanged;
+  final Function(double)? onChangeEnd;
+  final double? value;
 
   @override
   State<SliderWidget> createState() => _SliderWidgetState();
@@ -31,7 +35,18 @@ class _SliderWidgetState extends State<SliderWidget> {
   @override
   void initState() {
     super.initState();
-    _currentSliderValue = widget.min;
+    _currentSliderValue = widget.value ?? widget.min;
+  }
+
+  @override
+  void didUpdateWidget(covariant SliderWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.value != _currentSliderValue) {
+      setState(() {
+        _currentSliderValue = widget.value ?? widget.min;
+      });
+    }
   }
 
   @override
@@ -56,18 +71,17 @@ class _SliderWidgetState extends State<SliderWidget> {
             min: widget.min,
             max: widget.max,
             divisions: widget.divisions,
+            onChangeEnd: widget.onChangeEnd,
             padding: EdgeInsets.only(
               top: AppDimens.padding8,
               left: AppDimens.padding4,
               right: AppDimens.padding4,
             ),
-            onChanged:
-                widget.onChanged ??
-                (value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                },
+            onChanged: (value) {
+              setState(() {
+                _currentSliderValue = value;
+              });
+            },
           ),
         ),
         Row(

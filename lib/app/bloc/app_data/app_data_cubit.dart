@@ -9,6 +9,7 @@ import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
 import 'package:water_tracker_app/domain/repositories/units_repository.dart';
+import '../../../domain/repositories/progress_repository.dart';
 import '../../di/injector.dart';
 import '../../enum/unit_type.dart';
 
@@ -23,8 +24,10 @@ class AppDataCubit extends Cubit<AppDataState> {
   final _unitRepo = getIt<UnitsRepository>();
   final _profileRepo = getIt<ProfileRepository>();
   final _quickAddRepo = getIt<QuickAddRepository>();
+  final _progressRepo = getIt<ProgressRepository>();
 
   void _init() {
+    // Weight and Volume Units, Username
     final weightUnitType = _unitRepo.getWeightUnitType().getOrElse(
       (_) => WeightUnitType.kilograms,
     );
@@ -59,6 +62,12 @@ class AppDataCubit extends Cubit<AppDataState> {
         ),
       ),
     );
+
+    // Progress
+    final dailyGoal = _progressRepo.getDailyGoal().getOrElse(
+      (_) => DataDefault.dailyGoal,
+    );
+    updateDailyGoal(dailyGoal);
   }
 
   void updateSpecificQuickAddValue({
@@ -96,5 +105,11 @@ class AppDataCubit extends Cubit<AppDataState> {
   void updateUserName(String userName) {
     _profileRepo.cacheUserName(userName: userName);
     emit(UpdateUserName(state.data.copyWith(userName: userName)));
+  }
+
+  void updateDailyGoal(double value) {
+    emit(UpdateInProgress(state.data));
+    _progressRepo.cacheDailyGoal(value: value);
+    emit(UpdateDailyGoal(state.data.copyWith(dailyGoal: value)));
   }
 }

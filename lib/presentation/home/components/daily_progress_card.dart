@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
@@ -32,12 +34,17 @@ class DailyProgressCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  'of 2000ml daily goal',
-                  style: TextStyle(
-                    fontSize: AppDimens.fontSizeDefault,
-                    color: AppColor.getGreyColorForText(context),
-                  ),
+                BlocBuilder<AppDataCubit, AppDataState>(
+                  builder: (context, state) {
+                    final dailyGoal = state.data.dailyGoal;
+                    return Text(
+                      'of ${dailyGoal.toStringAsFixed(0)}ml daily goal',
+                      style: TextStyle(
+                        fontSize: AppDimens.fontSizeDefault,
+                        color: AppColor.getGreyColorForText(context),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
