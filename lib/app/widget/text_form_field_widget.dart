@@ -9,16 +9,14 @@ import '../theme/app_dimens.dart';
 class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget({
     super.key,
-    this.inputFormatters,
-    this.keyboardType,
     this.controller,
     this.isDense = true,
     this.onTapOutside,
+    this.isDigitsOnly,
   });
 
   final TextEditingController? controller;
-  final List<TextInputFormatter>? inputFormatters;
-  final TextInputType? keyboardType;
+  final bool? isDigitsOnly;
   final bool? isDense;
   final Function()? onTapOutside;
 
@@ -40,8 +38,10 @@ class TextFormFieldWidget extends StatelessWidget {
       },
       textAlign: TextAlign.left,
       cursorColor: AppColor.getContentColor(context),
-      inputFormatters: inputFormatters,
-      keyboardType: keyboardType,
+      inputFormatters: isDigitsOnly == true
+          ? [FilteringTextInputFormatter.digitsOnly]
+          : null,
+      keyboardType: isDigitsOnly == true ? TextInputType.number : null,
       decoration: InputDecoration(
         isDense: isDense,
         filled: true,

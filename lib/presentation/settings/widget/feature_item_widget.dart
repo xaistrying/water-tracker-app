@@ -12,12 +12,14 @@ class FeatureItemWidget extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.onTap,
+    this.customTitle,
   });
 
   final String? title;
   final String? subtitle;
   final Widget? trailing;
   final Function()? onTap;
+  final Widget? customTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,16 @@ class FeatureItemWidget extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-        title: Text(
-          title ?? '',
-          style: TextStyle(
-            fontSize: AppDimens.fontSizeDefault,
-            fontWeight: FontWeight.bold,
-            color: AppColor.getWhiteBlack(context),
-          ),
-        ),
+        title:
+            customTitle ??
+            Text(
+              title ?? '',
+              style: TextStyle(
+                fontSize: AppDimens.fontSizeDefault,
+                fontWeight: FontWeight.bold,
+                color: AppColor.getWhiteBlack(context),
+              ),
+            ),
         subtitle: Text(
           subtitle ?? '',
           style: TextStyle(

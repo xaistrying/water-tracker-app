@@ -34,18 +34,15 @@ class DialogWidget extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: 400.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // MARK: Header
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: AppDimens.fontSize18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.getWhiteBlack(context),
-                ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: AppDimens.fontSize18,
+                fontWeight: FontWeight.bold,
+                color: AppColor.getWhiteBlack(context),
               ),
             ),
             // MARK: Body

@@ -107,9 +107,8 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
           children: [
             Expanded(
               child: TextFormFieldWidget(
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
                 controller: controller,
+                isDigitsOnly: true,
                 onTapOutside: () =>
                     context.read<AppDataCubit>().updateSpecificQuickAddValue(
                       option: option,

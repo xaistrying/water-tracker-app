@@ -31,7 +31,7 @@ class QuickAddCustomDialog extends StatelessWidget {
               ),
             ),
           ),
-          TextFormFieldWidget(isDense: false),
+          TextFormFieldWidget(isDense: false, isDigitsOnly: true),
         ],
       ),
       buttonName: 'Add Water',

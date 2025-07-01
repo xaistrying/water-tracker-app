@@ -68,6 +68,12 @@ class AppDataCubit extends Cubit<AppDataState> {
       (_) => DataDefault.dailyGoal,
     );
     updateDailyGoal(dailyGoal);
+
+    // Advanced Mode
+    final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
+      (_) => null,
+    );
+    updateAdvancedModeStatus(status: advancedModeStatus);
   }
 
   void updateSpecificQuickAddValue({
@@ -111,5 +117,20 @@ class AppDataCubit extends Cubit<AppDataState> {
     emit(UpdateInProgress(state.data));
     _progressRepo.cacheDailyGoal(value: value);
     emit(UpdateDailyGoal(state.data.copyWith(dailyGoal: value)));
+  }
+
+  void updateAdvancedModeStatus({bool? status}) {
+    if (status == null) {
+      _profileRepo.cacheAdvancedModeStatus(
+        status: !state.data.advancedModeStatus,
+      );
+    }
+    emit(
+      UpdateAdvancedModeStatus(
+        state.data.copyWith(
+          advancedModeStatus: status ?? !state.data.advancedModeStatus,
+        ),
+      ),
+    );
   }
 }
