@@ -13,4 +13,8 @@ abstract class ProgressRepository {
   Either<Failure, double> getDailyIntake();
   Future<Either<Failure, void>> cacheDailyIntake({required double value});
   Future<Either<Failure, void>> removeDailyIntake();
+
+  // Last Open Day
+  Either<Failure, DateTime> getLastOpenDay();
+  Future<Either<Failure, void>> cacheLastOpenDay();
 }

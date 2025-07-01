@@ -67,4 +67,27 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, DateTime> getLastOpenDay() {
+    try {
+      final res = _dataSource.getLastOpenDay();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheLastOpenDay() async {
+    try {
+      _dataSource.cacheLastOpenDay();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

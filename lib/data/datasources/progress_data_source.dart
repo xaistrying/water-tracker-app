@@ -11,6 +11,10 @@ abstract class ProgressDataSource {
   Future<void> cacheDailyIntake({required double value});
   double? getDailyIntake();
   Future<void> removeDailyIntake();
+
+  // Last Open Day
+  Future<void> cacheLastOpenDay();
+  DateTime? getLastOpenDay();
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -18,6 +22,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
 
   static const dailyGoalKey = 'DAILY_GOAL_KEY';
   static const dailyIntakeKey = 'DAILY_INTAKE_KEY';
+  static const lastOpenDayKey = 'LAST_OPEN_DAY_KEY';
 
   @override
   Future<void> cacheDailyGoal({required double value}) async {
@@ -42,5 +47,18 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   @override
   Future<void> removeDailyIntake() async {
     await _pref.removeValue(dailyIntakeKey);
+  }
+
+  @override
+  Future<void> cacheLastOpenDay() async {
+    await _pref.setValue<String>(
+      lastOpenDayKey,
+      DateTime.now().toIso8601String(),
+    );
+  }
+
+  @override
+  DateTime? getLastOpenDay() {
+    return DateTime.tryParse(_pref.getValue<String>(lastOpenDayKey) ?? '');
   }
 }

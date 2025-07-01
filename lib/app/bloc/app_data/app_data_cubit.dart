@@ -70,6 +70,7 @@ class AppDataCubit extends Cubit<AppDataState> {
     updateDailyGoal(dailyGoal);
     final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
     updateDailyIntake(dailyIntake);
+    _checkForNewDay();
 
     // Advanced Mode
     final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
@@ -140,5 +141,31 @@ class AppDataCubit extends Cubit<AppDataState> {
     final currentIntake = state.data.dailyIntake + value;
     _progressRepo.cacheDailyIntake(value: currentIntake);
     emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
+  }
+
+  void _checkForNewDay() {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+    final DateTime lastOpenTime = _progressRepo.getLastOpenDay().getOrElse(
+      (_) => DateTime.now(),
+    );
+    final DateTime lastOpenDay = DateTime(
+      lastOpenTime.year,
+      lastOpenTime.month,
+      lastOpenTime.day,
+    );
+
+    // It's a new day! Reset water intake.
+    if (today.isAfter(lastOpenDay)) {
+      _progressRepo.removeDailyIntake();
+    }
+  }
+
+  @override
+  Future<void> close() {
+    // Save Last Open Time
+    _progressRepo.cacheLastOpenDay();
+
+    return super.close();
   }
 }
