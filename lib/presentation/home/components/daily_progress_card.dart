@@ -26,12 +26,17 @@ class DailyProgressCard extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: Column(
               children: [
-                Text(
-                  '1200ml',
-                  style: TextStyle(
-                    fontSize: AppDimens.fontSize28,
-                    color: AppColor.getBlueCyanColor(context),
-                  ),
+                BlocBuilder<AppDataCubit, AppDataState>(
+                  builder: (context, state) {
+                    final dailyIntake = state.data.dailyIntake;
+                    return Text(
+                      '${dailyIntake.toStringAsFixed(0)}ml',
+                      style: TextStyle(
+                        fontSize: AppDimens.fontSize28,
+                        color: AppColor.getBlueCyanColor(context),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 4),
                 BlocBuilder<AppDataCubit, AppDataState>(
@@ -55,11 +60,17 @@ class DailyProgressCard extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: AppDimens.padding16),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
-              child: LinearProgressIndicator(
-                value: 1200 / 2000,
-                minHeight: AppDimens.progressBarHeight,
-                backgroundColor: Colors.grey[300],
-                color: AppColor.getBlueCyanColor(context),
+              child: BlocBuilder<AppDataCubit, AppDataState>(
+                builder: (context, state) {
+                  final dailyIntake = state.data.dailyIntake;
+                  final dailyGoal = state.data.dailyGoal;
+                  return LinearProgressIndicator(
+                    value: dailyIntake / dailyGoal,
+                    minHeight: AppDimens.progressBarHeight,
+                    backgroundColor: AppColor.gray300,
+                    color: AppColor.getBlueCyanColor(context),
+                  );
+                },
               ),
             ),
           ),
@@ -76,13 +87,20 @@ class DailyProgressCard extends StatelessWidget {
                 ),
                 height: AppDimens.iconSize16,
               ),
-              const SizedBox(width: 4),
-              Text(
-                '800ml remaining',
-                style: TextStyle(
-                  fontSize: AppDimens.fontSizeDefault,
-                  color: AppColor.getGreyColorForText(context),
-                ),
+              const SizedBox(width: AppDimens.padding4),
+              BlocBuilder<AppDataCubit, AppDataState>(
+                builder: (context, state) {
+                  final dailyIntake = state.data.dailyIntake;
+                  final dailyGoal = state.data.dailyGoal;
+                  final dailyRemaining = dailyGoal - dailyIntake;
+                  return Text(
+                    '${dailyRemaining.toStringAsFixed(0)}ml remaining',
+                    style: TextStyle(
+                      fontSize: AppDimens.fontSizeDefault,
+                      color: AppColor.getGreyColorForText(context),
+                    ),
+                  );
+                },
               ),
             ],
           ),

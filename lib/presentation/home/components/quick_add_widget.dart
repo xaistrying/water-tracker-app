@@ -29,10 +29,14 @@ class QuickAddWidget extends StatelessWidget {
                     current is UpdateQuickAddValueAll ||
                     current is UpdateQuickAddValue1,
                 builder: (context, state) {
+                  final quickAddValue1 = state.data.quickAddValue1;
                   return _buildQuickAddButton(
                     context,
-                    onPressed: () {},
-                    label: '${state.data.quickAddValue1}ml',
+                    onPressed: () {
+                      final intake = double.tryParse(quickAddValue1) ?? 0;
+                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                    },
+                    label: '${quickAddValue1}ml',
                   );
                 },
               ),
@@ -43,10 +47,14 @@ class QuickAddWidget extends StatelessWidget {
                     current is UpdateQuickAddValueAll ||
                     current is UpdateQuickAddValue2,
                 builder: (context, state) {
+                  final quickAddValue2 = state.data.quickAddValue2;
                   return _buildQuickAddButton(
                     context,
-                    onPressed: () {},
-                    label: '${state.data.quickAddValue2}ml',
+                    onPressed: () {
+                      final intake = double.tryParse(quickAddValue2) ?? 0;
+                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                    },
+                    label: '${quickAddValue2}ml',
                   );
                 },
               ),
@@ -57,10 +65,14 @@ class QuickAddWidget extends StatelessWidget {
                     current is UpdateQuickAddValueAll ||
                     current is UpdateQuickAddValue3,
                 builder: (context, state) {
+                  final quickAddValue3 = state.data.quickAddValue3;
                   return _buildQuickAddButton(
                     context,
-                    onPressed: () {},
-                    label: '${state.data.quickAddValue3}ml',
+                    onPressed: () {
+                      final intake = double.tryParse(quickAddValue3) ?? 0;
+                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                    },
+                    label: '${quickAddValue3}ml',
                   );
                 },
               ),

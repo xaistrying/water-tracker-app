@@ -36,8 +36,8 @@ class SettingsHydrationCalculatorState
   final excerciseTimeNotifier = ValueNotifier<double>(0.0);
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
     bodyWeightTextController.dispose();
     baseTextController.dispose();
     excerciseTimeNotifier.dispose();

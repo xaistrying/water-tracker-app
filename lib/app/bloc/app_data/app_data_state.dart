@@ -11,6 +11,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default('') String quickAddValue3,
     @Default(0.0) double dailyGoal,
     @Default(false) bool advancedModeStatus,
+    @Default(0.0) double dailyIntake,
   }) = _AppDataStateData;
 }
 
@@ -38,4 +39,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateInProgress;
   const factory AppDataState.updateAdvancedModeStatus(AppDataStateData data) =
       UpdateAdvancedModeStatus;
+  const factory AppDataState.updateDailyIntake(AppDataStateData data) =
+      UpdateDailyIntake;
 }

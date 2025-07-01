@@ -68,6 +68,8 @@ class AppDataCubit extends Cubit<AppDataState> {
       (_) => DataDefault.dailyGoal,
     );
     updateDailyGoal(dailyGoal);
+    final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
+    updateDailyIntake(dailyIntake);
 
     // Advanced Mode
     final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
@@ -88,9 +90,9 @@ class AppDataCubit extends Cubit<AppDataState> {
       case QuickAddOption.first:
         emit(UpdateQuickAddValue1(state.data.copyWith(quickAddValue1: value)));
       case QuickAddOption.second:
-        emit(UpdateQuickAddValue1(state.data.copyWith(quickAddValue2: value)));
+        emit(UpdateQuickAddValue2(state.data.copyWith(quickAddValue2: value)));
       case QuickAddOption.third:
-        emit(UpdateQuickAddValue1(state.data.copyWith(quickAddValue3: value)));
+        emit(UpdateQuickAddValue3(state.data.copyWith(quickAddValue3: value)));
     }
   }
 
@@ -132,5 +134,11 @@ class AppDataCubit extends Cubit<AppDataState> {
         ),
       ),
     );
+  }
+
+  void updateDailyIntake(double value) {
+    final currentIntake = state.data.dailyIntake + value;
+    _progressRepo.cacheDailyIntake(value: currentIntake);
+    emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
   }
 }
