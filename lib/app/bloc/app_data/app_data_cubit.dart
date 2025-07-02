@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,6 +9,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
+import 'package:water_tracker_app/app/extension/unique_id_extension.dart';
+import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
 import 'package:water_tracker_app/domain/repositories/units_repository.dart';
@@ -25,6 +30,8 @@ class AppDataCubit extends Cubit<AppDataState> {
   final _profileRepo = getIt<ProfileRepository>();
   final _quickAddRepo = getIt<QuickAddRepository>();
   final _progressRepo = getIt<ProgressRepository>();
+
+  Timer? _midnightTimer;
 
   void _init() {
     // Weight and Volume Units, Username
@@ -69,8 +76,16 @@ class AppDataCubit extends Cubit<AppDataState> {
     );
     updateDailyGoal(dailyGoal);
     final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
-    updateDailyIntake(dailyIntake);
+    updateDailyIntake(value: dailyIntake, isInitialize: true);
+    // Check For New Day At Begining
     _checkForNewDay();
+    // Check For New Day While App Is On
+    _setupMidnightTimer();
+
+    final intakeHistory = _progressRepo.getDailyIntakeHistory().getOrElse(
+      (_) => [],
+    );
+    updateIntakeHistory(intakeHistory);
 
     // Advanced Mode
     final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
@@ -137,10 +152,44 @@ class AppDataCubit extends Cubit<AppDataState> {
     );
   }
 
-  void updateDailyIntake(double value) {
+  void updateDailyIntake({required double value, bool isInitialize = false}) {
     final currentIntake = state.data.dailyIntake + value;
+
+    // Save to 1 day local storage
     _progressRepo.cacheDailyIntake(value: currentIntake);
+
+    // Save to history local storage
+    if (isInitialize == false) {
+      final history = [...state.data.listIntakeHistory];
+      final historyItem = DailyIntakeModel(
+        id: DateTime.now().uniqueId,
+        date: DateTime.now().toIso8601String(),
+        intake: value,
+        goal: state.data.dailyGoal,
+      );
+      history.add(historyItem);
+
+      _progressRepo.cacheDailyIntakeHistory(data: historyItem);
+      emit(
+        UpdateDailyIntake(
+          state.data.copyWith(
+            dailyIntake: currentIntake,
+            listIntakeHistory: history,
+          ),
+        ),
+      );
+      return;
+    }
+
     emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
+  }
+
+  void updateIntakeHistory(List<DailyIntakeModel> history) {
+    emit(UpdateIntakeHistory(state.data.copyWith(listIntakeHistory: history)));
+  }
+
+  void resetDailyIntake() {
+    emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: 0.0)));
   }
 
   void _checkForNewDay() {
@@ -158,13 +207,38 @@ class AppDataCubit extends Cubit<AppDataState> {
     // It's a new day! Reset water intake.
     if (today.isAfter(lastOpenDay)) {
       _progressRepo.removeDailyIntake();
+      resetDailyIntake();
     }
+  }
+
+  void _setupMidnightTimer() {
+    DateTime now = DateTime.now();
+    // Calculate the time until the end of the current day (midnight)
+    DateTime tomorrow = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).add(const Duration(days: 1));
+    Duration timeUntilMidnight = tomorrow.difference(now);
+
+    // Cancel any existing timer to avoid duplicates
+    _midnightTimer?.cancel();
+
+    _midnightTimer = Timer(timeUntilMidnight, () async {
+      // Reset Daily Intake To 0.0
+      _progressRepo.removeDailyIntake();
+      resetDailyIntake();
+
+      _setupMidnightTimer();
+    });
   }
 
   @override
   Future<void> close() {
     // Save Last Open Time
     _progressRepo.cacheLastOpenDay();
+
+    _midnightTimer?.cancel();
 
     return super.close();
   }

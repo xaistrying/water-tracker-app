@@ -12,6 +12,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(0.0) double dailyGoal,
     @Default(false) bool advancedModeStatus,
     @Default(0.0) double dailyIntake,
+    @Default([]) List<DailyIntakeModel> listIntakeHistory,
   }) = _AppDataStateData;
 }
 
@@ -41,4 +42,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateAdvancedModeStatus;
   const factory AppDataState.updateDailyIntake(AppDataStateData data) =
       UpdateDailyIntake;
+  const factory AppDataState.updateIntakeHistory(AppDataStateData data) =
+      UpdateIntakeHistory;
 }

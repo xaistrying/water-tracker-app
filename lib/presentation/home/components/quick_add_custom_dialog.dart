@@ -61,7 +61,7 @@ class _QuickAddCustomDialogState extends State<QuickAddCustomDialog> {
           buttonName: 'Add Water',
           buttonFunc: () {
             final intake = double.tryParse(value.text) ?? 0;
-            context.read<AppDataCubit>().updateDailyIntake(intake);
+            context.read<AppDataCubit>().updateDailyIntake(value: intake);
           },
         );
       },

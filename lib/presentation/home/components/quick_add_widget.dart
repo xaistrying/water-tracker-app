@@ -34,7 +34,9 @@ class QuickAddWidget extends StatelessWidget {
                     context,
                     onPressed: () {
                       final intake = double.tryParse(quickAddValue1) ?? 0;
-                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                      context.read<AppDataCubit>().updateDailyIntake(
+                        value: intake,
+                      );
                     },
                     label: '${quickAddValue1}ml',
                   );
@@ -52,7 +54,9 @@ class QuickAddWidget extends StatelessWidget {
                     context,
                     onPressed: () {
                       final intake = double.tryParse(quickAddValue2) ?? 0;
-                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                      context.read<AppDataCubit>().updateDailyIntake(
+                        value: intake,
+                      );
                     },
                     label: '${quickAddValue2}ml',
                   );
@@ -70,7 +74,9 @@ class QuickAddWidget extends StatelessWidget {
                     context,
                     onPressed: () {
                       final intake = double.tryParse(quickAddValue3) ?? 0;
-                      context.read<AppDataCubit>().updateDailyIntake(intake);
+                      context.read<AppDataCubit>().updateDailyIntake(
+                        value: intake,
+                      );
                     },
                     label: '${quickAddValue3}ml',
                   );

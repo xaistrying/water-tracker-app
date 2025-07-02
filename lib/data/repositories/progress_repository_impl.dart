@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/error/failure.dart';
+import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/progress_repository.dart';
 import '../../app/di/injector.dart';
 import '../datasources/progress_data_source.dart';
@@ -85,6 +86,40 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> cacheLastOpenDay() async {
     try {
       _dataSource.cacheLastOpenDay();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, List<DailyIntakeModel>> getDailyIntakeHistory() {
+    try {
+      final res = _dataSource.getDailyIntakeHistory();
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheDailyIntakeHistory({
+    required DailyIntakeModel data,
+  }) async {
+    try {
+      _dataSource.cacheDailyIntakeHistory(data: data);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeDailyIntakeHistory({
+    required int keepDays,
+  }) async {
+    try {
+      _dataSource.removeDailyIntakeHistory();
       return Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));

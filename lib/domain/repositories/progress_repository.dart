@@ -2,6 +2,7 @@
 import 'package:fpdart/fpdart.dart';
 
 // Project imports:
+import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import '../../app/error/failure.dart';
 
 abstract class ProgressRepository {
@@ -17,4 +18,13 @@ abstract class ProgressRepository {
   // Last Open Day
   Either<Failure, DateTime> getLastOpenDay();
   Future<Either<Failure, void>> cacheLastOpenDay();
+
+  // Daily Intake History
+  Either<Failure, List<DailyIntakeModel>> getDailyIntakeHistory();
+  Future<Either<Failure, void>> cacheDailyIntakeHistory({
+    required DailyIntakeModel data,
+  });
+  Future<Either<Failure, void>> removeDailyIntakeHistory({
+    required int keepDays,
+  });
 }

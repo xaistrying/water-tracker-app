@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
@@ -50,18 +53,31 @@ class RecentMoreScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.all(AppDimens.padding16),
-          itemCount: 4,
-          itemBuilder: (context, index) {
-            return _buildRecentMeasurementCard(
-              context,
-              time: '28/06/2025 - 10:00 AM',
-              volume: '200ml',
+        body: BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            final listHistory = state.data.listIntakeHistory;
+            final historyLength = listHistory.length;
+            return ListView.separated(
+              padding: const EdgeInsets.all(AppDimens.padding16),
+              itemCount: listHistory.length,
+              itemBuilder: (context, index) {
+                final itemIndex = historyLength - index - 1;
+                final item = listHistory[itemIndex];
+                final dateTime = DateTime.tryParse(item.date ?? '');
+                String time = '';
+                if (dateTime != null) {
+                  time = DateFormat.yMd().add_jm().format(dateTime);
+                }
+                return _buildRecentMeasurementCard(
+                  context,
+                  time: time,
+                  volume: item.intake?.toStringAsFixed(0) ?? '',
+                );
+              },
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: AppDimens.padding8),
             );
           },
-          separatorBuilder: (context, index) =>
-              SizedBox(height: AppDimens.padding8),
         ),
       ),
     );

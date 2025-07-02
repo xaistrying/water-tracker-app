@@ -2,10 +2,13 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
@@ -23,26 +26,40 @@ class RecentMeasurementCard extends StatelessWidget {
         vertical: AppDimens.padding8,
       ),
       child: Column(
+        spacing: AppDimens.padding12,
         children: [
           _buildRecentMeasurementHeader(context),
-          SizedBox(height: AppDimens.padding12),
-          _buildRecentMeasurementItem(
-            context,
-            time: '10:00 AM',
-            volume: '200ml',
-          ),
-          _buildRecentMeasurementItem(
-            context,
-            time: '11:30 AM',
-            volume: '300ml',
-          ),
-          _buildRecentMeasurementItem(
-            context,
-            time: '01:15 PM',
-            volume: '250ml',
-          ),
+          _buildRecentMeasurementList(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildRecentMeasurementList(BuildContext context) {
+    return BlocBuilder<AppDataCubit, AppDataState>(
+      builder: (context, state) {
+        final listHistory = state.data.listIntakeHistory;
+        final historyLength = listHistory.length;
+        return Column(
+          spacing: AppDimens.padding12,
+          children: List.generate(historyLength < 3 ? historyLength : 3, (
+            index,
+          ) {
+            final itemIndex = historyLength - index - 1;
+            final item = listHistory[itemIndex];
+            final dateTime = DateTime.tryParse(item.date ?? '');
+            String time = '';
+            if (dateTime != null) {
+              time = DateFormat.yMd().add_jm().format(dateTime);
+            }
+            return _buildRecentMeasurementItem(
+              context,
+              time: time,
+              volume: item.intake?.toStringAsFixed(0) ?? '',
+            );
+          }),
+        );
+      },
     );
   }
 
@@ -106,7 +123,7 @@ class RecentMeasurementCard extends StatelessWidget {
         color: AppColor.getBlueCyanColor(context),
       ),
       title: Text(
-        volume,
+        '${volume}ml',
         style: TextStyle(
           fontSize: AppDimens.fontSizeDefault,
           fontWeight: FontWeight.bold,
