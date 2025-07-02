@@ -24,4 +24,15 @@ extension RetentionPeriodExtension on RetentionPeriod {
         throw ArgumentError('Unknown type: $raw');
     }
   }
+
+  int get numberOfDays {
+    switch (this) {
+      case RetentionPeriod.oneDay:
+        return 7;
+      case RetentionPeriod.oneWeek:
+        return 14;
+      case RetentionPeriod.oneMonth:
+        return 30;
+    }
+  }
 }

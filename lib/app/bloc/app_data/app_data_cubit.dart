@@ -216,6 +216,9 @@ class AppDataCubit extends Cubit<AppDataState> {
     // It's a new day! Reset water intake.
     if (today.isAfter(lastOpenDay)) {
       _progressRepo.removeDailyIntake();
+      _progressRepo.removeDailyIntakeHistory(
+        keepDays: state.data.retentionPeriod.numberOfDays,
+      );
       resetDailyIntake();
     }
   }
@@ -237,6 +240,11 @@ class AppDataCubit extends Cubit<AppDataState> {
       // Reset Daily Intake To 0.0
       _progressRepo.removeDailyIntake();
       resetDailyIntake();
+
+      // Clear History
+      _progressRepo.removeDailyIntakeHistory(
+        keepDays: state.data.retentionPeriod.numberOfDays,
+      );
 
       _setupMidnightTimer();
     });

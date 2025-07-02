@@ -119,7 +119,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
     required int keepDays,
   }) async {
     try {
-      _dataSource.removeDailyIntakeHistory();
+      _dataSource.removeDailyIntakeHistory(keepDays: keepDays);
       return Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));

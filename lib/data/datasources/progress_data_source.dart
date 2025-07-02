@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 // Project imports:
+import 'package:water_tracker_app/app/enum/retention_period.dart';
 import '../../app/di/injector.dart';
 import '../../app/service/app_prefs_service.dart';
 import '../../domain/models/daily_intake_model.dart';
@@ -23,7 +24,7 @@ abstract class ProgressDataSource {
   // Daily Intake History
   Future<void> cacheDailyIntakeHistory({required DailyIntakeModel data});
   List<DailyIntakeModel> getDailyIntakeHistory();
-  Future<void> removeDailyIntakeHistory();
+  Future<void> removeDailyIntakeHistory({required int keepDays});
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -114,7 +115,40 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   }
 
   @override
-  Future<void> removeDailyIntakeHistory() async {
-    await _pref.removeValue(dailyIntakeHistoryKey);
+  Future<void> removeDailyIntakeHistory({required int keepDays}) async {
+    if (keepDays == RetentionPeriod.oneDay.numberOfDays) {
+      // Remove all history
+      await _pref.removeValue(dailyIntakeHistoryKey);
+    }
+
+    List<DailyIntakeModel> listHistory = getDailyIntakeHistory();
+    if (listHistory.isEmpty) return;
+
+    // Sort by date descending (most recent first)
+    listHistory.sort((a, b) {
+      final dateA =
+          DateTime.tryParse(a.date ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      final dateB =
+          DateTime.tryParse(b.date ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      return dateB.compareTo(dateA);
+    });
+
+    // Keep only the most recent [keepDays] entries
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final cutoff = today.subtract(Duration(days: keepDays - 1));
+    final filtered = listHistory.where((entry) {
+      final entryDate = DateTime.tryParse(entry.date ?? '');
+      if (entryDate == null) return false;
+      return entryDate.isAfter(cutoff) || entryDate.isAtSameMomentAs(cutoff);
+    }).toList();
+
+    // Save filtered history
+    await _pref.setValue<String>(
+      dailyIntakeHistoryKey,
+      json.encode(filtered.map((e) => e.toJson()).toList()),
+    );
   }
 }
