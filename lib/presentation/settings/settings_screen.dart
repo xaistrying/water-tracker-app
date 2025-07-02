@@ -14,6 +14,7 @@ import 'components/settings_appearance.dart';
 import 'components/settings_header.dart';
 import 'components/settings_hydration_calculator.dart';
 import 'components/settings_profile.dart';
+import 'components/settings_storage.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -62,6 +63,8 @@ class SettingsScreenState extends State<SettingsScreen> {
               SettingsProfile(),
               SizedBox(height: AppDimens.padding16),
               SettingsAppearance(),
+              SizedBox(height: AppDimens.padding16),
+              SettingsStorage(),
               SizedBox(height: AppDimens.padding16),
               SettingsReminder(),
               SizedBox(height: AppDimens.padding16),

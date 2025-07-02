@@ -8,11 +8,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 // Project imports:
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
+import 'package:water_tracker_app/app/enum/retention_period.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/app/extension/unique_id_extension.dart';
 import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
+import 'package:water_tracker_app/domain/repositories/retention_period_repository.dart';
 import 'package:water_tracker_app/domain/repositories/units_repository.dart';
 import '../../../domain/repositories/progress_repository.dart';
 import '../../di/injector.dart';
@@ -30,6 +32,7 @@ class AppDataCubit extends Cubit<AppDataState> {
   final _profileRepo = getIt<ProfileRepository>();
   final _quickAddRepo = getIt<QuickAddRepository>();
   final _progressRepo = getIt<ProgressRepository>();
+  final _retentionPeriodRepo = getIt<RetentionPeriodRepository>();
 
   Timer? _midnightTimer;
 
@@ -92,6 +95,12 @@ class AppDataCubit extends Cubit<AppDataState> {
       (_) => null,
     );
     updateAdvancedModeStatus(status: advancedModeStatus);
+
+    // Storage
+    final retentionPeriod = _retentionPeriodRepo
+        .getRetentionPeriodValue()
+        .getOrElse((_) => RetentionPeriod.oneDay);
+    updateRetentionPeriod(retentionPeriod);
   }
 
   void updateSpecificQuickAddValue({
@@ -231,6 +240,17 @@ class AppDataCubit extends Cubit<AppDataState> {
 
       _setupMidnightTimer();
     });
+  }
+
+  void updateRetentionPeriod(RetentionPeriod retentionPeriod) {
+    _retentionPeriodRepo.cacheRetentionPeriodValue(
+      retentionPeriod: retentionPeriod,
+    );
+    emit(
+      UpdateRetentionPeriod(
+        state.data.copyWith(retentionPeriod: retentionPeriod),
+      ),
+    );
   }
 
   @override

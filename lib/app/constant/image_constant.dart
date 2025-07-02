@@ -15,4 +15,5 @@ class ImageConstant {
   static const String palette = 'assets/icons/palette_line.svg';
   static const String notification = 'assets/icons/notification_line.svg';
   static const String check = 'assets/icons/check_fill.svg';
+  static const String storage = 'assets/icons/storage_line.svg';
 }

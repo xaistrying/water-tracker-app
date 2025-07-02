@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker_app/data/datasources/config_data_source.dart';
 import 'package:water_tracker_app/data/datasources/profile_data_source.dart';
 import 'package:water_tracker_app/data/datasources/quick_add_data_source.dart';
+import 'package:water_tracker_app/data/datasources/retention_period_data_source.dart';
 import 'package:water_tracker_app/data/datasources/units_data_source.dart';
 import 'package:water_tracker_app/data/repositories/units_repository_impl.dart';
 import 'package:water_tracker_app/domain/repositories/config_repository.dart';
@@ -17,7 +18,9 @@ import '../../data/repositories/config_repository_impl.dart';
 import '../../data/repositories/profile_repository_impl.dart';
 import '../../data/repositories/progress_repository_impl.dart';
 import '../../data/repositories/quick_add_repository_impl.dart';
+import '../../data/repositories/retention_repository_impl.dart';
 import '../../domain/repositories/progress_repository.dart';
+import '../../domain/repositories/retention_period_repository.dart';
 import '../service/app_prefs_service.dart';
 
 final getIt = GetIt.instance;
@@ -39,6 +42,9 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<ProgressDataSource>(
     () => ProgressDataSourceImpl(),
   );
+  getIt.registerLazySingleton<RetentionPeriodDataSource>(
+    () => RetentionPeriodDataSourceImpl(),
+  );
 
   // Repository //
   getIt.registerLazySingleton<UnitsRepository>(() => UnitsRepositoryImpl());
@@ -49,5 +55,8 @@ Future<void> initDependencies() async {
   );
   getIt.registerLazySingleton<ProgressRepository>(
     () => ProgressRepositoryImpl(),
+  );
+  getIt.registerLazySingleton<RetentionPeriodRepository>(
+    () => RetentionPeriodRepositoryImpl(),
   );
 }

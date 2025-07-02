@@ -135,12 +135,28 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
         color: AppColor.getTipCardColor(context),
         borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
       ),
-      child: Text(
-        'Tip: Set these to your most common drink sizes (e.g., your favorite '
-        'glass, water bottle, or mug capacity).',
-        style: TextStyle(
-          fontSize: AppDimens.fontSizeDefault,
-          color: AppColor.getGreyColorForText(context),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'Tip: ',
+              style: TextStyle(
+                fontSize: AppDimens.fontSizeDefault,
+                fontWeight: FontWeight.bold,
+                color: AppColor.getGreyColorForText(context),
+              ),
+            ),
+            TextSpan(
+              text:
+                  'Set these to your most common drink sizes (e.g., your '
+                  'favorite glass, water bottle, or mug capacity)',
+              style: TextStyle(
+                fontSize: AppDimens.fontSizeDefault,
+                fontWeight: FontWeight.normal,
+                color: AppColor.getGreyColorForText(context),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -13,6 +13,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(false) bool advancedModeStatus,
     @Default(0.0) double dailyIntake,
     @Default([]) List<DailyIntakeModel> listIntakeHistory,
+    @Default(RetentionPeriod.oneDay) RetentionPeriod retentionPeriod,
   }) = _AppDataStateData;
 }
 
@@ -44,4 +45,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateDailyIntake;
   const factory AppDataState.updateIntakeHistory(AppDataStateData data) =
       UpdateIntakeHistory;
+  const factory AppDataState.updateRetentionPeriod(AppDataStateData data) =
+      UpdateRetentionPeriod;
 }
