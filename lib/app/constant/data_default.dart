@@ -10,4 +10,5 @@ class DataDefault {
   static const double minDailyGoal = 1000;
   static const int dailyGoalDivision = 30;
   static const int dailyGoalAdvancedDivision = 70;
+  static const int maxInputAmountLength = 4;
 }

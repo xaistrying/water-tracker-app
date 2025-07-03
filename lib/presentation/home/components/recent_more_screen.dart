@@ -66,7 +66,9 @@ class RecentMoreScreen extends StatelessWidget {
                 final dateTime = DateTime.tryParse(item.date ?? '');
                 String time = '';
                 if (dateTime != null) {
-                  time = DateFormat.yMd().add_jm().format(dateTime);
+                  time = DateFormat.yMd()
+                      .addPattern('hh:mm a')
+                      .format(dateTime);
                 }
                 return _buildRecentMeasurementCard(
                   context,

@@ -121,6 +121,18 @@ class AppDataCubit extends Cubit<AppDataState> {
     }
   }
 
+  void resetAllQuickAddValue() {
+    emit(
+      UpdateQuickAddValueAll(
+        state.data.copyWith(
+          quickAddValue1: DataDefault.quickAddValue[0],
+          quickAddValue2: DataDefault.quickAddValue[1],
+          quickAddValue3: DataDefault.quickAddValue[2],
+        ),
+      ),
+    );
+  }
+
   void updateVolumeUnitType(VolumeUnitType volumeUnitType) {
     _unitRepo.cacheVolumeUnitType(volumeUnitType: volumeUnitType);
     emit(
@@ -149,7 +161,7 @@ class AppDataCubit extends Cubit<AppDataState> {
   void updateAdvancedModeStatus({bool? status}) {
     if (status == null) {
       _profileRepo.cacheAdvancedModeStatus(
-        status: !state.data.advancedModeStatus,
+        status: state.data.advancedModeStatus,
       );
     }
     emit(
@@ -221,6 +233,7 @@ class AppDataCubit extends Cubit<AppDataState> {
       );
       resetDailyIntake();
     }
+    emit(MidnightState(state.data));
   }
 
   void _setupMidnightTimer() {
@@ -245,6 +258,8 @@ class AppDataCubit extends Cubit<AppDataState> {
       _progressRepo.removeDailyIntakeHistory(
         keepDays: state.data.retentionPeriod.numberOfDays,
       );
+
+      emit(MidnightState(state.data));
 
       _setupMidnightTimer();
     });

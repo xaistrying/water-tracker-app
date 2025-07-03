@@ -47,4 +47,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateIntakeHistory;
   const factory AppDataState.updateRetentionPeriod(AppDataStateData data) =
       UpdateRetentionPeriod;
+  const factory AppDataState.midnightState(AppDataStateData data) =
+      MidnightState;
 }

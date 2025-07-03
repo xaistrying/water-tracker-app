@@ -13,12 +13,14 @@ class TextFormFieldWidget extends StatelessWidget {
     this.isDense = true,
     this.onTapOutside,
     this.isDigitsOnly,
+    this.maxLength,
   });
 
   final TextEditingController? controller;
   final bool? isDigitsOnly;
   final bool? isDense;
   final Function()? onTapOutside;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class TextFormFieldWidget extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       textAlign: TextAlign.left,
+      maxLength: maxLength,
       cursorColor: AppColor.getContentColor(context),
       inputFormatters: isDigitsOnly == true
           ? [FilteringTextInputFormatter.digitsOnly]
@@ -45,6 +48,7 @@ class TextFormFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         isDense: isDense,
         filled: true,
+        counterText: "",
         fillColor: AppColor.getInputFieldColor(context),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimens.borderRadius4),

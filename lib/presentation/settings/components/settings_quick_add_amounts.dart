@@ -7,11 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/custom_card_widget.dart';
+import '../../../app/widget/dialog_widget.dart';
 import '../../../app/widget/text_form_field_widget.dart';
 
 class SettingsQuickAddAmounts extends StatefulWidget {
@@ -108,6 +110,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
               child: TextFormFieldWidget(
                 controller: controller,
                 isDigitsOnly: true,
+                maxLength: DataDefault.maxInputAmountLength,
                 onTapOutside: () =>
                     context.read<AppDataCubit>().updateSpecificQuickAddValue(
                       option: option,
@@ -180,6 +183,52 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
             color: AppColor.getWhiteBlack(context),
+          ),
+        ),
+        Spacer(),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DialogWidget(
+                title: 'Reset to Default Value',
+                body: Padding(
+                  padding: const EdgeInsets.only(top: AppDimens.padding12),
+                  child: Text(
+                    'This will reset your Quick-add buttons to their '
+                    'default values.',
+                    style: TextStyle(
+                      fontSize: AppDimens.fontSizeDefault,
+                      color: AppColor.getWhiteBlack(context),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ).then((value) {
+              if (!context.mounted) return;
+              if (value) {
+                context.read<AppDataCubit>().resetAllQuickAddValue();
+                DataDefault.quickAddValue.asMap().entries.forEach((entry) {
+                  final index = entry.key;
+                  final value = entry.value;
+                  _controllers[index].text = value.toString();
+                });
+              }
+            });
+          },
+          padding: EdgeInsets.only(right: AppDimens.padding4),
+          constraints: BoxConstraints(),
+          style: IconButton.styleFrom(
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          icon: SvgPicture.asset(
+            ImageConstant.refresh,
+            colorFilter: ColorFilter.mode(
+              AppColor.getWhiteBlack(context),
+              BlendMode.srcIn,
+            ),
+            height: AppDimens.iconSize16,
           ),
         ),
       ],
