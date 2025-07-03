@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
@@ -18,18 +20,22 @@ class StatisticsKey extends StatelessWidget {
     return Row(
       spacing: AppDimens.padding16,
       children: [
-        _buildKeyItem(
-          context,
-          icon: SvgPicture.asset(
-            ImageConstant.trendingUp,
-            colorFilter: ColorFilter.mode(
-              AppColor.getGreenColor(context),
-              BlendMode.srcIn,
-            ),
-            height: AppDimens.iconSize28,
-          ),
-          label: 'Day Streak',
-          volume: 5,
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            return _buildKeyItem(
+              context,
+              icon: SvgPicture.asset(
+                ImageConstant.trendingUp,
+                colorFilter: ColorFilter.mode(
+                  AppColor.getGreenColor(context),
+                  BlendMode.srcIn,
+                ),
+                height: AppDimens.iconSize28,
+              ),
+              label: 'Day Streak',
+              volume: state.data.numberOfStreak.toDouble(),
+            );
+          },
         ),
         _buildKeyItem(
           context,

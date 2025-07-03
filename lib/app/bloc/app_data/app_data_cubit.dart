@@ -37,6 +37,11 @@ class AppDataCubit extends Cubit<AppDataState> {
   Timer? _midnightTimer;
 
   void _init() {
+    // Check For New Day At Begining
+    _checkForNewDay();
+    // Check For New Day While App Is On
+    _setupMidnightTimer();
+
     // Weight and Volume Units, Username
     final weightUnitType = _unitRepo.getWeightUnitType().getOrElse(
       (_) => WeightUnitType.kilograms,
@@ -80,10 +85,6 @@ class AppDataCubit extends Cubit<AppDataState> {
     updateDailyGoal(dailyGoal);
     final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
     updateDailyIntake(value: dailyIntake, isInitialize: true);
-    // Check For New Day At Begining
-    _checkForNewDay();
-    // Check For New Day While App Is On
-    _setupMidnightTimer();
 
     final intakeHistory = _progressRepo.getDailyIntakeHistory().getOrElse(
       (_) => [],
@@ -101,6 +102,10 @@ class AppDataCubit extends Cubit<AppDataState> {
         .getRetentionPeriodValue()
         .getOrElse((_) => RetentionPeriod.oneDay);
     updateRetentionPeriod(retentionPeriod);
+
+    // Streak Number
+    final streakNumber = _progressRepo.getStreakNumber().getOrElse((_) => 0);
+    updateStreakNumber(streakNumber);
   }
 
   void updateSpecificQuickAddValue({
@@ -199,10 +204,14 @@ class AppDataCubit extends Cubit<AppDataState> {
           ),
         ),
       );
-      return;
+    } else {
+      emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
     }
 
-    emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
+    // Update Streak
+    if (currentIntake >= state.data.dailyGoal) {
+      updateStreakStatus();
+    }
   }
 
   void updateIntakeHistory(List<DailyIntakeModel> history) {
@@ -227,13 +236,8 @@ class AppDataCubit extends Cubit<AppDataState> {
 
     // It's a new day! Reset water intake.
     if (today.isAfter(lastOpenDay)) {
-      _progressRepo.removeDailyIntake();
-      _progressRepo.removeDailyIntakeHistory(
-        keepDays: state.data.retentionPeriod.numberOfDays,
-      );
-      resetDailyIntake();
+      _midnightTask();
     }
-    emit(MidnightState(state.data));
   }
 
   void _setupMidnightTimer() {
@@ -250,19 +254,28 @@ class AppDataCubit extends Cubit<AppDataState> {
     _midnightTimer?.cancel();
 
     _midnightTimer = Timer(timeUntilMidnight, () async {
-      // Reset Daily Intake To 0.0
-      _progressRepo.removeDailyIntake();
-      resetDailyIntake();
-
-      // Clear History
-      _progressRepo.removeDailyIntakeHistory(
-        keepDays: state.data.retentionPeriod.numberOfDays,
-      );
+      _midnightTask();
 
       emit(MidnightState(state.data));
 
       _setupMidnightTimer();
     });
+  }
+
+  void _midnightTask() {
+    // Reset Daily Intake to 0 and Remove Its Local Storage
+    _progressRepo.removeDailyIntake();
+    resetDailyIntake();
+
+    // Remove Old History Based On Retention Period Settings
+    _progressRepo.removeDailyIntakeHistory(
+      keepDays: state.data.retentionPeriod.numberOfDays,
+    );
+
+    // Check If Have Not Achieved Streak Today
+    if (!state.data.isAchieveStreakToday) {
+      _progressRepo.removeStreakNumber();
+    }
   }
 
   void updateRetentionPeriod(RetentionPeriod retentionPeriod) {
@@ -274,6 +287,19 @@ class AppDataCubit extends Cubit<AppDataState> {
         state.data.copyWith(retentionPeriod: retentionPeriod),
       ),
     );
+  }
+
+  void updateStreakNumber(int value) {
+    _progressRepo.cacheStreakNumber(value: value);
+    emit(UpdateStreakNumber(state.data.copyWith(numberOfStreak: value)));
+  }
+
+  void updateStreakStatus() {
+    if (!state.data.isAchieveStreakToday) {
+      final streaks = state.data.numberOfStreak + 1;
+      updateStreakNumber(streaks);
+      emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: true)));
+    }
   }
 
   @override

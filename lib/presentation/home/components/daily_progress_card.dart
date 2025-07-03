@@ -92,7 +92,9 @@ class DailyProgressCard extends StatelessWidget {
                 builder: (context, state) {
                   final dailyIntake = state.data.dailyIntake;
                   final dailyGoal = state.data.dailyGoal;
-                  final dailyRemaining = dailyGoal - dailyIntake;
+                  final dailyRemaining = dailyGoal - dailyIntake >= 0
+                      ? dailyGoal - dailyIntake
+                      : 0;
                   return Text(
                     '${dailyRemaining.toStringAsFixed(0)}ml remaining',
                     style: TextStyle(

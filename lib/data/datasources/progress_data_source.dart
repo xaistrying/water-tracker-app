@@ -25,6 +25,11 @@ abstract class ProgressDataSource {
   Future<void> cacheDailyIntakeHistory({required DailyIntakeModel data});
   List<DailyIntakeModel> getDailyIntakeHistory();
   Future<void> removeDailyIntakeHistory({required int keepDays});
+
+  // Streak
+  Future<void> cacheStreakNumber({required int value});
+  int? getStreakNumber();
+  Future<void> removeStreakNumber();
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -34,6 +39,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   static const dailyIntakeKey = 'DAILY_INTAKE_KEY';
   static const lastOpenDayKey = 'LAST_OPEN_DAY_KEY';
   static const dailyIntakeHistoryKey = 'DAILY_INTAKE_HISTORY_KEY';
+  static const streakNumberKey = 'STREAK_NUMBER_KEY';
 
   @override
   Future<void> cacheDailyGoal({required double value}) async {
@@ -150,5 +156,20 @@ class ProgressDataSourceImpl implements ProgressDataSource {
       dailyIntakeHistoryKey,
       json.encode(filtered.map((e) => e.toJson()).toList()),
     );
+  }
+
+  @override
+  Future<void> cacheStreakNumber({required int value}) async {
+    await _pref.setValue<int>(streakNumberKey, value);
+  }
+
+  @override
+  int? getStreakNumber() {
+    return _pref.getValue<int>(streakNumberKey);
+  }
+
+  @override
+  Future<void> removeStreakNumber() async {
+    await _pref.removeValue(streakNumberKey);
   }
 }

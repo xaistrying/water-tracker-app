@@ -27,4 +27,9 @@ abstract class ProgressRepository {
   Future<Either<Failure, void>> removeDailyIntakeHistory({
     required int keepDays,
   });
+
+  // Streak
+  Either<Failure, int> getStreakNumber();
+  Future<Either<Failure, void>> cacheStreakNumber({required int value});
+  Future<Either<Failure, void>> removeStreakNumber();
 }

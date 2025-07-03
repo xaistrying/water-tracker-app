@@ -125,4 +125,37 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, int> getStreakNumber() {
+    try {
+      final res = _dataSource.getStreakNumber();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheStreakNumber({required int value}) async {
+    try {
+      _dataSource.cacheStreakNumber(value: value);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeStreakNumber() async {
+    try {
+      _dataSource.removeStreakNumber();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }
