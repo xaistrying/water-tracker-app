@@ -127,6 +127,14 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void resetAllQuickAddValue() {
+    QuickAddOption.values.asMap().entries.forEach((entry) {
+      final index = entry.key;
+      final option = entry.value;
+      _quickAddRepo.cacheSpecificQuickAddAmount(
+        option: option.name.toCapitalized(),
+        value: DataDefault.quickAddValue[index],
+      );
+    });
     emit(
       UpdateQuickAddValueAll(
         state.data.copyWith(
@@ -204,13 +212,16 @@ class AppDataCubit extends Cubit<AppDataState> {
           ),
         ),
       );
+
+      // Update Streak
+      if (state.data.dailyIntake < state.data.dailyGoal &&
+          currentIntake >= state.data.dailyGoal) {
+        final streaks = state.data.numberOfStreak + 1;
+        updateStreakNumber(streaks);
+        updateStreakStatus();
+      }
     } else {
       emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
-    }
-
-    // Update Streak
-    if (currentIntake >= state.data.dailyGoal) {
-      updateStreakStatus();
     }
   }
 
@@ -295,11 +306,7 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void updateStreakStatus() {
-    if (!state.data.isAchieveStreakToday) {
-      final streaks = state.data.numberOfStreak + 1;
-      updateStreakNumber(streaks);
-      emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: true)));
-    }
+    emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: true)));
   }
 
   @override
