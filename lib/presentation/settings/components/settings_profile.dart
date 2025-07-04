@@ -116,7 +116,13 @@ class _SettingsProfileState extends State<SettingsProfile> {
                           padding: const EdgeInsets.only(
                             top: AppDimens.padding16,
                           ),
-                          child: Text('Confirm to change'),
+                          child: Text(
+                            'Confirm to change',
+                            style: TextStyle(
+                              fontSize: AppDimens.fontSizeDefault,
+                              color: AppColor.getWhiteBlack(context),
+                            ),
+                          ),
                         ),
                       ),
                       buttonName: 'Confỉrm',
@@ -202,7 +208,9 @@ class _SettingsProfileState extends State<SettingsProfile> {
                       DataDefault.maxDailyGoal,
                     );
                   }
-                  context.read<AppDataCubit>().updateAdvancedModeStatus();
+                  context.read<AppDataCubit>().updateAdvancedModeStatus(
+                    status: value,
+                  );
                 },
               );
             },

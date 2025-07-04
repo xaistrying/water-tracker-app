@@ -103,9 +103,13 @@ class AppDataCubit extends Cubit<AppDataState> {
         .getOrElse((_) => RetentionPeriod.oneDay);
     updateRetentionPeriod(retentionPeriod);
 
-    // Streak Number
+    // Streak Number and Status
     final streakNumber = _progressRepo.getStreakNumber().getOrElse((_) => 0);
     updateStreakNumber(streakNumber);
+
+    if (dailyIntake > dailyGoal) {
+      updateStreakStatus(true);
+    }
   }
 
   void updateSpecificQuickAddValue({
@@ -166,6 +170,22 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void updateDailyGoal(double value) {
+    if (state.data.isAchieveStreakToday) {
+      if (state.data.dailyIntake > state.data.dailyGoal &&
+          value > state.data.dailyIntake) {
+        final streaks = state.data.numberOfStreak - 1;
+        updateStreakNumber(streaks);
+        updateStreakStatus(false);
+      }
+    } else {
+      if (state.data.dailyIntake < state.data.dailyGoal &&
+          value < state.data.dailyIntake) {
+        final streaks = state.data.numberOfStreak + 1;
+        updateStreakNumber(streaks);
+        updateStreakStatus(true);
+      }
+    }
+
     emit(UpdateInProgress(state.data));
     _progressRepo.cacheDailyGoal(value: value);
     emit(UpdateDailyGoal(state.data.copyWith(dailyGoal: value)));
@@ -173,17 +193,15 @@ class AppDataCubit extends Cubit<AppDataState> {
 
   void updateAdvancedModeStatus({bool? status}) {
     if (status == null) {
-      _profileRepo.cacheAdvancedModeStatus(
-        status: state.data.advancedModeStatus,
+      return;
+    } else {
+      _profileRepo.cacheAdvancedModeStatus(status: status);
+      emit(
+        UpdateAdvancedModeStatus(
+          state.data.copyWith(advancedModeStatus: status),
+        ),
       );
     }
-    emit(
-      UpdateAdvancedModeStatus(
-        state.data.copyWith(
-          advancedModeStatus: status ?? !state.data.advancedModeStatus,
-        ),
-      ),
-    );
   }
 
   void updateDailyIntake({required double value, bool isInitialize = false}) {
@@ -204,6 +222,16 @@ class AppDataCubit extends Cubit<AppDataState> {
       history.add(historyItem);
 
       _progressRepo.cacheDailyIntakeHistory(data: historyItem);
+
+      // Update Streak
+      if (state.data.dailyIntake < state.data.dailyGoal &&
+          currentIntake >= state.data.dailyGoal &&
+          !state.data.isAchieveStreakToday) {
+        final streaks = state.data.numberOfStreak + 1;
+        updateStreakNumber(streaks);
+        updateStreakStatus(true);
+      }
+
       emit(
         UpdateDailyIntake(
           state.data.copyWith(
@@ -212,14 +240,6 @@ class AppDataCubit extends Cubit<AppDataState> {
           ),
         ),
       );
-
-      // Update Streak
-      if (state.data.dailyIntake < state.data.dailyGoal &&
-          currentIntake >= state.data.dailyGoal) {
-        final streaks = state.data.numberOfStreak + 1;
-        updateStreakNumber(streaks);
-        updateStreakStatus();
-      }
     } else {
       emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
     }
@@ -305,8 +325,8 @@ class AppDataCubit extends Cubit<AppDataState> {
     emit(UpdateStreakNumber(state.data.copyWith(numberOfStreak: value)));
   }
 
-  void updateStreakStatus() {
-    emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: true)));
+  void updateStreakStatus(bool value) {
+    emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: value)));
   }
 
   @override

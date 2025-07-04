@@ -32,7 +32,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(gradient: AppColor.getBackgroundColor(context)),
-      child: Scaffold(body: Center(child: const CircularProgressIndicator())),
+      child: Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: AppColor.getBlueCyanColor(context),
+          ),
+        ),
+      ),
     );
   }
 }
