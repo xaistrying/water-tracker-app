@@ -32,4 +32,11 @@ abstract class ProgressRepository {
   Either<Failure, int> getStreakNumber();
   Future<Either<Failure, void>> cacheStreakNumber({required int value});
   Future<Either<Failure, void>> removeStreakNumber();
+
+  // Weekly Intake
+  Either<Failure, List<DailyIntakeModel>> getWeeklyIntake();
+  Future<Either<Failure, void>> cacheWeeklyIntake({
+    required DailyIntakeModel data,
+  });
+  Future<Either<Failure, void>> removeOldWeeklyIntake();
 }

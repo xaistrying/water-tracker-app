@@ -158,4 +158,36 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, List<DailyIntakeModel>> getWeeklyIntake() {
+    try {
+      final res = _dataSource.getWeeklyIntake();
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheWeeklyIntake({
+    required DailyIntakeModel data,
+  }) async {
+    try {
+      _dataSource.cacheWeeklyIntake(data: data);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeOldWeeklyIntake() async {
+    try {
+      _dataSource.removeOldWeeklyIntake();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

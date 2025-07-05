@@ -30,6 +30,11 @@ abstract class ProgressDataSource {
   Future<void> cacheStreakNumber({required int value});
   int? getStreakNumber();
   Future<void> removeStreakNumber();
+
+  // Weekly Intake
+  Future<void> cacheWeeklyIntake({required DailyIntakeModel data});
+  List<DailyIntakeModel> getWeeklyIntake();
+  Future<void> removeOldWeeklyIntake();
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -40,6 +45,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   static const lastOpenDayKey = 'LAST_OPEN_DAY_KEY';
   static const dailyIntakeHistoryKey = 'DAILY_INTAKE_HISTORY_KEY';
   static const streakNumberKey = 'STREAK_NUMBER_KEY';
+  static const weeklyIntakeKey = 'WEEKLY_INTAKE_KEY';
 
   @override
   Future<void> cacheDailyGoal({required double value}) async {
@@ -148,7 +154,13 @@ class ProgressDataSourceImpl implements ProgressDataSource {
     final filtered = listHistory.where((entry) {
       final entryDate = DateTime.tryParse(entry.date ?? '');
       if (entryDate == null) return false;
-      return entryDate.isAfter(cutoff) || entryDate.isAtSameMomentAs(cutoff);
+      final entryDateTruncate = DateTime(
+        entryDate.year,
+        entryDate.month,
+        entryDate.day,
+      );
+      return entryDateTruncate.isAfter(cutoff) ||
+          entryDateTruncate.isAtSameMomentAs(cutoff);
     }).toList();
 
     // Save filtered history
@@ -171,5 +183,86 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   @override
   Future<void> removeStreakNumber() async {
     await _pref.removeValue(streakNumberKey);
+  }
+
+  @override
+  Future<void> cacheWeeklyIntake({required DailyIntakeModel data}) async {
+    String? jsonData = _pref.getValue<String>(dailyIntakeHistoryKey);
+
+    if (jsonData != null && jsonData != '[]') {
+      List<DailyIntakeModel> listHistory = DailyIntakeModel.fromList(
+        json.decode(jsonData),
+      );
+      final index = listHistory.indexWhere((e) => e.id == data.id);
+
+      if (index == -1) {
+        listHistory.add(data);
+      } else {
+        listHistory[index] = data;
+      }
+
+      await _pref.setValue<String>(
+        dailyIntakeHistoryKey,
+        json.encode(listHistory.map((e) => e.toJson()).toList()),
+      );
+    } else {
+      List<DailyIntakeModel> listHistory = [data];
+
+      await _pref.setValue<String>(
+        dailyIntakeHistoryKey,
+        json.encode(listHistory.map((e) => e.toJson()).toList()),
+      );
+    }
+  }
+
+  @override
+  List<DailyIntakeModel> getWeeklyIntake() {
+    final jsonData = _pref.getValue<String>(weeklyIntakeKey);
+    List<DailyIntakeModel> listHistory = [];
+
+    if (jsonData != null && jsonData != '[]') {
+      listHistory = DailyIntakeModel.fromList(json.decode(jsonData));
+    }
+    return listHistory;
+  }
+
+  @override
+  Future<void> removeOldWeeklyIntake() async {
+    List<DailyIntakeModel> listHistory = getWeeklyIntake();
+    if (listHistory.isEmpty) return;
+
+    // Sort by date descending (most recent first)
+    listHistory.sort((a, b) {
+      final dateA =
+          DateTime.tryParse(a.date ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      final dateB =
+          DateTime.tryParse(b.date ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      return dateB.compareTo(dateA);
+    });
+
+    // Keep only the most recent [keepDays] entries
+    final keepDays = 7;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final cutoff = today.subtract(Duration(days: keepDays - 1));
+    final filtered = listHistory.where((entry) {
+      final entryDate = DateTime.tryParse(entry.date ?? '');
+      if (entryDate == null) return false;
+      final entryDateTruncate = DateTime(
+        entryDate.year,
+        entryDate.month,
+        entryDate.day,
+      );
+      return entryDateTruncate.isAfter(cutoff) ||
+          entryDateTruncate.isAtSameMomentAs(cutoff);
+    }).toList();
+
+    // Save filtered history
+    await _pref.setValue<String>(
+      weeklyIntakeKey,
+      json.encode(filtered.map((e) => e.toJson()).toList()),
+    );
   }
 }

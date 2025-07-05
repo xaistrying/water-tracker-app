@@ -9,8 +9,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import 'package:water_tracker_app/app/enum/retention_period.dart';
+import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
-import 'package:water_tracker_app/app/extension/unique_id_extension.dart';
 import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
@@ -90,6 +90,9 @@ class AppDataCubit extends Cubit<AppDataState> {
       (_) => [],
     );
     updateIntakeHistory(intakeHistory);
+
+    final weeklyIntake = _progressRepo.getWeeklyIntake().getOrElse((_) => []);
+    updateWeeklyIntake(weeklyIntake);
 
     // Advanced Mode
     final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
@@ -186,6 +189,19 @@ class AppDataCubit extends Cubit<AppDataState> {
       }
     }
 
+    // Update Weely Intake
+    final weeklyIntake = [...state.data.listWeeklyIntake];
+    final weeklyIntakeItem = DailyIntakeModel(
+      id: DateTime.now().truncate.uniqueId,
+      goal: state.data.dailyGoal,
+    );
+    final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
+    if (index != -1) {
+      weeklyIntake[index].goal = value;
+    }
+    updateWeeklyIntake(weeklyIntake);
+    _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
+
     emit(UpdateInProgress(state.data));
     _progressRepo.cacheDailyGoal(value: value);
     emit(UpdateDailyGoal(state.data.copyWith(dailyGoal: value)));
@@ -231,6 +247,23 @@ class AppDataCubit extends Cubit<AppDataState> {
         updateStreakNumber(streaks);
         updateStreakStatus(true);
       }
+
+      // Update Weely Intake
+      final weeklyIntake = [...state.data.listWeeklyIntake];
+      final weeklyIntakeItem = DailyIntakeModel(
+        id: DateTime.now().truncate.uniqueId,
+        date: DateTime.now().truncate.toIso8601String(),
+        intake: currentIntake,
+        goal: state.data.dailyGoal,
+      );
+      final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
+      if (index != -1) {
+        weeklyIntake[index] = weeklyIntakeItem;
+      } else {
+        weeklyIntake.add(weeklyIntakeItem);
+      }
+      updateWeeklyIntake(weeklyIntake);
+      _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
 
       emit(
         UpdateDailyIntake(
@@ -294,6 +327,14 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void _midnightTask() {
+    // Check If Have Not Achieved Streak Today
+    if (!state.data.isAchieveStreakToday) {
+      _progressRepo.removeStreakNumber();
+    }
+
+    // Remove Old Data Pass 7 Days In Weekly Intake
+    _progressRepo.removeOldWeeklyIntake();
+
     // Reset Daily Intake to 0 and Remove Its Local Storage
     _progressRepo.removeDailyIntake();
     resetDailyIntake();
@@ -302,11 +343,6 @@ class AppDataCubit extends Cubit<AppDataState> {
     _progressRepo.removeDailyIntakeHistory(
       keepDays: state.data.retentionPeriod.numberOfDays,
     );
-
-    // Check If Have Not Achieved Streak Today
-    if (!state.data.isAchieveStreakToday) {
-      _progressRepo.removeStreakNumber();
-    }
   }
 
   void updateRetentionPeriod(RetentionPeriod retentionPeriod) {
@@ -327,6 +363,46 @@ class AppDataCubit extends Cubit<AppDataState> {
 
   void updateStreakStatus(bool value) {
     emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: value)));
+  }
+
+  void updateWeeklyIntake(List<DailyIntakeModel> data) {
+    emit(UpdateWeeklyIntake(state.data.copyWith(listWeeklyIntake: data)));
+  }
+
+  double calculateWeeklyAverage(List<DailyIntakeModel> intakeList) {
+    // Filter out items with null or invalid date
+    final filtered = intakeList.where((item) {
+      try {
+        return item.date != null &&
+            DateTime.parse(
+              item.date!,
+            ).isBefore(DateTime.now().add(Duration(days: 1)));
+      } catch (_) {
+        return false;
+      }
+    }).toList();
+
+    // Sort by parsed date ascending (oldest to newest)
+    filtered.sort(
+      (a, b) => DateTime.parse(a.date!).compareTo(DateTime.parse(b.date!)),
+    );
+
+    // Take the last 7 items (most recent)
+    final recent = filtered.length >= 7
+        ? filtered.sublist(filtered.length - 7)
+        : filtered;
+
+    // Extract values
+    final values = recent.map((e) => e.intake).toList();
+
+    // Pad with 0.0 if fewer than 7
+    while (values.length < 7) {
+      values.insert(0, 0.0);
+    }
+
+    // Calculate average
+    final sum = values.reduce((a, b) => (a ?? 0.0) + (b ?? 0.0));
+    return (sum ?? 0.0) / 7;
   }
 
   @override

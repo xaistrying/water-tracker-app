@@ -37,18 +37,26 @@ class StatisticsKey extends StatelessWidget {
             );
           },
         ),
-        _buildKeyItem(
-          context,
-          icon: SvgPicture.asset(
-            ImageConstant.target,
-            colorFilter: ColorFilter.mode(
-              AppColor.getActiveIconColor(context),
-              BlendMode.srcIn,
-            ),
-            height: AppDimens.iconSize28,
-          ),
-          label: 'Weakly Avg (ml)',
-          volume: 1886,
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            final weeklyData = state.data.listWeeklyIntake;
+            final avg = context.read<AppDataCubit>().calculateWeeklyAverage(
+              weeklyData,
+            );
+            return _buildKeyItem(
+              context,
+              icon: SvgPicture.asset(
+                ImageConstant.target,
+                colorFilter: ColorFilter.mode(
+                  AppColor.getActiveIconColor(context),
+                  BlendMode.srcIn,
+                ),
+                height: AppDimens.iconSize28,
+              ),
+              label: 'Weakly Avg (ml)',
+              volume: avg,
+            );
+          },
         ),
       ],
     );

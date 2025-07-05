@@ -16,6 +16,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(RetentionPeriod.oneDay) RetentionPeriod retentionPeriod,
     @Default(false) bool isAchieveStreakToday,
     @Default(0) int numberOfStreak,
+    @Default([]) List<DailyIntakeModel> listWeeklyIntake,
   }) = _AppDataStateData;
 }
 
@@ -55,4 +56,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateStreakStatus;
   const factory AppDataState.updateStreakNumber(AppDataStateData data) =
       UpdateStreakNumber;
+  const factory AppDataState.updateWeeklyIntake(AppDataStateData data) =
+      UpdateWeeklyIntake;
 }
