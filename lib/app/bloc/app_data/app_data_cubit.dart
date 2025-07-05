@@ -79,10 +79,6 @@ class AppDataCubit extends Cubit<AppDataState> {
     );
 
     // Progress
-    final dailyGoal = _progressRepo.getDailyGoal().getOrElse(
-      (_) => DataDefault.dailyGoal,
-    );
-    updateDailyGoal(dailyGoal);
     final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
     updateDailyIntake(value: dailyIntake, isInitialize: true);
 
@@ -93,6 +89,11 @@ class AppDataCubit extends Cubit<AppDataState> {
 
     final weeklyIntake = _progressRepo.getWeeklyIntake().getOrElse((_) => []);
     updateWeeklyIntake(weeklyIntake);
+
+    final dailyGoal = _progressRepo.getDailyGoal().getOrElse(
+      (_) => DataDefault.dailyGoal,
+    );
+    updateDailyGoal(dailyGoal);
 
     // Advanced Mode
     final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
@@ -191,16 +192,17 @@ class AppDataCubit extends Cubit<AppDataState> {
 
     // Update Weely Intake
     final weeklyIntake = [...state.data.listWeeklyIntake];
-    final weeklyIntakeItem = DailyIntakeModel(
+    var weeklyIntakeItem = DailyIntakeModel(
       id: DateTime.now().truncate.uniqueId,
-      goal: state.data.dailyGoal,
+      goal: value,
     );
     final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
     if (index != -1) {
       weeklyIntake[index].goal = value;
+      weeklyIntakeItem = weeklyIntake[index];
+      updateWeeklyIntake(weeklyIntake);
+      _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
     }
-    updateWeeklyIntake(weeklyIntake);
-    _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
 
     emit(UpdateInProgress(state.data));
     _progressRepo.cacheDailyGoal(value: value);
@@ -370,39 +372,42 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   double calculateWeeklyAverage(List<DailyIntakeModel> intakeList) {
-    // Filter out items with null or invalid date
+    final now = DateTime.now();
+
     final filtered = intakeList.where((item) {
       try {
-        return item.date != null &&
-            DateTime.parse(
-              item.date!,
-            ).isBefore(DateTime.now().add(Duration(days: 1)));
+        final dateStr = item.date;
+        if (dateStr == null || dateStr.isEmpty) return false;
+
+        final parsedDate = DateTime.parse(dateStr);
+        return !parsedDate.isBefore(now.startOfWeek) &&
+            !parsedDate.isAfter(now.endOfWeek);
       } catch (_) {
-        return false;
+        return false; // Skip if date is null or invalid format
       }
     }).toList();
 
     // Sort by parsed date ascending (oldest to newest)
-    filtered.sort(
-      (a, b) => DateTime.parse(a.date!).compareTo(DateTime.parse(b.date!)),
-    );
+    filtered.sort((a, b) {
+      final dateA = DateTime.tryParse(a.date ?? '') ?? DateTime(1970);
+      final dateB = DateTime.tryParse(b.date ?? '') ?? DateTime(1970);
+      return dateA.compareTo(dateB);
+    });
 
-    // Take the last 7 items (most recent)
+    // Take up to the most recent 7 entries
     final recent = filtered.length >= 7
         ? filtered.sublist(filtered.length - 7)
         : filtered;
 
-    // Extract values
     final values = recent.map((e) => e.intake).toList();
 
-    // Pad with 0.0 if fewer than 7
+    // Pad with 0.0 if fewer than 7 values
     while (values.length < 7) {
       values.insert(0, 0.0);
     }
 
-    // Calculate average
-    final sum = values.reduce((a, b) => (a ?? 0.0) + (b ?? 0.0));
-    return (sum ?? 0.0) / 7;
+    final sum = values.fold<double>(0.0, (total, val) => total + (val ?? 0.0));
+    return sum / 7;
   }
 
   @override

@@ -187,7 +187,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
 
   @override
   Future<void> cacheWeeklyIntake({required DailyIntakeModel data}) async {
-    String? jsonData = _pref.getValue<String>(dailyIntakeHistoryKey);
+    String? jsonData = _pref.getValue<String>(weeklyIntakeKey);
 
     if (jsonData != null && jsonData != '[]') {
       List<DailyIntakeModel> listHistory = DailyIntakeModel.fromList(
@@ -202,14 +202,14 @@ class ProgressDataSourceImpl implements ProgressDataSource {
       }
 
       await _pref.setValue<String>(
-        dailyIntakeHistoryKey,
+        weeklyIntakeKey,
         json.encode(listHistory.map((e) => e.toJson()).toList()),
       );
     } else {
       List<DailyIntakeModel> listHistory = [data];
 
       await _pref.setValue<String>(
-        dailyIntakeHistoryKey,
+        weeklyIntakeKey,
         json.encode(listHistory.map((e) => e.toJson()).toList()),
       );
     }

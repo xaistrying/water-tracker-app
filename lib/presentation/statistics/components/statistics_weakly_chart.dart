@@ -38,9 +38,7 @@ class StatisticsWeaklyChart extends StatelessWidget {
         final weeklyData = state.data.listWeeklyIntake;
         return Column(
           children: List.generate(DateTime.daysPerWeek, (index) {
-            final date = DateTime.now().startOfWeek.add(
-              Duration(days: index - 1),
-            );
+            final date = DateTime.now().startOfWeek.add(Duration(days: index));
             final item = weeklyData.firstWhere(
               (e) => e.id == date.uniqueId,
               orElse: () => DailyIntakeModel(),

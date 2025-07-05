@@ -7,6 +7,20 @@ extension DateTimeExtension on DateTime {
     return DateTime(year, month, day).subtract(Duration(days: daysToSubtract));
   }
 
+  DateTime get endOfWeek {
+    final int currentWeekday = weekday;
+    final int daysToAdd = DateTime.sunday - currentWeekday;
+    return DateTime(
+      year,
+      month,
+      day,
+      23,
+      59,
+      59,
+      999,
+    ).add(Duration(days: daysToAdd));
+  }
+
   DateTime get truncate {
     return DateTime(year, month, day);
   }
