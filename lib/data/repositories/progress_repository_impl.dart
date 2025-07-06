@@ -190,4 +190,39 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, int> getMonthlyGoalMets() {
+    try {
+      final res = _dataSource.getMonthlyGoalMets();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheMonthlyGoalMets({
+    required int value,
+  }) async {
+    try {
+      _dataSource.cacheMonthlyGoalMets(value: value);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeMonthlyGoalMets() async {
+    try {
+      _dataSource.removeMonthlyGoalMets();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

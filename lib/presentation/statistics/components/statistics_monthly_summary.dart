@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
@@ -20,20 +23,27 @@ class StatisticsMonthlySummary extends StatelessWidget {
         children: [
           _buildHeader(context),
           SizedBox(height: AppDimens.padding12),
-          Row(
-            spacing: AppDimens.padding16,
-            children: [
-              _buildMonthlySummaryItem(
-                context,
-                volume: '23',
-                label: 'Goals Met',
-              ),
-              _buildMonthlySummaryItem(
-                context,
-                volume: '87%',
-                label: 'Success Rate',
-              ),
-            ],
+          BlocBuilder<AppDataCubit, AppDataState>(
+            builder: (context, state) {
+              final monthlyGoalMets = state.data.monthlyGoalMets;
+              final percent =
+                  monthlyGoalMets / DateTime.now().daysInCurrentMonth * 100;
+              return Row(
+                spacing: AppDimens.padding16,
+                children: [
+                  _buildMonthlySummaryItem(
+                    context,
+                    volume: monthlyGoalMets.toString(),
+                    label: 'Goals Met',
+                  ),
+                  _buildMonthlySummaryItem(
+                    context,
+                    volume: '${percent.toStringAsFixed(0)}%',
+                    label: 'Success Rate',
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

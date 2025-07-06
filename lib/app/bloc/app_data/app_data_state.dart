@@ -17,6 +17,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(false) bool isAchieveStreakToday,
     @Default(0) int numberOfStreak,
     @Default([]) List<DailyIntakeModel> listWeeklyIntake,
+    @Default(0) int monthlyGoalMets,
   }) = _AppDataStateData;
 }
 
@@ -58,4 +59,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateStreakNumber;
   const factory AppDataState.updateWeeklyIntake(AppDataStateData data) =
       UpdateWeeklyIntake;
+  const factory AppDataState.updateMonthlyGoalMets(AppDataStateData data) =
+      UpdateMonthlyGoalMets;
 }

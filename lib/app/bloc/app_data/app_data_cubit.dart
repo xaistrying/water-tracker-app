@@ -78,6 +78,28 @@ class AppDataCubit extends Cubit<AppDataState> {
       ),
     );
 
+    // Advanced Mode
+    final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
+      (_) => null,
+    );
+    updateAdvancedModeStatus(status: advancedModeStatus);
+
+    // Storage
+    final retentionPeriod = _retentionPeriodRepo
+        .getRetentionPeriodValue()
+        .getOrElse((_) => RetentionPeriod.oneDay);
+    updateRetentionPeriod(retentionPeriod);
+
+    // Monthly Goal Mets
+    final monthlyGoalMets = _progressRepo.getMonthlyGoalMets().getOrElse(
+      (_) => 0,
+    );
+    updateMonthlyGoalMets(monthlyGoalMets);
+
+    // Streak Number and Status
+    final streakNumber = _progressRepo.getStreakNumber().getOrElse((_) => 0);
+    updateStreakNumber(streakNumber);
+
     // Progress
     final dailyIntake = _progressRepo.getDailyIntake().getOrElse((_) => 0.0);
     updateDailyIntake(value: dailyIntake, isInitialize: true);
@@ -93,27 +115,12 @@ class AppDataCubit extends Cubit<AppDataState> {
     final dailyGoal = _progressRepo.getDailyGoal().getOrElse(
       (_) => DataDefault.dailyGoal,
     );
-    updateDailyGoal(dailyGoal);
 
-    // Advanced Mode
-    final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
-      (_) => null,
-    );
-    updateAdvancedModeStatus(status: advancedModeStatus);
-
-    // Storage
-    final retentionPeriod = _retentionPeriodRepo
-        .getRetentionPeriodValue()
-        .getOrElse((_) => RetentionPeriod.oneDay);
-    updateRetentionPeriod(retentionPeriod);
-
-    // Streak Number and Status
-    final streakNumber = _progressRepo.getStreakNumber().getOrElse((_) => 0);
-    updateStreakNumber(streakNumber);
-
-    if (dailyIntake > dailyGoal) {
+    if (dailyIntake >= dailyGoal) {
       updateStreakStatus(true);
     }
+
+    updateDailyGoal(value: dailyGoal, isInitialize: true);
   }
 
   void updateSpecificQuickAddValue({
@@ -173,35 +180,43 @@ class AppDataCubit extends Cubit<AppDataState> {
     emit(UpdateUserName(state.data.copyWith(userName: userName)));
   }
 
-  void updateDailyGoal(double value) {
-    if (state.data.isAchieveStreakToday) {
-      if (state.data.dailyIntake > state.data.dailyGoal &&
-          value > state.data.dailyIntake) {
-        final streaks = state.data.numberOfStreak - 1;
-        updateStreakNumber(streaks);
-        updateStreakStatus(false);
-      }
-    } else {
-      if (state.data.dailyIntake < state.data.dailyGoal &&
-          value < state.data.dailyIntake) {
-        final streaks = state.data.numberOfStreak + 1;
-        updateStreakNumber(streaks);
-        updateStreakStatus(true);
-      }
-    }
+  void updateDailyGoal({required double value, bool isInitialize = false}) {
+    if (isInitialize == false) {
+      if (state.data.isAchieveStreakToday) {
+        if (state.data.dailyIntake >= state.data.dailyGoal &&
+            value > state.data.dailyIntake) {
+          final streaks = state.data.numberOfStreak - 1;
+          updateStreakNumber(streaks);
+          updateStreakStatus(false);
 
-    // Update Weely Intake
-    final weeklyIntake = [...state.data.listWeeklyIntake];
-    var weeklyIntakeItem = DailyIntakeModel(
-      id: DateTime.now().truncate.uniqueId,
-      goal: value,
-    );
-    final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
-    if (index != -1) {
-      weeklyIntake[index].goal = value;
-      weeklyIntakeItem = weeklyIntake[index];
-      updateWeeklyIntake(weeklyIntake);
-      _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
+          final monthlyGoalMets = state.data.monthlyGoalMets - 1;
+          updateMonthlyGoalMets(monthlyGoalMets);
+        }
+      } else {
+        if (state.data.dailyIntake < state.data.dailyGoal &&
+            value <= state.data.dailyIntake) {
+          final streaks = state.data.numberOfStreak + 1;
+          updateStreakNumber(streaks);
+          updateStreakStatus(true);
+
+          final monthlyGoalMets = state.data.monthlyGoalMets + 1;
+          updateMonthlyGoalMets(monthlyGoalMets);
+        }
+      }
+
+      // Update Weely Intake
+      final weeklyIntake = [...state.data.listWeeklyIntake];
+      var weeklyIntakeItem = DailyIntakeModel(
+        id: DateTime.now().truncate.uniqueId,
+        goal: value,
+      );
+      final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
+      if (index != -1) {
+        weeklyIntake[index].goal = value;
+        weeklyIntakeItem = weeklyIntake[index];
+        updateWeeklyIntake(weeklyIntake);
+        _progressRepo.cacheWeeklyIntake(data: weeklyIntakeItem);
+      }
     }
 
     emit(UpdateInProgress(state.data));
@@ -248,6 +263,9 @@ class AppDataCubit extends Cubit<AppDataState> {
         final streaks = state.data.numberOfStreak + 1;
         updateStreakNumber(streaks);
         updateStreakStatus(true);
+
+        final monthlyGoalMets = state.data.monthlyGoalMets + 1;
+        updateMonthlyGoalMets(monthlyGoalMets);
       }
 
       // Update Weely Intake
@@ -334,6 +352,21 @@ class AppDataCubit extends Cubit<AppDataState> {
       _progressRepo.removeStreakNumber();
     }
 
+    // Remove Monthly Goal Mets At The End Of Week
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+    final DateTime lastOpenTime = _progressRepo.getLastOpenDay().getOrElse(
+      (_) => DateTime.now(),
+    );
+    final DateTime lastOpenDay = DateTime(
+      lastOpenTime.year,
+      lastOpenTime.month,
+      lastOpenTime.day,
+    );
+    if (today.month != lastOpenDay.month || today.year != lastOpenDay.year) {
+      _progressRepo.removeMonthlyGoalMets();
+    }
+
     // Remove Old Data Pass 7 Days In Weekly Intake
     _progressRepo.removeOldWeeklyIntake();
 
@@ -408,6 +441,11 @@ class AppDataCubit extends Cubit<AppDataState> {
 
     final sum = values.fold<double>(0.0, (total, val) => total + (val ?? 0.0));
     return sum / 7;
+  }
+
+  void updateMonthlyGoalMets(int value) {
+    _progressRepo.cacheMonthlyGoalMets(value: value);
+    emit(UpdateMonthlyGoalMets(state.data.copyWith(monthlyGoalMets: value)));
   }
 
   @override

@@ -24,4 +24,8 @@ extension DateTimeExtension on DateTime {
   DateTime get truncate {
     return DateTime(year, month, day);
   }
+
+  int get daysInCurrentMonth {
+    return DateTime(year, month + 1, 0).day;
+  }
 }

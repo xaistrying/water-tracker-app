@@ -39,4 +39,9 @@ abstract class ProgressRepository {
     required DailyIntakeModel data,
   });
   Future<Either<Failure, void>> removeOldWeeklyIntake();
+
+  // Monthly Goal Mets
+  Either<Failure, int> getMonthlyGoalMets();
+  Future<Either<Failure, void>> cacheMonthlyGoalMets({required int value});
+  Future<Either<Failure, void>> removeMonthlyGoalMets();
 }

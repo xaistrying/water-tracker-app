@@ -310,7 +310,7 @@ class SettingsHydrationCalculatorState
                       if (!context.mounted) return;
                       if (value) {
                         context.read<AppDataCubit>().updateDailyGoal(
-                          calculationResult,
+                          value: calculationResult,
                         );
                       }
                     });

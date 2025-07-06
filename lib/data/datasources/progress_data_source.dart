@@ -35,6 +35,11 @@ abstract class ProgressDataSource {
   Future<void> cacheWeeklyIntake({required DailyIntakeModel data});
   List<DailyIntakeModel> getWeeklyIntake();
   Future<void> removeOldWeeklyIntake();
+
+  // Monthly Goal Mets
+  Future<void> cacheMonthlyGoalMets({required int value});
+  int? getMonthlyGoalMets();
+  Future<void> removeMonthlyGoalMets();
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -46,6 +51,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   static const dailyIntakeHistoryKey = 'DAILY_INTAKE_HISTORY_KEY';
   static const streakNumberKey = 'STREAK_NUMBER_KEY';
   static const weeklyIntakeKey = 'WEEKLY_INTAKE_KEY';
+  static const monthlyGoalMetsKey = 'MONTHLY_GOAL_METS_KEY';
 
   @override
   Future<void> cacheDailyGoal({required double value}) async {
@@ -264,5 +270,20 @@ class ProgressDataSourceImpl implements ProgressDataSource {
       weeklyIntakeKey,
       json.encode(filtered.map((e) => e.toJson()).toList()),
     );
+  }
+
+  @override
+  Future<void> cacheMonthlyGoalMets({required int value}) async {
+    await _pref.setValue<int>(monthlyGoalMetsKey, value);
+  }
+
+  @override
+  int? getMonthlyGoalMets() {
+    return _pref.getValue<int>(monthlyGoalMetsKey);
+  }
+
+  @override
+  Future<void> removeMonthlyGoalMets() async {
+    await _pref.removeValue(monthlyGoalMetsKey);
   }
 }

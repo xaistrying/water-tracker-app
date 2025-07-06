@@ -131,10 +131,12 @@ class _SettingsProfileState extends State<SettingsProfile> {
                     if (!context.mounted) return;
                     if (value == true) {
                       context.read<AppDataCubit>().updateDailyGoal(
-                        newDailyGoal,
+                        value: newDailyGoal,
                       );
                     } else {
-                      context.read<AppDataCubit>().updateDailyGoal(dailyGoal);
+                      context.read<AppDataCubit>().updateDailyGoal(
+                        value: dailyGoal,
+                      );
                     }
                   });
                 }
@@ -205,7 +207,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                 onChanged: (value) {
                   if (value == false && dailyGoal > DataDefault.maxDailyGoal) {
                     context.read<AppDataCubit>().updateDailyGoal(
-                      DataDefault.maxDailyGoal,
+                      value: DataDefault.maxDailyGoal,
                     );
                   }
                   context.read<AppDataCubit>().updateAdvancedModeStatus(
