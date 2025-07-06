@@ -123,22 +123,26 @@ class AppDataCubit extends Cubit<AppDataState> {
     updateDailyGoal(value: dailyGoal, isInitialize: true);
   }
 
-  void updateSpecificQuickAddValue({
+  String updateSpecificQuickAddValue({
     required QuickAddOption option,
     required String value,
   }) {
+    switch (option) {
+      case QuickAddOption.first:
+        value = value == "" ? state.data.quickAddValue1 : value;
+        emit(UpdateQuickAddValue1(state.data.copyWith(quickAddValue1: value)));
+      case QuickAddOption.second:
+        value = value == "" ? state.data.quickAddValue2 : value;
+        emit(UpdateQuickAddValue2(state.data.copyWith(quickAddValue2: value)));
+      case QuickAddOption.third:
+        value = value == "" ? state.data.quickAddValue3 : value;
+        emit(UpdateQuickAddValue3(state.data.copyWith(quickAddValue3: value)));
+    }
     _quickAddRepo.cacheSpecificQuickAddAmount(
       option: option.name.toCapitalized(),
       value: value,
     );
-    switch (option) {
-      case QuickAddOption.first:
-        emit(UpdateQuickAddValue1(state.data.copyWith(quickAddValue1: value)));
-      case QuickAddOption.second:
-        emit(UpdateQuickAddValue2(state.data.copyWith(quickAddValue2: value)));
-      case QuickAddOption.third:
-        emit(UpdateQuickAddValue3(state.data.copyWith(quickAddValue3: value)));
-    }
+    return value;
   }
 
   void resetAllQuickAddValue() {

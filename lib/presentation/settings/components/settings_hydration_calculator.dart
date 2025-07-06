@@ -147,6 +147,9 @@ class SettingsHydrationCalculatorState
                       bodyWeight: bodyWeight,
                       excerciseTime: excerciseTimeNotifier.value,
                     );
+                    baseTextController.text = _calculateBase(
+                      bodyWeight: bodyWeight,
+                    );
                     context.read<AppDataCubit>().updateWeightUnitType(
                       WeightUnitTypeExtension.fromRawValue(newSelected.first),
                     );

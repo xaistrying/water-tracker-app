@@ -111,8 +111,9 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
                 controller: controller,
                 isDigitsOnly: true,
                 maxLength: DataDefault.maxInputAmountLength,
-                onTapOutside: () =>
-                    context.read<AppDataCubit>().updateSpecificQuickAddValue(
+                onTapOutside: () => controller.text = context
+                    .read<AppDataCubit>()
+                    .updateSpecificQuickAddValue(
                       option: option,
                       value: controller.text,
                     ),
