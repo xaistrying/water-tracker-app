@@ -100,18 +100,26 @@ class SettingsHydrationCalculatorState
           spacing: AppDimens.padding12,
           children: [
             Expanded(
-              child: TextFormFieldWidget(
-                controller: bodyWeightTextController,
-                isDigitsOnly: true,
-                onTapOutside: () {
-                  _calculateResult(
-                    bodyWeight:
-                        double.tryParse(bodyWeightTextController.text) ?? 0,
-                    excerciseTime: excerciseTimeNotifier.value,
-                  );
-                  baseTextController.text = _calculateBase(
-                    bodyWeight:
-                        double.tryParse(bodyWeightTextController.text) ?? 0,
+              child: BlocBuilder<AppDataCubit, AppDataState>(
+                builder: (context, state) {
+                  final weightUnit = state.data.weightUnitType;
+                  return TextFormFieldWidget(
+                    controller: bodyWeightTextController,
+                    isDigitsOnly: true,
+                    onTapOutside: () {
+                      double bodyWeight =
+                          double.tryParse(bodyWeightTextController.text) ?? 0;
+                      if (weightUnit == WeightUnitType.pounds) {
+                        bodyWeight /= DataDefault.kgPerLb;
+                      }
+                      _calculateResult(
+                        bodyWeight: bodyWeight,
+                        excerciseTime: excerciseTimeNotifier.value,
+                      );
+                      baseTextController.text = _calculateBase(
+                        bodyWeight: bodyWeight,
+                      );
+                    },
                   );
                 },
               ),
@@ -119,16 +127,30 @@ class SettingsHydrationCalculatorState
             BlocBuilder<AppDataCubit, AppDataState>(
               buildWhen: (previous, current) => current is UpdateWeightUnitType,
               builder: (context, state) {
+                final weightUnit = state.data.weightUnitType;
                 return SegmentedButtonWidget(
                   values: [
                     WeightUnitType.kilograms.rawValue,
                     WeightUnitType.pounds.rawValue,
                   ],
-                  selected: {state.data.weightUnitType.rawValue},
-                  onSelectionChanged: (newSelected) =>
-                      context.read<AppDataCubit>().updateWeightUnitType(
-                        WeightUnitTypeExtension.fromRawValue(newSelected.first),
-                      ),
+                  selected: {weightUnit.rawValue},
+                  onSelectionChanged: (newSelected) {
+                    double bodyWeight =
+                        double.tryParse(bodyWeightTextController.text) ?? 0;
+                    if (WeightUnitTypeExtension.fromRawValue(
+                          newSelected.first,
+                        ) ==
+                        WeightUnitType.pounds) {
+                      bodyWeight /= DataDefault.kgPerLb;
+                    }
+                    _calculateResult(
+                      bodyWeight: bodyWeight,
+                      excerciseTime: excerciseTimeNotifier.value,
+                    );
+                    context.read<AppDataCubit>().updateWeightUnitType(
+                      WeightUnitTypeExtension.fromRawValue(newSelected.first),
+                    );
+                  },
                 );
               },
             ),
@@ -147,21 +169,30 @@ class SettingsHydrationCalculatorState
             ),
           ),
         ),
-        ValueListenableBuilder(
-          valueListenable: excerciseTimeNotifier,
-          builder: (context, value, child) {
-            return SliderWidget(
-              max: 180,
-              unit: 'min',
-              divisions: 12,
-              value: value,
-              onChangeEnd: (newValue) {
-                _calculateResult(
-                  bodyWeight:
-                      double.tryParse(bodyWeightTextController.text) ?? 0,
-                  excerciseTime: newValue,
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            final weightUnit = state.data.weightUnitType;
+            return ValueListenableBuilder(
+              valueListenable: excerciseTimeNotifier,
+              builder: (context, value, child) {
+                return SliderWidget(
+                  max: 180,
+                  unit: 'min',
+                  divisions: 12,
+                  value: value,
+                  onChangeEnd: (newValue) {
+                    double bodyWeight =
+                        double.tryParse(bodyWeightTextController.text) ?? 0;
+                    if (weightUnit == WeightUnitType.pounds) {
+                      bodyWeight /= DataDefault.kgPerLb;
+                    }
+                    _calculateResult(
+                      bodyWeight: bodyWeight,
+                      excerciseTime: newValue,
+                    );
+                    excerciseTimeNotifier.value = newValue;
+                  },
                 );
-                excerciseTimeNotifier.value = newValue;
               },
             );
           },

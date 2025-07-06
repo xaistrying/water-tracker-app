@@ -11,4 +11,5 @@ class DataDefault {
   static const int dailyGoalDivision = 30;
   static const int dailyGoalAdvancedDivision = 70;
   static const int maxInputAmountLength = 4;
+  static const double kgPerLb = 2.20462262;
 }

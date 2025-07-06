@@ -107,7 +107,7 @@ class RecentMoreScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                volume,
+                '${volume}ml',
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,
@@ -123,18 +123,18 @@ class RecentMoreScreen extends StatelessWidget {
               ),
             ],
           ),
-          IconButton(
-            onPressed: () {},
-            style: IconButton.styleFrom(
-              tapTargetSize: MaterialTapTargetSize.padded,
-              splashFactory: NoSplash.splashFactory,
-            ),
-            icon: Icon(
-              Icons.remove_circle_outline_rounded,
-              size: AppDimens.iconSize28,
-              color: AppColor.getWhiteBlack(context),
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   style: IconButton.styleFrom(
+          //     tapTargetSize: MaterialTapTargetSize.padded,
+          //     splashFactory: NoSplash.splashFactory,
+          //   ),
+          //   icon: Icon(
+          //     Icons.remove_circle_outline_rounded,
+          //     size: AppDimens.iconSize28,
+          //     color: AppColor.getWhiteBlack(context),
+          //   ),
+          // ),
         ],
       ),
     );
