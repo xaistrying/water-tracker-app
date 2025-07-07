@@ -452,13 +452,10 @@ class AppDataCubit extends Cubit<AppDataState> {
     emit(UpdateMonthlyGoalMets(state.data.copyWith(monthlyGoalMets: value)));
   }
 
-  @override
-  Future<void> close() {
+  void beforeClosingTask() {
     // Save Last Open Time
     _progressRepo.cacheLastOpenDay();
 
     _midnightTimer?.cancel();
-
-    return super.close();
   }
 }

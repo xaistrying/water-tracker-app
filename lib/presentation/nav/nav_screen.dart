@@ -17,7 +17,7 @@ import '../../app/constant/image_constant.dart';
 import '../../app/theme/app_color.dart';
 import 'widget/new_day_snack_bar.dart';
 
-class NavScreen extends StatelessWidget {
+class NavScreen extends StatefulWidget {
   const NavScreen({
     super.key,
     required this.navigationShell,
@@ -32,6 +32,37 @@ class NavScreen extends StatelessWidget {
   final GlobalKey<SettingsScreenState> settingsScreenKey;
 
   @override
+  State<NavScreen> createState() => _NavScreenState();
+}
+
+class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
+  late final AppLifecycleListener _listener;
+
+  void _beforeClosingApp() {
+    context.read<AppDataCubit>().beforeClosingTask();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _listener = AppLifecycleListener(
+      onRestart: _beforeClosingApp,
+      onDetach: _beforeClosingApp,
+      onPause: _beforeClosingApp,
+      onInactive: _beforeClosingApp,
+      onHide: _beforeClosingApp,
+    );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _listener.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<AppDataCubit, AppDataState>(
       listenWhen: (previous, current) => current is MidnightState,
@@ -39,7 +70,7 @@ class NavScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(newDaySnackbar(context));
       },
       child: Scaffold(
-        body: navigationShell,
+        body: widget.navigationShell,
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -52,32 +83,32 @@ class NavScreen extends StatelessWidget {
 
             NavigationBar(
               height: kBottomNavigationBarHeight,
-              selectedIndex: navigationShell.currentIndex,
+              selectedIndex: widget.navigationShell.currentIndex,
               labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
               indicatorColor: Colors.transparent,
               overlayColor: WidgetStatePropertyAll(Colors.transparent),
               onDestinationSelected: (index) {
-                if (index != navigationShell.currentIndex) {
+                if (index != widget.navigationShell.currentIndex) {
                   switch (index) {
                     case 0:
-                      homeScreenKey.currentState?.scrollToTop();
+                      widget.homeScreenKey.currentState?.scrollToTop();
                       break;
                     case 1:
-                      statisticsScreenKey.currentState?.scrollToTop();
+                      widget.statisticsScreenKey.currentState?.scrollToTop();
                       break;
                     case 2:
-                      settingsScreenKey.currentState?.scrollToTop();
+                      widget.settingsScreenKey.currentState?.scrollToTop();
                       break;
                   }
                 }
-                navigationShell.goBranch(index);
+                widget.navigationShell.goBranch(index);
               },
               destinations: [
                 NavigationDestination(
                   icon: SvgPicture.asset(
                     ImageConstant.drop,
                     colorFilter: ColorFilter.mode(
-                      navigationShell.currentIndex == 0
+                      widget.navigationShell.currentIndex == 0
                           ? AppColor.getActiveIconColor(context)
                           : AppColor.getWhiteBlack(context),
                       BlendMode.srcIn,
@@ -90,7 +121,7 @@ class NavScreen extends StatelessWidget {
                   icon: SvgPicture.asset(
                     ImageConstant.chart,
                     colorFilter: ColorFilter.mode(
-                      navigationShell.currentIndex == 1
+                      widget.navigationShell.currentIndex == 1
                           ? AppColor.getActiveIconColor(context)
                           : AppColor.getWhiteBlack(context),
                       BlendMode.srcIn,
@@ -103,7 +134,7 @@ class NavScreen extends StatelessWidget {
                   icon: SvgPicture.asset(
                     ImageConstant.setting,
                     colorFilter: ColorFilter.mode(
-                      navigationShell.currentIndex == 2
+                      widget.navigationShell.currentIndex == 2
                           ? AppColor.getActiveIconColor(context)
                           : AppColor.getWhiteBlack(context),
                       BlendMode.srcIn,
