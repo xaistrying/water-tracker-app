@@ -40,6 +40,11 @@ abstract class ProgressDataSource {
   Future<void> cacheMonthlyGoalMets({required int value});
   int? getMonthlyGoalMets();
   Future<void> removeMonthlyGoalMets();
+
+  // Daily Streak Status
+  bool? getStreakStatus();
+  Future<void> cacheStreakStatus({required bool status});
+  Future<void> removeStreakStatus();
 }
 
 class ProgressDataSourceImpl implements ProgressDataSource {
@@ -52,6 +57,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   static const streakNumberKey = 'STREAK_NUMBER_KEY';
   static const weeklyIntakeKey = 'WEEKLY_INTAKE_KEY';
   static const monthlyGoalMetsKey = 'MONTHLY_GOAL_METS_KEY';
+  static const streakStatusKey = 'STREAK_STATUS_KEY';
 
   @override
   Future<void> cacheDailyGoal({required double value}) async {
@@ -285,5 +291,20 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   @override
   Future<void> removeMonthlyGoalMets() async {
     await _pref.removeValue(monthlyGoalMetsKey);
+  }
+
+  @override
+  Future<void> cacheStreakStatus({required bool status}) async {
+    await _pref.setValue<bool>(streakStatusKey, true);
+  }
+
+  @override
+  bool? getStreakStatus() {
+    return _pref.getValue(streakStatusKey);
+  }
+
+  @override
+  Future<void> removeStreakStatus() async {
+    await _pref.removeValue(streakStatusKey);
   }
 }

@@ -22,6 +22,7 @@ class AppTheme {
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: kBottomNavigationBarHeight,
       backgroundColor: AppColor.white,
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
     ),
   );
 
@@ -35,6 +36,7 @@ class AppTheme {
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: kBottomNavigationBarHeight,
       backgroundColor: AppColor.slate800,
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
     ),
   );
 

@@ -57,6 +57,14 @@ class RecentMoreScreen extends StatelessWidget {
           builder: (context, state) {
             final listHistory = state.data.listIntakeHistory;
             final historyLength = listHistory.length;
+            if (historyLength == 0) {
+              return Center(
+                child: Text(
+                  'You haven\'t had any water yet.',
+                  style: TextStyle(color: AppColor.getContentColor(context)),
+                ),
+              );
+            }
             return ListView.separated(
               padding: const EdgeInsets.all(AppDimens.padding16),
               itemCount: listHistory.length,

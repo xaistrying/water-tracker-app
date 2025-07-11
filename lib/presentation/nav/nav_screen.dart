@@ -84,9 +84,6 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
             NavigationBar(
               height: kBottomNavigationBarHeight,
               selectedIndex: widget.navigationShell.currentIndex,
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              indicatorColor: Colors.transparent,
-              overlayColor: WidgetStatePropertyAll(Colors.transparent),
               onDestinationSelected: (index) {
                 if (index != widget.navigationShell.currentIndex) {
                   switch (index) {

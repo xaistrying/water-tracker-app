@@ -44,4 +44,9 @@ abstract class ProgressRepository {
   Either<Failure, int> getMonthlyGoalMets();
   Future<Either<Failure, void>> cacheMonthlyGoalMets({required int value});
   Future<Either<Failure, void>> removeMonthlyGoalMets();
+
+  // Daily Streak Status
+  Either<Failure, bool?> getStreakStatus();
+  Future<Either<Failure, void>> cacheStreakStatus({required bool status});
+  Future<Either<Failure, void>> removeStreakStatus();
 }

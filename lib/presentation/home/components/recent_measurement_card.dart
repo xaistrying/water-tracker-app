@@ -40,6 +40,17 @@ class RecentMeasurementCard extends StatelessWidget {
       builder: (context, state) {
         final listHistory = state.data.listIntakeHistory;
         final historyLength = listHistory.length;
+        if (historyLength == 0) {
+          return Column(
+            children: [
+              Text(
+                'You haven\'t had any water yet.',
+                style: TextStyle(color: AppColor.getContentColor(context)),
+              ),
+              SizedBox(height: AppDimens.padding12),
+            ],
+          );
+        }
         return Column(
           spacing: AppDimens.padding12,
           children: List.generate(historyLength < 3 ? historyLength : 3, (

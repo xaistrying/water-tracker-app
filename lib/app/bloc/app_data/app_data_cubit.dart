@@ -352,9 +352,13 @@ class AppDataCubit extends Cubit<AppDataState> {
 
   void _midnightTask() {
     // Check If Have Not Achieved Streak Today
-    if (!state.data.isAchieveStreakToday) {
+    final streakStatus = _progressRepo.getStreakStatus().getOrElse(
+      (_) => false,
+    );
+    if (streakStatus == false || streakStatus == null) {
       _progressRepo.removeStreakNumber();
     }
+    _progressRepo.removeStreakStatus();
 
     // Remove Monthly Goal Mets At The End Of Week
     final DateTime now = DateTime.now();
@@ -379,8 +383,11 @@ class AppDataCubit extends Cubit<AppDataState> {
     resetDailyIntake();
 
     // Remove Old History Based On Retention Period Settings
+    final retentionPeriod = _retentionPeriodRepo
+        .getRetentionPeriodValue()
+        .getOrElse((_) => RetentionPeriod.oneDay);
     _progressRepo.removeDailyIntakeHistory(
-      keepDays: state.data.retentionPeriod.numberOfDays,
+      keepDays: retentionPeriod.numberOfDays,
     );
   }
 
@@ -401,6 +408,7 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void updateStreakStatus(bool value) {
+    _progressRepo.cacheStreakStatus(status: value);
     emit(UpdateStreakStatus(state.data.copyWith(isAchieveStreakToday: value)));
   }
 

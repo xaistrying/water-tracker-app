@@ -225,4 +225,39 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, bool?> getStreakStatus() {
+    try {
+      final res = _dataSource.getStreakStatus();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheStreakStatus({
+    required bool status,
+  }) async {
+    try {
+      _dataSource.cacheStreakStatus(status: status);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeStreakStatus() async {
+    try {
+      _dataSource.removeStreakStatus();
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }
