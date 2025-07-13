@@ -76,73 +76,78 @@ class _SettingsProfileState extends State<SettingsProfile> {
           ),
           isDense: false,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: AppDimens.padding4),
-          child: Text(
-            'Daily Goal',
-            style: TextStyle(
-              fontSize: AppDimens.fontSizeDefault,
-              fontWeight: FontWeight.bold,
-              color: AppColor.getWhiteBlack(context),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: AppDimens.padding4),
+              child: Text(
+                'Daily Goal',
+                style: TextStyle(
+                  fontSize: AppDimens.fontSizeDefault,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.getWhiteBlack(context),
+                ),
+              ),
             ),
-          ),
-        ),
-        BlocBuilder<AppDataCubit, AppDataState>(
-          builder: (context, state) {
-            final dailyGoal = state.data.dailyGoal;
-            final advancedModeStatus = state.data.advancedModeStatus;
-            return SliderWidget(
-              min: DataDefault.minDailyGoal,
-              max: advancedModeStatus
-                  ? DataDefault.advancedxDailyGoal
-                  : DataDefault.maxDailyGoal,
-              value: advancedModeStatus
-                  ? dailyGoal
-                  : dailyGoal > DataDefault.maxDailyGoal
-                  ? DataDefault.maxDailyGoal
-                  : dailyGoal,
-              unit: 'ml',
-              divisions: advancedModeStatus
-                  ? DataDefault.dailyGoalAdvancedDivision
-                  : DataDefault.dailyGoalDivision,
-              onChangeEnd: (newDailyGoal) {
-                if (newDailyGoal != dailyGoal) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => DialogWidget(
-                      title: 'Change Daily Goal',
-                      body: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: AppDimens.padding16,
-                          ),
-                          child: Text(
-                            'Confirm to change',
-                            style: TextStyle(
-                              fontSize: AppDimens.fontSizeDefault,
-                              color: AppColor.getWhiteBlack(context),
+            BlocBuilder<AppDataCubit, AppDataState>(
+              builder: (context, state) {
+                final dailyGoal = state.data.dailyGoal;
+                final advancedModeStatus = state.data.advancedModeStatus;
+                return SliderWidget(
+                  min: DataDefault.minDailyGoal,
+                  max: advancedModeStatus
+                      ? DataDefault.advancedxDailyGoal
+                      : DataDefault.maxDailyGoal,
+                  value: advancedModeStatus
+                      ? dailyGoal
+                      : dailyGoal > DataDefault.maxDailyGoal
+                      ? DataDefault.maxDailyGoal
+                      : dailyGoal,
+                  unit: 'ml',
+                  divisions: advancedModeStatus
+                      ? DataDefault.dailyGoalAdvancedDivision
+                      : DataDefault.dailyGoalDivision,
+                  onChangeEnd: (newDailyGoal) {
+                    if (newDailyGoal != dailyGoal) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => DialogWidget(
+                          title: 'Change Daily Goal',
+                          body: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: AppDimens.padding16,
+                              ),
+                              child: Text(
+                                'Confirm to change',
+                                style: TextStyle(
+                                  fontSize: AppDimens.fontSizeDefault,
+                                  color: AppColor.getWhiteBlack(context),
+                                ),
+                              ),
                             ),
                           ),
+                          buttonName: 'Confỉrm',
                         ),
-                      ),
-                      buttonName: 'Confỉrm',
-                    ),
-                  ).then((value) {
-                    if (!context.mounted) return;
-                    if (value == true) {
-                      context.read<AppDataCubit>().updateDailyGoal(
-                        value: newDailyGoal,
-                      );
-                    } else {
-                      context.read<AppDataCubit>().updateDailyGoal(
-                        value: dailyGoal,
-                      );
+                      ).then((value) {
+                        if (!context.mounted) return;
+                        if (value == true) {
+                          context.read<AppDataCubit>().updateDailyGoal(
+                            value: newDailyGoal,
+                          );
+                        } else {
+                          context.read<AppDataCubit>().updateDailyGoal(
+                            value: dailyGoal,
+                          );
+                        }
+                      });
                     }
-                  });
-                }
+                  },
+                );
               },
-            );
-          },
+            ),
+          ],
         ),
         FeatureItemWidget(
           customTitle: Row(

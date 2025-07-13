@@ -32,6 +32,8 @@ class FeatureItemWidget extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+        minTileHeight: 0.0,
+        minVerticalPadding: AppDimens.padding4,
         title:
             customTitle ??
             Text(

@@ -37,6 +37,7 @@ class SettingsAppearance extends StatelessWidget {
 
   Widget _buildFeatures(BuildContext context) {
     return Column(
+      spacing: AppDimens.padding12,
       children: [
         FeatureItemWidget(
           title: 'Dark Mode',

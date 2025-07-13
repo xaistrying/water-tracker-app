@@ -161,44 +161,49 @@ class SettingsHydrationCalculatorState
         ),
 
         // MARK: Excercise Time
-        Padding(
-          padding: const EdgeInsets.only(top: AppDimens.padding4),
-          child: Text(
-            'Daily Excercise Time',
-            style: TextStyle(
-              fontSize: AppDimens.fontSizeDefault,
-              fontWeight: FontWeight.bold,
-              color: AppColor.getWhiteBlack(context),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: AppDimens.padding4),
+              child: Text(
+                'Daily Excercise Time',
+                style: TextStyle(
+                  fontSize: AppDimens.fontSizeDefault,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.getWhiteBlack(context),
+                ),
+              ),
             ),
-          ),
-        ),
-        BlocBuilder<AppDataCubit, AppDataState>(
-          builder: (context, state) {
-            final weightUnit = state.data.weightUnitType;
-            return ValueListenableBuilder(
-              valueListenable: excerciseTimeNotifier,
-              builder: (context, value, child) {
-                return SliderWidget(
-                  max: 180,
-                  unit: 'min',
-                  divisions: 12,
-                  value: value,
-                  onChangeEnd: (newValue) {
-                    double bodyWeight =
-                        double.tryParse(bodyWeightTextController.text) ?? 0;
-                    if (weightUnit == WeightUnitType.pounds) {
-                      bodyWeight /= DataDefault.kgPerLb;
-                    }
-                    _calculateResult(
-                      bodyWeight: bodyWeight,
-                      excerciseTime: newValue,
+            BlocBuilder<AppDataCubit, AppDataState>(
+              builder: (context, state) {
+                final weightUnit = state.data.weightUnitType;
+                return ValueListenableBuilder(
+                  valueListenable: excerciseTimeNotifier,
+                  builder: (context, value, child) {
+                    return SliderWidget(
+                      max: 180,
+                      unit: 'min',
+                      divisions: 12,
+                      value: value,
+                      onChangeEnd: (newValue) {
+                        double bodyWeight =
+                            double.tryParse(bodyWeightTextController.text) ?? 0;
+                        if (weightUnit == WeightUnitType.pounds) {
+                          bodyWeight /= DataDefault.kgPerLb;
+                        }
+                        _calculateResult(
+                          bodyWeight: bodyWeight,
+                          excerciseTime: newValue,
+                        );
+                        excerciseTimeNotifier.value = newValue;
+                      },
                     );
-                    excerciseTimeNotifier.value = newValue;
                   },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
 
         // MARK: Recommendation

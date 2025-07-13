@@ -213,6 +213,10 @@ class AppColor {
     return context.isDarkMode ? slate800 : white;
   }
 
+  static Color getDialBackgroundColor(BuildContext context) {
+    return context.isDarkMode ? gray700 : gray200;
+  }
+
   static const backgroundColor = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
