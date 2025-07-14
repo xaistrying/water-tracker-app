@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -51,33 +54,51 @@ class _SettingsReminderState extends State<SettingsReminder> {
         FeatureItemWidget(
           title: 'Enable Reminders',
           subtitle: 'Get notified to drink water',
-          trailing: CupertinoSwitch(
-            activeTrackColor: AppColor.getSwitchColor(
-              context,
-              isTrack: true,
-              isActive: true,
-            ),
-            inactiveTrackColor: AppColor.getSwitchColor(context, isTrack: true),
-            thumbColor: AppColor.getSwitchColor(context, isActive: true),
-            inactiveThumbColor: AppColor.getSwitchColor(context),
-            value: false,
-            onChanged: (value) {},
+          trailing: BlocBuilder<AppDataCubit, AppDataState>(
+            builder: (context, state) {
+              return CupertinoSwitch(
+                activeTrackColor: AppColor.getSwitchColor(
+                  context,
+                  isTrack: true,
+                  isActive: true,
+                ),
+                inactiveTrackColor: AppColor.getSwitchColor(
+                  context,
+                  isTrack: true,
+                ),
+                thumbColor: AppColor.getSwitchColor(context, isActive: true),
+                inactiveThumbColor: AppColor.getSwitchColor(context),
+                value: state.data.reminderStatus,
+                onChanged: (value) {
+                  context.read<AppDataCubit>().updateReminderStatus(value);
+                },
+              );
+            },
           ),
         ),
         FeatureItemWidget(
           title: 'Sound Effects',
           subtitle: 'Play sound for actions',
-          trailing: CupertinoSwitch(
-            activeTrackColor: AppColor.getSwitchColor(
-              context,
-              isTrack: true,
-              isActive: true,
-            ),
-            inactiveTrackColor: AppColor.getSwitchColor(context, isTrack: true),
-            thumbColor: AppColor.getSwitchColor(context, isActive: true),
-            inactiveThumbColor: AppColor.getSwitchColor(context),
-            value: false,
-            onChanged: (value) {},
+          trailing: BlocBuilder<AppDataCubit, AppDataState>(
+            builder: (context, state) {
+              return CupertinoSwitch(
+                activeTrackColor: AppColor.getSwitchColor(
+                  context,
+                  isTrack: true,
+                  isActive: true,
+                ),
+                inactiveTrackColor: AppColor.getSwitchColor(
+                  context,
+                  isTrack: true,
+                ),
+                thumbColor: AppColor.getSwitchColor(context, isActive: true),
+                inactiveThumbColor: AppColor.getSwitchColor(context),
+                value: state.data.soundEffectStatus,
+                onChanged: (value) {
+                  context.read<AppDataCubit>().updateSoundEffectStatus(value);
+                },
+              );
+            },
           ),
         ),
         Column(
@@ -125,11 +146,53 @@ class _SettingsReminderState extends State<SettingsReminder> {
             Row(
               spacing: AppDimens.padding4,
               children: [
-                Expanded(
-                  child: TimePickerField(controller: startTimeController),
+                ValueListenableBuilder(
+                  valueListenable: startTimeController,
+                  builder: (context, value, child) {
+                    final timeText1 = value.text;
+                    final timeText2 = endTimeController.text;
+
+                    final time1 = DateFormat('hh:mm a').tryParse(timeText1);
+                    final time2 = DateFormat('hh:mm a').tryParse(timeText2);
+
+                    if (time1 != null &&
+                        time2 != null &&
+                        time1.isAfter(time2)) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        startTimeController.text = timeText2;
+                        endTimeController.text = timeText1;
+                      });
+                    }
+
+                    return Expanded(
+                      child: TimePickerField(controller: startTimeController),
+                    );
+                  },
                 ),
                 Icon(Icons.arrow_forward_rounded, size: AppDimens.iconSize20),
-                Expanded(child: TimePickerField(controller: endTimeController)),
+                Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: endTimeController,
+                    builder: (context, value, child) {
+                      final timeText1 = value.text;
+                      final timeText2 = startTimeController.text;
+
+                      final time1 = DateFormat('hh:mm a').tryParse(timeText1);
+                      final time2 = DateFormat('hh:mm a').tryParse(timeText2);
+
+                      if (time1 != null &&
+                          time2 != null &&
+                          time2.isAfter(time1)) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          startTimeController.text = timeText1;
+                          endTimeController.text = timeText2;
+                        });
+                      }
+
+                      return TimePickerField(controller: endTimeController);
+                    },
+                  ),
+                ),
               ],
             ),
           ],

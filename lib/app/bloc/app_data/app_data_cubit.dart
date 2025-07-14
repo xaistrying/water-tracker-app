@@ -14,6 +14,7 @@ import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
+import 'package:water_tracker_app/domain/repositories/reminder_repository.dart';
 import 'package:water_tracker_app/domain/repositories/retention_period_repository.dart';
 import 'package:water_tracker_app/domain/repositories/units_repository.dart';
 import '../../../domain/repositories/progress_repository.dart';
@@ -33,6 +34,7 @@ class AppDataCubit extends Cubit<AppDataState> {
   final _quickAddRepo = getIt<QuickAddRepository>();
   final _progressRepo = getIt<ProgressRepository>();
   final _retentionPeriodRepo = getIt<RetentionPeriodRepository>();
+  final _reminderRepo = getIt<ReminderRepository>();
 
   Timer? _midnightTimer;
 
@@ -121,6 +123,17 @@ class AppDataCubit extends Cubit<AppDataState> {
     }
 
     updateDailyGoal(value: dailyGoal, isInitialize: true);
+
+    // Reminder
+    final reminderStatus = _reminderRepo.getReminderStatus().getOrElse(
+      (_) => state.data.reminderStatus,
+    );
+    updateReminderStatus(reminderStatus);
+
+    final soundEffectStatus = _reminderRepo.getSoundEffectStatus().getOrElse(
+      (_) => state.data.soundEffectStatus,
+    );
+    updateSoundEffectStatus(soundEffectStatus);
   }
 
   String updateSpecificQuickAddValue({
@@ -465,5 +478,25 @@ class AppDataCubit extends Cubit<AppDataState> {
     _progressRepo.cacheLastOpenDay();
 
     _midnightTimer?.cancel();
+  }
+
+  void updateReminderStatus(bool? status) {
+    if (status == null) {
+      return;
+    } else {
+      _reminderRepo.cacheReminderStatus(status: status);
+      emit(UpdateReminderStatus(state.data.copyWith(reminderStatus: status)));
+    }
+  }
+
+  void updateSoundEffectStatus(bool? status) {
+    if (status == null) {
+      return;
+    } else {
+      _reminderRepo.cacheSoundEffectStatus(status: status);
+      emit(
+        UpdateSoundEffectStatus(state.data.copyWith(soundEffectStatus: status)),
+      );
+    }
   }
 }

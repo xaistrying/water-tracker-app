@@ -18,6 +18,8 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(0) int numberOfStreak,
     @Default([]) List<DailyIntakeModel> listWeeklyIntake,
     @Default(0) int monthlyGoalMets,
+    @Default(true) bool reminderStatus,
+    @Default(true) bool soundEffectStatus,
   }) = _AppDataStateData;
 }
 
@@ -61,4 +63,8 @@ abstract class AppDataState with _$AppDataState {
       UpdateWeeklyIntake;
   const factory AppDataState.updateMonthlyGoalMets(AppDataStateData data) =
       UpdateMonthlyGoalMets;
+  const factory AppDataState.updateReminderStatus(AppDataStateData data) =
+      UpdateReminderStatus;
+  const factory AppDataState.updateSoundEffectStatus(AppDataStateData data) =
+      UpdateSoundEffectStatus;
 }
