@@ -59,4 +59,79 @@ class ReminderRepositoryImpl implements ReminderRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> cacheReminderInterval({
+    required double value,
+  }) async {
+    try {
+      _dataSource.cacheReminderInterval(value: value);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, double?> getReminderInterval() {
+    try {
+      final res = _dataSource.getReminderInterval();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheStartTime({
+    required String timeString,
+  }) async {
+    try {
+      _dataSource.cacheStartTime(value: timeString);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, String?> getStartTime() {
+    try {
+      final res = _dataSource.getStartTime();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheEndTime({
+    required String timeString,
+  }) async {
+    try {
+      _dataSource.cacheEndTime(value: timeString);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, String?> getEndTime() {
+    try {
+      final res = _dataSource.getEndTime();
+      if (res == null) {
+        return Left(Failure(message: 'Value is none'));
+      }
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

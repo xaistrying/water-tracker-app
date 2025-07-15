@@ -10,18 +10,28 @@ import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
 class TimePickerField extends StatelessWidget {
-  const TimePickerField({super.key, required this.controller});
+  const TimePickerField({
+    super.key,
+    required this.controller,
+    required this.initialTime,
+  });
 
   final TextEditingController controller;
+  final TimeOfDay initialTime;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final time = await _showCustomTimePicker(context);
-        controller.text = DateFormat(
-          'hh:mm a',
-        ).format(_convertTimeOfDayToDateTime(time ?? TimeOfDay.now()));
+        final time = await _showCustomTimePicker(
+          context,
+          initalTime: initialTime,
+        );
+        if (time != null) {
+          controller.text = DateFormat(
+            'hh:mm a',
+          ).format(_convertTimeOfDayToDateTime(time));
+        }
       },
       child: Container(
         padding: EdgeInsets.all(AppDimens.padding12),
@@ -54,10 +64,13 @@ class TimePickerField extends StatelessWidget {
   }
 }
 
-Future<TimeOfDay?> _showCustomTimePicker(BuildContext context) async {
+Future<TimeOfDay?> _showCustomTimePicker(
+  BuildContext context, {
+  required TimeOfDay initalTime,
+}) async {
   return await showTimePicker(
     context: context,
-    initialTime: TimeOfDay.now(),
+    initialTime: initalTime,
     initialEntryMode: TimePickerEntryMode.dialOnly,
     orientation: Orientation.portrait,
     builder: (BuildContext context, Widget? child) {

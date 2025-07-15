@@ -9,6 +9,9 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/constant/data_default.dart';
+import 'package:water_tracker_app/app/extension/date_time_extension.dart';
+import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -27,6 +30,25 @@ class SettingsReminder extends StatefulWidget {
 class _SettingsReminderState extends State<SettingsReminder> {
   final startTimeController = TextEditingController();
   final endTimeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final appDataState = context.read<AppDataCubit>().state;
+    String? startTime = appDataState.data.startTime;
+    String? endTime = appDataState.data.endTime;
+
+    startTimeController.text =
+        startTime ??
+        DateFormat(
+          'hh:mm a',
+        ).format(DataDefault.startTime.toDateTime()).toString();
+    endTimeController.text =
+        endTime ??
+        DateFormat(
+          'hh:mm a',
+        ).format(DataDefault.endTime.toDateTime()).toString();
+  }
 
   @override
   void dispose() {
@@ -112,12 +134,21 @@ class _SettingsReminderState extends State<SettingsReminder> {
                 color: AppColor.getWhiteBlack(context),
               ),
             ),
-            SliderWidget(
-              max: 180,
-              min: 15,
-              unit: 'min',
-              divisions: 11,
-              onChangeEnd: (newValue) {},
+            BlocBuilder<AppDataCubit, AppDataState>(
+              builder: (context, state) {
+                return SliderWidget(
+                  max: 180,
+                  min: 15,
+                  unit: 'min',
+                  divisions: 11,
+                  value: state.data.reminderInterval,
+                  onChangeEnd: (newValue) {
+                    context.read<AppDataCubit>().updateReminderInterval(
+                      newValue,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -164,8 +195,22 @@ class _SettingsReminderState extends State<SettingsReminder> {
                       });
                     }
 
+                    context.read<AppDataCubit>().updateStartTime(
+                      startTimeController.text,
+                    );
+                    context.read<AppDataCubit>().updateEndTime(
+                      endTimeController.text,
+                    );
+
                     return Expanded(
-                      child: TimePickerField(controller: startTimeController),
+                      child: TimePickerField(
+                        controller: startTimeController,
+                        initialTime:
+                            DateFormat(
+                              'hh:mm a',
+                            ).tryParse(value.text)?.toTimeOfDay() ??
+                            TimeOfDay.now(),
+                      ),
                     );
                   },
                 ),
@@ -189,7 +234,21 @@ class _SettingsReminderState extends State<SettingsReminder> {
                         });
                       }
 
-                      return TimePickerField(controller: endTimeController);
+                      context.read<AppDataCubit>().updateStartTime(
+                        startTimeController.text,
+                      );
+                      context.read<AppDataCubit>().updateEndTime(
+                        endTimeController.text,
+                      );
+
+                      return TimePickerField(
+                        controller: endTimeController,
+                        initialTime:
+                            DateFormat(
+                              'hh:mm a',
+                            ).tryParse(value.text)?.toTimeOfDay() ??
+                            TimeOfDay.now(),
+                      );
                     },
                   ),
                 ),

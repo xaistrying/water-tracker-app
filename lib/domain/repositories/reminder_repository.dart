@@ -14,6 +14,12 @@ abstract class ReminderRepository {
   Future<Either<Failure, void>> cacheSoundEffectStatus({required bool status});
 
   // Reminder Interval
+  Either<Failure, double?> getReminderInterval();
+  Future<Either<Failure, void>> cacheReminderInterval({required double value});
 
   // Start and End Time of Sleep Hour
+  Either<Failure, String?> getStartTime();
+  Future<Either<Failure, void>> cacheStartTime({required String timeString});
+  Either<Failure, String?> getEndTime();
+  Future<Either<Failure, void>> cacheEndTime({required String timeString});
 }

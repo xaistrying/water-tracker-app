@@ -1,3 +1,6 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
 extension DateTimeExtension on DateTime {
   String get uniqueId => microsecondsSinceEpoch.toString();
 
@@ -27,5 +30,9 @@ extension DateTimeExtension on DateTime {
 
   int get daysInCurrentMonth {
     return DateTime(year, month + 1, 0).day;
+  }
+
+  TimeOfDay toTimeOfDay() {
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

@@ -20,6 +20,9 @@ abstract class AppDataStateData with _$AppDataStateData {
     @Default(0) int monthlyGoalMets,
     @Default(true) bool reminderStatus,
     @Default(true) bool soundEffectStatus,
+    double? reminderInterval,
+    String? startTime,
+    String? endTime,
   }) = _AppDataStateData;
 }
 
@@ -67,4 +70,10 @@ abstract class AppDataState with _$AppDataState {
       UpdateReminderStatus;
   const factory AppDataState.updateSoundEffectStatus(AppDataStateData data) =
       UpdateSoundEffectStatus;
+  const factory AppDataState.updateReminderInterval(AppDataStateData data) =
+      UpdateReminderInterval;
+  const factory AppDataState.updateStartTime(AppDataStateData data) =
+      UpdateStartTime;
+  const factory AppDataState.updateEndTime(AppDataStateData data) =
+      UpdateEndTime;
 }

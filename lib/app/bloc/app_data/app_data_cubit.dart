@@ -134,6 +134,17 @@ class AppDataCubit extends Cubit<AppDataState> {
       (_) => state.data.soundEffectStatus,
     );
     updateSoundEffectStatus(soundEffectStatus);
+
+    double? reminderInterval = _reminderRepo.getReminderInterval().getOrElse(
+      (_) => null,
+    );
+    updateReminderInterval(reminderInterval);
+
+    String? startTime = _reminderRepo.getStartTime().getOrElse((_) => null);
+    updateStartTime(startTime);
+
+    String? endTime = _reminderRepo.getEndTime().getOrElse((_) => null);
+    updateEndTime(endTime);
   }
 
   String updateSpecificQuickAddValue({
@@ -498,5 +509,23 @@ class AppDataCubit extends Cubit<AppDataState> {
         UpdateSoundEffectStatus(state.data.copyWith(soundEffectStatus: status)),
       );
     }
+  }
+
+  void updateReminderInterval(double? value) {
+    if (value == null) return;
+    _reminderRepo.cacheReminderInterval(value: value);
+    emit(UpdateReminderInterval(state.data.copyWith(reminderInterval: value)));
+  }
+
+  void updateStartTime(String? value) {
+    if (value == null) return;
+    _reminderRepo.cacheStartTime(timeString: value);
+    emit(UpdateStartTime(state.data.copyWith(startTime: value)));
+  }
+
+  void updateEndTime(String? value) {
+    if (value == null) return;
+    _reminderRepo.cacheEndTime(timeString: value);
+    emit(UpdateEndTime(state.data.copyWith(endTime: value)));
   }
 }
