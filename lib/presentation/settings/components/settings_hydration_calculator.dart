@@ -284,7 +284,9 @@ class SettingsHydrationCalculatorState
                 builder: (context, value, child) {
                   return _buildListItem(
                     context,
-                    text: 'Base: ${value.text} (based on body weight)',
+                    text:
+                        'Base: ${value.text.isEmpty ? 0 : value.text} '
+                        '(based on body weight)',
                   );
                 },
               ),

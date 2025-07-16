@@ -12,11 +12,13 @@ import 'app/bloc/app_config/app_config_cubit.dart';
 import 'app/bloc/app_data/app_data_cubit.dart';
 import 'app/di/injector.dart';
 import 'app/l10n/generated/app_localizations.dart';
+import 'app/service/notification_service.dart';
 import 'app/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+  await NotificationService().initNotification();
   runApp(
     MultiBlocProvider(
       providers: [

@@ -15,12 +15,14 @@ class DialogWidget extends StatelessWidget {
     this.body,
     this.buttonName,
     this.buttonFunc,
+    this.cancelButtonName,
   });
 
   final String title;
   final Widget? body;
   final String? buttonName;
   final Function()? buttonFunc;
+  final String? cancelButtonName;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class DialogWidget extends StatelessWidget {
                       overlayColor: Colors.transparent,
                     ),
                     child: Text(
-                      'Cancel',
+                      cancelButtonName ?? 'Cancel',
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         fontWeight: FontWeight.bold,

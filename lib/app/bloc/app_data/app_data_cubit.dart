@@ -136,7 +136,7 @@ class AppDataCubit extends Cubit<AppDataState> {
     updateSoundEffectStatus(soundEffectStatus);
 
     double? reminderInterval = _reminderRepo.getReminderInterval().getOrElse(
-      (_) => null,
+      (_) => DataDefault.notificationInterval.toDouble(),
     );
     updateReminderInterval(reminderInterval);
 
