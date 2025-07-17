@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:water_tracker_app/presentation/home/home_screen.dart';
 import 'package:water_tracker_app/presentation/settings/settings_screen.dart';
 import 'package:water_tracker_app/presentation/statistics/statistics_screen.dart';
 import '../../app/constant/image_constant.dart';
+import '../../app/service/notification_service.dart';
 import '../../app/theme/app_color.dart';
 import 'widget/new_day_snack_bar.dart';
 
@@ -64,11 +66,39 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AppDataCubit, AppDataState>(
-      listenWhen: (previous, current) => current is MidnightState,
-      listener: (context, state) {
-        ScaffoldMessenger.of(context).showSnackBar(newDaySnackbar(context));
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AppDataCubit, AppDataState>(
+          listenWhen: (previous, current) => current is MidnightState,
+          listener: (context, state) {
+            ScaffoldMessenger.of(context).showSnackBar(newDaySnackbar(context));
+          },
+        ),
+        BlocListener<AppDataCubit, AppDataState>(
+          listenWhen: (previous, current) =>
+              current is UpdateReminderInterval ||
+              current is UpdateEndTime ||
+              current is UpdateReminderStatus,
+          listener: (context, state) {
+            if (state.data.reminderStatus) {
+              NotificationService().createScheduledNotification(
+                title: '💧 A Little Water Break!',
+                body:
+                    'Water makes everything better. Drink up and feel amazing!',
+                interval: state.data.reminderInterval?.toInt(),
+                startTime: DateFormat(
+                  'hh:mm a',
+                ).tryParse(state.data.startTime ?? ''),
+                endTime: DateFormat(
+                  'hh:mm a',
+                ).tryParse(state.data.endTime ?? ''),
+              );
+            } else {
+              NotificationService().cancelScheduledNotification();
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         body: widget.navigationShell,
         bottomNavigationBar: Column(

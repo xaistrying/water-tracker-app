@@ -13,7 +13,6 @@ import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
 import '../../../app/constant/image_constant.dart';
-import '../../../app/service/notification_service.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/custom_card_widget.dart';
@@ -60,27 +59,11 @@ class _SettingsReminderState extends State<SettingsReminder> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AppDataCubit, AppDataState>(
-      listener: (context, state) {
-        if (state is UpdateReminderInterval ||
-            state is UpdateEndTime && state.data.reminderStatus) {
-          NotificationService()
-            ..cancelScheduledNotification()
-            ..createScheduledNotification(
-              title: '💧 A Little Water Break!',
-              body: 'Water makes everything better. Drink up and feel amazing!',
-              interval: state.data.reminderInterval?.toInt(),
-              startTime: DateTime.tryParse(startTimeController.text),
-              endTime: DateTime.tryParse(endTimeController.text),
-            );
-        }
-      },
-      child: CustomCardWidget(
-        child: Column(
-          spacing: AppDimens.padding12,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildHeader(context), _buildFeature(context)],
-        ),
+    return CustomCardWidget(
+      child: Column(
+        spacing: AppDimens.padding12,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildHeader(context), _buildFeature(context)],
       ),
     );
   }
@@ -109,18 +92,6 @@ class _SettingsReminderState extends State<SettingsReminder> {
                 inactiveThumbColor: AppColor.getSwitchColor(context),
                 value: state.data.reminderStatus,
                 onChanged: (value) {
-                  if (!value) {
-                    NotificationService().createScheduledNotification(
-                      title: '💧 A Little Water Break!',
-                      body:
-                          'Water makes everything better. Drink up and feel amazing!',
-                      interval: state.data.reminderInterval?.toInt(),
-                      startTime: DateTime.tryParse(state.data.startTime ?? ''),
-                      endTime: DateTime.tryParse(state.data.endTime ?? ''),
-                    );
-                  } else {
-                    NotificationService().cancelScheduledNotification();
-                  }
                   context.read<AppDataCubit>().updateReminderStatus(value);
                 },
               );

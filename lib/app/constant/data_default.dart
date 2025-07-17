@@ -15,7 +15,7 @@ class DataDefault {
   static const int dailyGoalAdvancedDivision = 70;
   static const int maxInputAmountLength = 4;
   static const double kgPerLb = 2.20462262;
-  static const TimeOfDay startTime = TimeOfDay(hour: 22, minute: 00);
-  static const TimeOfDay endTime = TimeOfDay(hour: 6, minute: 00);
+  static const TimeOfDay startTime = TimeOfDay(hour: 6, minute: 00);
+  static const TimeOfDay endTime = TimeOfDay(hour: 22, minute: 00);
   static const int notificationInterval = 30;
 }

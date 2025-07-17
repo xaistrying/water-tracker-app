@@ -48,14 +48,33 @@ class NotificationService {
     endTime = endTime ?? DataDefault.endTime.toDateTime();
     interval = interval ?? DataDefault.notificationInterval;
 
+    final now = DateTime.now();
+    startTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      startTime.hour,
+      startTime.minute,
+    );
+    endTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      endTime.hour,
+      endTime.minute,
+    );
+
     for (
       DateTime time = startTime;
       time.isBefore(endTime) || time.isAtSameMomentAs(endTime);
       time = time.add(Duration(minutes: interval))
     ) {
+      if (time.isBefore(DateTime.now())) {
+        continue;
+      }
       await _awesomeNotifications.createNotification(
         content: NotificationContent(
-          id: _createUniqueId(),
+          id: time.millisecondsSinceEpoch.remainder(100000),
           channelKey: AppStrings.scheduleChannelKey,
           title: title,
           body: body,
@@ -114,9 +133,5 @@ class NotificationService {
     );
 
     return permissionGranted;
-  }
-
-  int _createUniqueId() {
-    return DateTime.now().millisecondsSinceEpoch.remainder(100000);
   }
 }
