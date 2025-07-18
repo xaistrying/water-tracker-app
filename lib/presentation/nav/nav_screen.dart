@@ -40,13 +40,23 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
   late final AppLifecycleListener _listener;
 
-  void _beforeClosingApp() {
+  Future<void> _beforeClosingApp() async {
     context.read<AppDataCubit>().beforeClosingTask();
+    _checkNotificationPermission();
+  }
+
+  Future<void> _checkNotificationPermission() async {
+    final isNotificationAllowed = await NotificationService()
+        .checkIsNotificationAllowed();
+    if (mounted && !isNotificationAllowed) {
+      context.read<AppDataCubit>().updateReminderStatus(false);
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    _checkNotificationPermission();
     WidgetsBinding.instance.addObserver(this);
     _listener = AppLifecycleListener(
       onRestart: _beforeClosingApp,
@@ -54,6 +64,8 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
       onPause: _beforeClosingApp,
       onInactive: _beforeClosingApp,
       onHide: _beforeClosingApp,
+      onShow: _beforeClosingApp,
+      onResume: _beforeClosingApp,
     );
   }
 

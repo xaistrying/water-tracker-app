@@ -111,6 +111,10 @@ class NotificationService {
     }
   }
 
+  Future<bool> checkIsNotificationAllowed() async {
+    return await _awesomeNotifications.isNotificationAllowed();
+  }
+
   Future<bool> requestNotificationIfNeeded(BuildContext context) async {
     final isAllowed = await _awesomeNotifications.isNotificationAllowed();
 

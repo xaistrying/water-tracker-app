@@ -12,6 +12,7 @@ import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
+import 'package:water_tracker_app/app/service/notification_service.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -92,7 +93,19 @@ class _SettingsReminderState extends State<SettingsReminder> {
                 inactiveThumbColor: AppColor.getSwitchColor(context),
                 value: state.data.reminderStatus,
                 onChanged: (value) {
-                  context.read<AppDataCubit>().updateReminderStatus(value);
+                  if (value) {
+                    NotificationService()
+                        .requestNotificationIfNeeded(context)
+                        .then((isAllowed) {
+                          if (context.mounted && isAllowed) {
+                            context.read<AppDataCubit>().updateReminderStatus(
+                              value,
+                            );
+                          }
+                        });
+                  } else {
+                    context.read<AppDataCubit>().updateReminderStatus(value);
+                  }
                 },
               );
             },
