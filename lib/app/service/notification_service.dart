@@ -25,6 +25,16 @@ class NotificationService {
         importance: NotificationImportance.Default,
         channelShowBadge: true,
       ),
+      NotificationChannel(
+        channelKey: AppStrings.scheduleSilentChannelKey,
+        channelName: AppStrings.scheduleSilentChannelName,
+        channelDescription: AppStrings.scheduleSilentChannelDescription,
+        importance: NotificationImportance.Default,
+        channelShowBadge: true,
+        enableVibration: false,
+        enableLights: false,
+        playSound: false,
+      ),
     ]);
   }
 
@@ -40,6 +50,7 @@ class NotificationService {
     DateTime? startTime,
     DateTime? endTime,
     int? interval,
+    bool silent = false,
   }) async {
     String localTimeZone = await _awesomeNotifications
         .getLocalTimeZoneIdentifier();
@@ -64,6 +75,8 @@ class NotificationService {
       endTime.minute,
     );
 
+    await AwesomeNotifications().cancelAllSchedules();
+
     for (
       DateTime time = startTime;
       time.isBefore(endTime) || time.isAtSameMomentAs(endTime);
@@ -75,7 +88,9 @@ class NotificationService {
       await _awesomeNotifications.createNotification(
         content: NotificationContent(
           id: time.millisecondsSinceEpoch.remainder(100000),
-          channelKey: AppStrings.scheduleChannelKey,
+          channelKey: silent
+              ? AppStrings.scheduleSilentChannelKey
+              : AppStrings.scheduleChannelKey,
           title: title,
           body: body,
           bigPicture: iconPath,

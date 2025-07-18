@@ -78,11 +78,19 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
           listenWhen: (previous, current) =>
               current is UpdateReminderInterval ||
               current is UpdateEndTime ||
-              current is UpdateReminderStatus,
+              current is UpdateReminderStatus ||
+              current is UpdateSoundEffectStatus,
           listener: (context, state) {
             if (state.data.reminderStatus) {
+              String titleString = '';
+              final userName = state.data.userName;
+              if (userName.isNotEmpty) {
+                titleString = '💧 Hey $userName! Time for a Water Break!';
+              } else {
+                titleString = '💧 A Little Water Break!';
+              }
               NotificationService().createScheduledNotification(
-                title: '💧 A Little Water Break!',
+                title: titleString,
                 body:
                     'Water makes everything better. Drink up and feel amazing!',
                 interval: state.data.reminderInterval?.toInt(),
@@ -92,6 +100,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
                 endTime: DateFormat(
                   'hh:mm a',
                 ).tryParse(state.data.endTime ?? ''),
+                silent: state.data.soundEffectStatus,
               );
             } else {
               NotificationService().cancelScheduledNotification();

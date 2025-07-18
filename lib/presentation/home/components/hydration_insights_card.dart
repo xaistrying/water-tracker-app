@@ -99,11 +99,11 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
                     case EmojiType.fact:
                       insight = InsightMessage.getHydrationFact();
                       break;
-                    case EmojiType.reminder:
-                      insight = InsightMessage.getHydrationReminderMessage(
-                        Duration(seconds: 120),
-                      );
-                      break;
+                    // case EmojiType.reminder:
+                    //   insight = InsightMessage.getHydrationReminderMessage(
+                    //     Duration(seconds: 120),
+                    //   );
+                    //   break;
                   }
                   return _insightContentCard(
                     context,

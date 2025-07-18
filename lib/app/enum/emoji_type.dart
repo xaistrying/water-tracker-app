@@ -1,1 +1,1 @@
-enum EmojiType { fact, reminder, benefit, achievement, streak }
+enum EmojiType { fact, benefit, achievement, streak }

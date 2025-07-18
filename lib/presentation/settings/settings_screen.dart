@@ -54,23 +54,31 @@ class SettingsScreenState extends State<SettingsScreen> {
       decoration: BoxDecoration(gradient: AppColor.getBackgroundColor(context)),
       child: SafeArea(
         child: Scaffold(
-          body: ListView(
+          body: CustomScrollView(
             controller: _scrollController,
-            padding: const EdgeInsets.all(AppDimens.padding16),
-            children: [
-              SettingsHeader(),
-              SizedBox(height: AppDimens.padding16),
-              SettingsProfile(),
-              SizedBox(height: AppDimens.padding16),
-              SettingsAppearance(),
-              SizedBox(height: AppDimens.padding16),
-              SettingsReminder(),
-              SizedBox(height: AppDimens.padding16),
-              SettingsHydrationCalculator(key: _settingsHydrationCalculatorKey),
-              SizedBox(height: AppDimens.padding16),
-              SettingsQuickAddAmounts(),
-              SizedBox(height: AppDimens.padding16),
-              SettingsStorage(),
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(AppDimens.padding16),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    SettingsHeader(),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsProfile(),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsAppearance(),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsReminder(),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsHydrationCalculator(
+                      key: _settingsHydrationCalculatorKey,
+                    ),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsQuickAddAmounts(),
+                    SizedBox(height: AppDimens.padding16),
+                    SettingsStorage(),
+                  ]),
+                ),
+              ),
             ],
           ),
         ),
