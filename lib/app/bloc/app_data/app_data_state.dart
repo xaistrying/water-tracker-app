@@ -23,6 +23,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     double? reminderInterval,
     String? startTime,
     String? endTime,
+    @Default(false) bool isInitComplete,
   }) = _AppDataStateData;
 }
 

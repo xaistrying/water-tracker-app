@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -46,16 +47,27 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCardWidget(
-      child: Column(
-        spacing: AppDimens.padding12,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(context),
-          _buildInfo(context),
-          _buildFeature(context),
-          _buildTipContent(context),
-        ],
+    return BlocListener<AppDataCubit, AppDataState>(
+      listenWhen: (previous, current) =>
+          current is UpdateQuickAddValue1 ||
+          current is UpdateQuickAddValue2 ||
+          current is UpdateQuickAddValue3,
+      listener: (context, state) {
+        _controllers[0].text = state.data.quickAddValue1;
+        _controllers[1].text = state.data.quickAddValue2;
+        _controllers[2].text = state.data.quickAddValue3;
+      },
+      child: CustomCardWidget(
+        child: Column(
+          spacing: AppDimens.padding12,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(context),
+            _buildInfo(context),
+            _buildFeature(context),
+            _buildTipContent(context),
+          ],
+        ),
       ),
     );
   }
@@ -103,30 +115,39 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
       ),
       trailing: SizedBox(
         width: 100,
-        child: Row(
-          spacing: AppDimens.padding8,
-          children: [
-            Expanded(
-              child: TextFormFieldWidget(
-                controller: controller,
-                isDigitsOnly: true,
-                maxLength: DataDefault.maxInputAmountLength,
-                onTapOutside: () => controller.text = context
-                    .read<AppDataCubit>()
-                    .updateSpecificQuickAddValue(
-                      option: option,
-                      value: controller.text,
-                    ),
-              ),
-            ),
-            Text(
-              'ml',
-              style: TextStyle(
-                fontSize: AppDimens.fontSizeDefault,
-                color: AppColor.getContentColor(context),
-              ),
-            ),
-          ],
+        child: BlocBuilder<AppDataCubit, AppDataState>(
+          buildWhen: (previous, current) => current is UpdateVolumeUnitType,
+          builder: (context, state) {
+            final volumeType = state.data.volumeUnitType;
+            final isDecimal = volumeType == VolumeUnitType.ounces;
+            return Row(
+              spacing: AppDimens.padding8,
+              children: [
+                Expanded(
+                  child: TextFormFieldWidget(
+                    controller: controller,
+                    isDigitsOnly: true,
+                    isDecimal: isDecimal,
+                    maxLength:
+                        DataDefault.maxInputAmountLength + (isDecimal ? 2 : 0),
+                    onTapOutside: () => controller.text = context
+                        .read<AppDataCubit>()
+                        .updateSpecificQuickAddValue(
+                          option: option,
+                          value: controller.text,
+                        ),
+                  ),
+                ),
+                Text(
+                  volumeType.rawValue,
+                  style: TextStyle(
+                    fontSize: AppDimens.fontSizeDefault,
+                    color: AppColor.getContentColor(context),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

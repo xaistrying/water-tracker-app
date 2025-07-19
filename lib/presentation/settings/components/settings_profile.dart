@@ -9,6 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/info_dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
@@ -94,18 +96,30 @@ class _SettingsProfileState extends State<SettingsProfile> {
               builder: (context, state) {
                 final dailyGoal = state.data.dailyGoal;
                 final advancedModeStatus = state.data.advancedModeStatus;
+                final unit = state.data.volumeUnitType.rawValue;
+                bool isOz = state.data.volumeUnitType == VolumeUnitType.ounces;
                 return SliderWidget(
-                  min: DataDefault.minDailyGoal,
+                  min: isOz
+                      ? UnitConverter.mlToOz(DataDefault.minDailyGoal)
+                      : DataDefault.minDailyGoal,
                   max: advancedModeStatus
-                      ? DataDefault.advancedxDailyGoal
+                      ? isOz
+                            ? UnitConverter.mlToOz(
+                                DataDefault.advancedxDailyGoal,
+                              )
+                            : DataDefault.advancedxDailyGoal
+                      : isOz
+                      ? UnitConverter.mlToOz(DataDefault.maxDailyGoal)
                       : DataDefault.maxDailyGoal,
                   value: advancedModeStatus
                       ? dailyGoal
                       : dailyGoal > DataDefault.maxDailyGoal
                       ? DataDefault.maxDailyGoal
                       : dailyGoal,
-                  unit: 'ml',
-                  divisions: advancedModeStatus
+                  unit: unit,
+                  divisions: isOz
+                      ? null
+                      : advancedModeStatus
                       ? DataDefault.dailyGoalAdvancedDivision
                       : DataDefault.dailyGoalDivision,
                   onChangeEnd: (newDailyGoal) {
@@ -120,7 +134,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                                 top: AppDimens.padding16,
                               ),
                               child: Text(
-                                'Confirm to change',
+                                'Confirm to change your daily goal',
                                 style: TextStyle(
                                   fontSize: AppDimens.fontSizeDefault,
                                   color: AppColor.getWhiteBlack(context),

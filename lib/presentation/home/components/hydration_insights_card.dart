@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 // Project imports:
@@ -139,7 +138,10 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
           children: [
             // Emoji icon
             RichText(
-              text: TextSpan(text: emoji, style: GoogleFonts.notoColorEmoji()),
+              text: TextSpan(
+                text: emoji,
+                style: TextStyle(fontFamily: 'NotoColorEmoji'),
+              ),
             ),
             const SizedBox(width: 12),
 

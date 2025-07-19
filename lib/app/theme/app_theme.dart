@@ -1,21 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:google_fonts/google_fonts.dart';
-
 // Project imports:
 import 'package:water_tracker_app/app/theme/app_color.dart';
 
 class AppTheme {
   AppTheme._();
 
-  static TextTheme? textTheme = GoogleFonts.openSansTextTheme();
-
   static final _lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    textTheme: textTheme,
+    fontFamily: 'OpenSans',
     scaffoldBackgroundColor: Colors.transparent,
     navigationBarTheme: NavigationBarThemeData(
       indicatorColor: Colors.transparent,
@@ -29,7 +24,7 @@ class AppTheme {
   static final _darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    textTheme: textTheme,
+    fontFamily: 'OpenSans',
     scaffoldBackgroundColor: Colors.transparent,
     navigationBarTheme: NavigationBarThemeData(
       indicatorColor: Colors.transparent,

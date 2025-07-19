@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
+import '../../../app/constant/data_default.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/dialog_widget.dart';
@@ -29,6 +31,8 @@ class _QuickAddCustomDialogState extends State<QuickAddCustomDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final unit = context.read<AppDataCubit>().state.data.volumeUnitType;
+    final isDecimal = unit == VolumeUnitType.ounces;
     return ValueListenableBuilder(
       valueListenable: customAmountTextController,
       builder: (context, value, child) {
@@ -43,7 +47,7 @@ class _QuickAddCustomDialogState extends State<QuickAddCustomDialog> {
                   bottom: AppDimens.padding8,
                 ),
                 child: Text(
-                  'Amount (ml)',
+                  'Amount (${context.read<AppDataCubit>().state.data.volumeUnitType.rawValue})',
                   style: TextStyle(
                     fontSize: AppDimens.fontSizeDefault,
                     fontWeight: FontWeight.bold,
@@ -55,6 +59,9 @@ class _QuickAddCustomDialogState extends State<QuickAddCustomDialog> {
                 isDense: false,
                 isDigitsOnly: true,
                 controller: customAmountTextController,
+                isDecimal: isDecimal ? true : false,
+                maxLength:
+                    DataDefault.maxInputAmountLength + (isDecimal ? 2 : 0),
               ),
             ],
           ),

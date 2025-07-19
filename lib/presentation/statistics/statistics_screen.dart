@@ -7,7 +7,7 @@ import '../../app/theme/app_dimens.dart';
 import 'components/statistics_header.dart';
 import 'components/statistics_key.dart';
 import 'components/statistics_monthly_summary.dart';
-import 'components/statistics_weakly_chart.dart';
+import 'components/statistics_weekly_chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -44,7 +44,7 @@ class StatisticsScreenState extends State<StatisticsScreen> {
               SizedBox(height: AppDimens.padding16),
               StatisticsKey(),
               SizedBox(height: AppDimens.padding16),
-              StatisticsWeaklyChart(),
+              StatisticsWeeklyChart(),
               SizedBox(height: AppDimens.padding16),
               StatisticsMonthlySummary(),
             ],

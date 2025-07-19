@@ -7,7 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
+import '../../../app/constant/data_default.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -43,6 +46,8 @@ class StatisticsKey extends StatelessWidget {
             final avg = context.read<AppDataCubit>().calculateWeeklyAverage(
               weeklyData,
             );
+            final unit = state.data.volumeUnitType.rawValue;
+            final decimalRange = avg.isDecimal() ? DataDefault.decimalRange : 0;
             return _buildKeyItem(
               context,
               icon: SvgPicture.asset(
@@ -53,8 +58,9 @@ class StatisticsKey extends StatelessWidget {
                 ),
                 height: AppDimens.iconSize28,
               ),
-              label: 'Weakly Avg (ml)',
+              label: 'Weekly Avg ($unit)',
               volume: avg,
+              decimalRange: decimalRange,
             );
           },
         ),
@@ -67,6 +73,7 @@ class StatisticsKey extends StatelessWidget {
     String label = '',
     Widget? icon,
     double volume = 0.0,
+    int decimalRange = 0,
   }) {
     return Expanded(
       child: CustomCardWidget(
@@ -77,7 +84,7 @@ class StatisticsKey extends StatelessWidget {
             icon ?? const SizedBox.shrink(),
             const SizedBox(height: 8.0),
             Text(
-              volume.toStringAsFixed(0),
+              volume.toStringAsFixed(decimalRange),
               style: TextStyle(
                 fontSize: AppDimens.fontSize20,
                 color: AppColor.getWhiteBlack(context),

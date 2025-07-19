@@ -6,19 +6,22 @@ class DailyIntakeModel {
   double? intake;
   double? goal;
   String? date;
+  String? unit;
 
-  DailyIntakeModel({this.id, this.intake, this.goal, this.date});
+  DailyIntakeModel({this.id, this.intake, this.goal, this.date, this.unit});
 
   DailyIntakeModel copyWith({
     String? id,
     double? intake,
     double? goal,
     String? date,
+    String? unit,
   }) => DailyIntakeModel(
     id: id ?? this.id,
     intake: intake ?? this.intake,
     goal: goal ?? this.goal,
     date: date ?? this.date,
+    unit: unit ?? this.unit,
   );
 
   factory DailyIntakeModel.fromRawJson(String str) =>
@@ -32,6 +35,7 @@ class DailyIntakeModel {
         intake: json["intake"],
         goal: json["goal"],
         date: json["date"],
+        unit: json["unit"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +43,7 @@ class DailyIntakeModel {
     "intake": intake,
     "goal": goal,
     "date": date,
+    "unit": unit,
   };
 
   static fromList(data) {

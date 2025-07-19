@@ -11,6 +11,7 @@ import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import 'package:water_tracker_app/app/enum/retention_period.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
+import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
 import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
@@ -145,6 +146,9 @@ class AppDataCubit extends Cubit<AppDataState> {
 
     String? endTime = _reminderRepo.getEndTime().getOrElse((_) => null);
     updateEndTime(endTime);
+
+    // Init End
+    emit(_InitialState(state.data.copyWith(isInitComplete: true)));
   }
 
   String updateSpecificQuickAddValue({
@@ -167,6 +171,34 @@ class AppDataCubit extends Cubit<AppDataState> {
       value: value,
     );
     return value;
+  }
+
+  void updateAllQuickAddValue({
+    required String quickAddValue1,
+    required String quickAddValue2,
+    required String quickAddValue3,
+  }) {
+    List<String> quickAddValues = [
+      quickAddValue1,
+      quickAddValue2,
+      quickAddValue3,
+    ];
+    for (var option in QuickAddOption.values) {
+      _quickAddRepo.cacheSpecificQuickAddAmount(
+        option: option.name.toCapitalized(),
+        value: quickAddValues[option.rawValue],
+      );
+    }
+
+    emit(
+      UpdateQuickAddValueAll(
+        state.data.copyWith(
+          quickAddValue1: quickAddValue1,
+          quickAddValue2: quickAddValue2,
+          quickAddValue3: quickAddValue3,
+        ),
+      ),
+    );
   }
 
   void resetAllQuickAddValue() {
@@ -279,6 +311,7 @@ class AppDataCubit extends Cubit<AppDataState> {
         date: DateTime.now().toIso8601String(),
         intake: value,
         goal: state.data.dailyGoal,
+        unit: state.data.volumeUnitType.rawValue,
       );
       history.add(historyItem);
 
@@ -303,6 +336,7 @@ class AppDataCubit extends Cubit<AppDataState> {
         date: DateTime.now().truncate.toIso8601String(),
         intake: currentIntake,
         goal: state.data.dailyGoal,
+        unit: state.data.volumeUnitType.rawValue,
       );
       final index = weeklyIntake.indexWhere((e) => e.id == weeklyIntakeItem.id);
       if (index != -1) {
@@ -324,6 +358,16 @@ class AppDataCubit extends Cubit<AppDataState> {
     } else {
       emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: currentIntake)));
     }
+  }
+
+  void updateDailyIntakeByUnit({required double value}) {
+    _progressRepo.cacheDailyIntake(value: value);
+    emit(UpdateDailyIntake(state.data.copyWith(dailyIntake: value)));
+  }
+
+  void updateDailyGoalByUnit({required double value}) {
+    _progressRepo.cacheDailyGoal(value: value);
+    emit(UpdateDailyGoal(state.data.copyWith(dailyGoal: value)));
   }
 
   void updateIntakeHistory(List<DailyIntakeModel> history) {
@@ -438,6 +482,33 @@ class AppDataCubit extends Cubit<AppDataState> {
 
   void updateWeeklyIntake(List<DailyIntakeModel> data) {
     emit(UpdateWeeklyIntake(state.data.copyWith(listWeeklyIntake: data)));
+  }
+
+  void updateWeeklyIntakeByUnit() {
+    final listWeeklyIntake = [...state.data.listWeeklyIntake];
+    for (var (index, item) in listWeeklyIntake.indexed) {
+      final unit = item.unit ?? '';
+      final currentUnit = state.data.volumeUnitType.rawValue;
+      if (item.intake == null || item.goal == null || unit == currentUnit) {
+        continue;
+      }
+      if (VolumeUnitTypeExtension.fromRawValue(currentUnit) ==
+          VolumeUnitType.milliliters) {
+        listWeeklyIntake[index].intake = UnitConverter.ozToMl(item.intake!);
+        listWeeklyIntake[index].goal = UnitConverter.ozToMl(item.goal!);
+        listWeeklyIntake[index].unit = currentUnit;
+      } else if (VolumeUnitTypeExtension.fromRawValue(currentUnit) ==
+          VolumeUnitType.ounces) {
+        listWeeklyIntake[index].intake = UnitConverter.mlToOz(item.intake!);
+        listWeeklyIntake[index].goal = UnitConverter.mlToOz(item.goal!);
+        listWeeklyIntake[index].unit = currentUnit;
+      }
+    }
+    emit(
+      UpdateWeeklyIntake(
+        state.data.copyWith(listWeeklyIntake: listWeeklyIntake),
+      ),
+    );
   }
 
   double calculateWeeklyAverage(List<DailyIntakeModel> intakeList) {

@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/extension/double_extension.dart';
+import '../../../app/constant/data_default.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
@@ -72,6 +74,9 @@ class RecentMoreScreen extends StatelessWidget {
                 final itemIndex = historyLength - index - 1;
                 final item = listHistory[itemIndex];
                 final dateTime = DateTime.tryParse(item.date ?? '');
+                final decimalRange = (item.intake ?? 0.0).isDecimal()
+                    ? DataDefault.decimalRange
+                    : 0;
                 String time = '';
                 if (dateTime != null) {
                   time = DateFormat.yMd()
@@ -81,7 +86,8 @@ class RecentMoreScreen extends StatelessWidget {
                 return _buildRecentMeasurementCard(
                   context,
                   time: time,
-                  volume: item.intake?.toStringAsFixed(0) ?? '',
+                  volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
+                  unit: item.unit ?? '',
                 );
               },
               separatorBuilder: (context, index) =>
@@ -97,6 +103,7 @@ class RecentMoreScreen extends StatelessWidget {
     BuildContext context, {
     required String time,
     required String volume,
+    required String unit,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -115,7 +122,7 @@ class RecentMoreScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${volume}ml',
+                '$volume$unit',
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,

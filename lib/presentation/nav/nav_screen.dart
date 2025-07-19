@@ -9,14 +9,18 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/context_extension.dart';
+import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/presentation/home/home_screen.dart';
 import 'package:water_tracker_app/presentation/settings/settings_screen.dart';
 import 'package:water_tracker_app/presentation/statistics/statistics_screen.dart';
 import '../../app/constant/image_constant.dart';
+import '../../app/enum/unit_type.dart';
 import '../../app/service/notification_service.dart';
 import '../../app/theme/app_color.dart';
+import '../settings/cubit/hydration_calculator_cubit.dart';
 import 'widget/new_day_snack_bar.dart';
 
 class NavScreen extends StatefulWidget {
@@ -67,6 +71,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
       onShow: _beforeClosingApp,
       onResume: _beforeClosingApp,
     );
+    context.read<AppDataCubit>().updateWeeklyIntakeByUnit();
   }
 
   @override
@@ -91,7 +96,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
               current is UpdateReminderInterval ||
               current is UpdateEndTime ||
               current is UpdateReminderStatus ||
-              current is UpdateSoundEffectStatus,
+              current is UpdateSoundEffectStatus && current.data.isInitComplete,
           listener: (context, state) {
             if (state.data.reminderStatus) {
               String titleString = '';
@@ -117,6 +122,62 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
             } else {
               NotificationService().cancelScheduledNotification();
             }
+          },
+        ),
+        BlocListener<AppDataCubit, AppDataState>(
+          listenWhen: (previous, current) =>
+              current is UpdateVolumeUnitType && current.data.isInitComplete,
+          listener: (context, state) {
+            List<String> quickAddValues = [
+              state.data.quickAddValue1,
+              state.data.quickAddValue2,
+              state.data.quickAddValue3,
+            ];
+
+            double dailyIntake = state.data.dailyIntake;
+            double dailyGoal = state.data.dailyGoal;
+
+            if (state.data.volumeUnitType == VolumeUnitType.ounces) {
+              for (var (index, value) in quickAddValues.indexed) {
+                double? parsedValue = double.tryParse(value);
+                if (parsedValue != null) {
+                  quickAddValues[index] = UnitConverter.mlToOz(
+                    parsedValue,
+                  ).toStringAsFixed(DataDefault.decimalRange);
+                }
+              }
+              dailyIntake = UnitConverter.mlToOz(dailyIntake);
+              dailyGoal = UnitConverter.mlToOz(dailyGoal);
+            } else if (state.data.volumeUnitType ==
+                VolumeUnitType.milliliters) {
+              for (var (index, value) in quickAddValues.indexed) {
+                double? parsedValue = double.tryParse(value);
+                if (parsedValue != null) {
+                  quickAddValues[index] = UnitConverter.ozToMl(
+                    parsedValue,
+                  ).toStringAsFixed(0);
+                }
+              }
+              dailyIntake = UnitConverter.ozToMl(dailyIntake);
+              dailyGoal = UnitConverter.ozToMl(dailyGoal);
+            }
+            context.read<AppDataCubit>().updateAllQuickAddValue(
+              quickAddValue1: quickAddValues[0],
+              quickAddValue2: quickAddValues[1],
+              quickAddValue3: quickAddValues[2],
+            );
+
+            context.read<HydrationCalculatorCubit>().updateCalculationResult(
+              0.0,
+            );
+
+            context.read<AppDataCubit>().updateDailyIntakeByUnit(
+              value: dailyIntake,
+            );
+            context.read<AppDataCubit>().updateDailyGoalByUnit(
+              value: dailyGoal,
+            );
+            context.read<AppDataCubit>().updateWeeklyIntakeByUnit();
           },
         ),
       ],

@@ -18,4 +18,5 @@ class DataDefault {
   static const TimeOfDay startTime = TimeOfDay(hour: 6, minute: 00);
   static const TimeOfDay endTime = TimeOfDay(hour: 22, minute: 00);
   static const int notificationInterval = 30;
+  static const int decimalRange = 2;
 }

@@ -9,9 +9,12 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
+import '../../../app/constant/data_default.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/router/app_router.dart';
 
@@ -59,6 +62,9 @@ class RecentMeasurementCard extends StatelessWidget {
             final itemIndex = historyLength - index - 1;
             final item = listHistory[itemIndex];
             final dateTime = DateTime.tryParse(item.date ?? '');
+            final decimalRange = (item.intake ?? 0.0).isDecimal()
+                ? DataDefault.decimalRange
+                : 0;
             String time = '';
             if (dateTime != null) {
               time = DateFormat.yMd().addPattern('hh:mm a').format(dateTime);
@@ -66,7 +72,8 @@ class RecentMeasurementCard extends StatelessWidget {
             return _buildRecentMeasurementItem(
               context,
               time: time,
-              volume: item.intake?.toStringAsFixed(0) ?? '',
+              volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
+              unit: item.unit ?? state.data.volumeUnitType.rawValue,
             );
           }),
         );
@@ -121,6 +128,7 @@ class RecentMeasurementCard extends StatelessWidget {
     BuildContext context, {
     required String time,
     required String volume,
+    required String unit,
   }) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(
@@ -134,7 +142,7 @@ class RecentMeasurementCard extends StatelessWidget {
         color: AppColor.getBlueCyanColor(context),
       ),
       title: Text(
-        '${volume}ml',
+        '$volume$unit',
         style: TextStyle(
           fontSize: AppDimens.fontSizeDefault,
           fontWeight: FontWeight.bold,

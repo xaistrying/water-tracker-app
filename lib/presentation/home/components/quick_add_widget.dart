@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/enum/unit_type.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/presentation/home/components/quick_add_custom_dialog.dart';
 import '../../../app/constant/image_constant.dart';
@@ -27,9 +28,11 @@ class QuickAddWidget extends StatelessWidget {
               child: BlocBuilder<AppDataCubit, AppDataState>(
                 buildWhen: (previous, current) =>
                     current is UpdateQuickAddValueAll ||
-                    current is UpdateQuickAddValue1,
+                    current is UpdateQuickAddValue1 ||
+                    current is UpdateVolumeUnitType,
                 builder: (context, state) {
                   final quickAddValue1 = state.data.quickAddValue1;
+                  final unit = state.data.volumeUnitType.rawValue;
                   return _buildQuickAddButton(
                     context,
                     onPressed: () {
@@ -38,7 +41,7 @@ class QuickAddWidget extends StatelessWidget {
                         value: intake,
                       );
                     },
-                    label: '${quickAddValue1}ml',
+                    label: '$quickAddValue1$unit',
                   );
                 },
               ),
@@ -47,9 +50,11 @@ class QuickAddWidget extends StatelessWidget {
               child: BlocBuilder<AppDataCubit, AppDataState>(
                 buildWhen: (previous, current) =>
                     current is UpdateQuickAddValueAll ||
-                    current is UpdateQuickAddValue2,
+                    current is UpdateQuickAddValue2 ||
+                    current is UpdateVolumeUnitType,
                 builder: (context, state) {
                   final quickAddValue2 = state.data.quickAddValue2;
+                  final unit = state.data.volumeUnitType.rawValue;
                   return _buildQuickAddButton(
                     context,
                     onPressed: () {
@@ -58,7 +63,7 @@ class QuickAddWidget extends StatelessWidget {
                         value: intake,
                       );
                     },
-                    label: '${quickAddValue2}ml',
+                    label: '$quickAddValue2$unit',
                   );
                 },
               ),
@@ -67,9 +72,11 @@ class QuickAddWidget extends StatelessWidget {
               child: BlocBuilder<AppDataCubit, AppDataState>(
                 buildWhen: (previous, current) =>
                     current is UpdateQuickAddValueAll ||
-                    current is UpdateQuickAddValue3,
+                    current is UpdateQuickAddValue3 ||
+                    current is UpdateVolumeUnitType,
                 builder: (context, state) {
                   final quickAddValue3 = state.data.quickAddValue3;
+                  final unit = state.data.volumeUnitType.rawValue;
                   return _buildQuickAddButton(
                     context,
                     onPressed: () {
@@ -78,7 +85,7 @@ class QuickAddWidget extends StatelessWidget {
                         value: intake,
                       );
                     },
-                    label: '${quickAddValue3}ml',
+                    label: '$quickAddValue3$unit',
                   );
                 },
               ),

@@ -28,7 +28,8 @@ class SettingsReminder extends StatefulWidget {
   State<SettingsReminder> createState() => _SettingsReminderState();
 }
 
-class _SettingsReminderState extends State<SettingsReminder> {
+class _SettingsReminderState extends State<SettingsReminder>
+    with AutomaticKeepAliveClientMixin {
   final startTimeController = TextEditingController();
   final endTimeController = TextEditingController();
 
@@ -60,6 +61,7 @@ class _SettingsReminderState extends State<SettingsReminder> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomCardWidget(
       child: Column(
         spacing: AppDimens.padding12,
@@ -296,4 +298,7 @@ class _SettingsReminderState extends State<SettingsReminder> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

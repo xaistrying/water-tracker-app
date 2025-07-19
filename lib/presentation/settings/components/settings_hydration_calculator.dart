@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Project imports:
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/info_dialog_widget.dart';
 import 'package:water_tracker_app/presentation/settings/cubit/hydration_calculator_cubit.dart';
@@ -46,35 +47,61 @@ class SettingsHydrationCalculatorState
     required double bodyWeight,
     required double excerciseTime,
   }) {
-    final calculationResult =
+    bool isOz =
+        context.read<AppDataCubit>().state.data.volumeUnitType ==
+        VolumeUnitType.ounces;
+    double calculationResult =
         bodyWeight * DataDefault.bodyWeightMultiplier +
         excerciseTime * DataDefault.exerciseTimeMultiplier;
+    if (isOz) {
+      calculationResult = UnitConverter.mlToOz(calculationResult);
+    }
     context.read<HydrationCalculatorCubit>().updateCalculationResult(
       calculationResult,
     );
   }
 
   String _calculateBase({required double bodyWeight}) {
-    return (bodyWeight * DataDefault.bodyWeightMultiplier).toStringAsFixed(0);
+    bool isOz =
+        context.read<AppDataCubit>().state.data.volumeUnitType ==
+        VolumeUnitType.ounces;
+    double base = bodyWeight * DataDefault.bodyWeightMultiplier;
+    if (isOz) {
+      base = UnitConverter.mlToOz(base);
+    }
+    return base.toStringAsFixed(0);
   }
 
   String _calculateExercise({required double exerciseTime}) {
-    return (exerciseTime * DataDefault.exerciseTimeMultiplier).toStringAsFixed(
-      0,
-    );
+    bool isOz =
+        context.read<AppDataCubit>().state.data.volumeUnitType ==
+        VolumeUnitType.ounces;
+    double exercise = exerciseTime * DataDefault.exerciseTimeMultiplier;
+    if (isOz) {
+      exercise = UnitConverter.mlToOz(exercise);
+    }
+    return exercise.toStringAsFixed(0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomCardWidget(
-      child: Column(
-        spacing: AppDimens.padding12,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(context),
-          _buildInfo(context),
-          _buildFeature(context),
-        ],
+    return BlocListener<AppDataCubit, AppDataState>(
+      listenWhen: (previous, current) => current is UpdateVolumeUnitType,
+      listener: (context, state) {
+        bodyWeightTextController.clear();
+        baseTextController.text = '0';
+        excerciseTimeNotifier.value = 0.0;
+      },
+      child: CustomCardWidget(
+        child: Column(
+          spacing: AppDimens.padding12,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(context),
+            _buildInfo(context),
+            _buildFeature(context),
+          ],
+        ),
       ),
     );
   }

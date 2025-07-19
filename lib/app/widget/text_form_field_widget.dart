@@ -14,6 +14,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.onTapOutside,
     this.isDigitsOnly,
     this.maxLength,
+    this.isDecimal = false,
   });
 
   final TextEditingController? controller;
@@ -21,6 +22,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final bool? isDense;
   final Function()? onTapOutside;
   final int? maxLength;
+  final bool isDecimal;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,11 @@ class TextFormFieldWidget extends StatelessWidget {
       maxLength: maxLength,
       cursorColor: AppColor.getContentColor(context),
       inputFormatters: isDigitsOnly == true
-          ? [FilteringTextInputFormatter.digitsOnly]
+          ? [
+              isDecimal
+                  ? _DecimalTextInputFormatter(decimalRange: 2)
+                  : FilteringTextInputFormatter.digitsOnly,
+            ]
           : null,
       keyboardType: isDigitsOnly == true ? TextInputType.number : null,
       decoration: InputDecoration(
@@ -66,5 +72,32 @@ class TextFormFieldWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _DecimalTextInputFormatter extends TextInputFormatter {
+  final int decimalRange;
+
+  _DecimalTextInputFormatter({this.decimalRange = 2})
+    : assert(decimalRange >= 0);
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final String text = newValue.text;
+
+    if (text.isEmpty) return newValue;
+
+    final RegExp regex = RegExp(
+      r'^\d+\.?\d{0,' + decimalRange.toString() + r'}$',
+    );
+
+    if (regex.hasMatch(text)) {
+      return newValue;
+    }
+
+    return oldValue;
   }
 }
