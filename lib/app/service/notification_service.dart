@@ -87,10 +87,8 @@ class NotificationService {
       }
       await _awesomeNotifications.createNotification(
         content: NotificationContent(
-          id: time.millisecondsSinceEpoch.remainder(100000),
-          channelKey: silent
-              ? AppStrings.scheduleSilentChannelKey
-              : AppStrings.scheduleChannelKey,
+          id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+          channelKey: AppStrings.scheduleChannelKey,
           title: title,
           body: body,
           bigPicture: iconPath,
@@ -98,14 +96,16 @@ class NotificationService {
           category: NotificationCategory.Reminder,
         ),
         schedule: NotificationCalendar(
-          year: time.year,
-          month: time.month,
-          day: time.day,
+          // year: time.year,
+          // month: time.month,
+          // day: time.day,
           hour: time.hour,
           minute: time.minute,
           second: 0,
           millisecond: 0,
           timeZone: localTimeZone,
+          repeats: true,
+          allowWhileIdle: true,
         ),
       );
     }

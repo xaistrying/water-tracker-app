@@ -163,79 +163,93 @@ class _SettingsProfileState extends State<SettingsProfile> {
             ),
           ],
         ),
-        FeatureItemWidget(
-          customTitle: Row(
-            spacing: AppDimens.padding4,
-            children: [
-              Text(
-                'Advanced Mode',
-                style: TextStyle(
-                  fontSize: AppDimens.fontSizeDefault,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.getWhiteBlack(context),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => InfoDialogWidget(
-                      title: 'Advanced Mode',
-                      content:
-                          'Very high water intake goals should be discussed '
-                          'with a healthcare professional. Excessive water '
-                          'consumption can be harmful.',
+        BlocBuilder<AppDataCubit, AppDataState>(
+          builder: (context, state) {
+            final unit = state.data.volumeUnitType.rawValue;
+            final isOz = state.data.volumeUnitType == VolumeUnitType.ounces;
+            double advancedxDailyGoal = DataDefault.advancedxDailyGoal;
+            if (isOz) {
+              advancedxDailyGoal = UnitConverter.mlToOz(advancedxDailyGoal);
+            }
+            return FeatureItemWidget(
+              customTitle: Row(
+                spacing: AppDimens.padding4,
+                children: [
+                  Text(
+                    'Advanced Mode',
+                    style: TextStyle(
+                      fontSize: AppDimens.fontSizeDefault,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.getWhiteBlack(context),
                     ),
-                  );
-                },
-                constraints: BoxConstraints(),
-                padding: EdgeInsets.zero,
-                style: IconButton.styleFrom(
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  splashFactory: NoSplash.splashFactory,
-                  overlayColor: Colors.transparent,
-                ),
-                icon: Icon(
-                  Icons.info_outline_rounded,
-                  color: AppColor.getWhiteBlack(context),
-                ),
-                iconSize: AppDimens.iconSize16,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => InfoDialogWidget(
+                          title: 'Advanced Mode',
+                          content:
+                              'Very high water intake goals should be discussed '
+                              'with a healthcare professional. Excessive water '
+                              'consumption can be harmful.',
+                        ),
+                      );
+                    },
+                    constraints: BoxConstraints(),
+                    padding: EdgeInsets.zero,
+                    style: IconButton.styleFrom(
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      splashFactory: NoSplash.splashFactory,
+                      overlayColor: Colors.transparent,
+                    ),
+                    icon: Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColor.getWhiteBlack(context),
+                    ),
+                    iconSize: AppDimens.iconSize16,
+                  ),
+                ],
               ),
-            ],
-          ),
-          subtitle:
-              'Unlock goal to '
-              '${DataDefault.advancedxDailyGoal.toStringAsFixed(0)}ml',
-          trailing: BlocBuilder<AppDataCubit, AppDataState>(
-            builder: (context, state) {
-              final dailyGoal = state.data.dailyGoal;
-              final advancedModeStatus = state.data.advancedModeStatus;
-              return CupertinoSwitch(
-                activeTrackColor: AppColor.getSwitchColor(
-                  context,
-                  isTrack: true,
-                  isActive: true,
-                ),
-                inactiveTrackColor: AppColor.getSwitchColor(
-                  context,
-                  isTrack: true,
-                ),
-                thumbColor: AppColor.getSwitchColor(context, isActive: true),
-                inactiveThumbColor: AppColor.getSwitchColor(context),
-                value: advancedModeStatus,
-                onChanged: (value) {
-                  if (value == false && dailyGoal > DataDefault.maxDailyGoal) {
-                    context.read<AppDataCubit>().updateDailyGoal(
-                      value: DataDefault.maxDailyGoal,
-                    );
-                  }
-                  context.read<AppDataCubit>().updateAdvancedModeStatus(
-                    status: value,
+              subtitle:
+                  'Unlock goal to '
+                  '${advancedxDailyGoal.toStringAsFixed(0)}$unit',
+              trailing: BlocBuilder<AppDataCubit, AppDataState>(
+                builder: (context, state) {
+                  final dailyGoal = state.data.dailyGoal;
+                  final advancedModeStatus = state.data.advancedModeStatus;
+                  return CupertinoSwitch(
+                    activeTrackColor: AppColor.getSwitchColor(
+                      context,
+                      isTrack: true,
+                      isActive: true,
+                    ),
+                    inactiveTrackColor: AppColor.getSwitchColor(
+                      context,
+                      isTrack: true,
+                    ),
+                    thumbColor: AppColor.getSwitchColor(
+                      context,
+                      isActive: true,
+                    ),
+                    inactiveThumbColor: AppColor.getSwitchColor(context),
+                    value: advancedModeStatus,
+                    onChanged: (value) {
+                      if (value == false &&
+                          dailyGoal > DataDefault.maxDailyGoal) {
+                        context.read<AppDataCubit>().updateDailyGoal(
+                          value: DataDefault.maxDailyGoal,
+                        );
+                      }
+                      context.read<AppDataCubit>().updateAdvancedModeStatus(
+                        status: value,
+                      );
+                    },
                   );
                 },
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ],
     );
