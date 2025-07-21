@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/image_constant.dart';
@@ -34,12 +35,12 @@ class StatisticsMonthlySummary extends StatelessWidget {
                   _buildMonthlySummaryItem(
                     context,
                     volume: monthlyGoalMets.toString(),
-                    label: 'Goals Met',
+                    label: context.loc.goals_met,
                   ),
                   _buildMonthlySummaryItem(
                     context,
                     volume: '${percent.toStringAsFixed(0)}%',
-                    label: 'Success Rate',
+                    label: context.loc.success_rate,
                   ),
                 ],
               );
@@ -96,7 +97,7 @@ class StatisticsMonthlySummary extends StatelessWidget {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'This Month',
+          context.loc.this_month,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,

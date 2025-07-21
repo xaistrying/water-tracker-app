@@ -87,16 +87,22 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
                   };
                   switch (EmojiType.values[index]) {
                     case EmojiType.streak:
-                      insight = InsightMessage.getStreakMessage(streaks);
+                      insight = InsightMessage.getStreakMessage(
+                        context,
+                        streaks,
+                      );
                       break;
                     case EmojiType.achievement:
-                      insight = InsightMessage.getAchievementMessage(progress);
+                      insight = InsightMessage.getAchievementMessage(
+                        context,
+                        progress,
+                      );
                       break;
                     case EmojiType.benefit:
-                      insight = InsightMessage.getHydrationBenefit();
+                      insight = InsightMessage.getHydrationBenefit(context);
                       break;
                     case EmojiType.fact:
-                      insight = InsightMessage.getHydrationFact();
+                      insight = InsightMessage.getHydrationFact(context);
                       break;
                     // case EmojiType.reminder:
                     //   insight = InsightMessage.getHydrationReminderMessage(

@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/info_dialog_widget.dart';
@@ -63,7 +64,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
         Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding4),
           child: Text(
-            'Your Name',
+            context.loc.your_name,
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,
               fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
             Padding(
               padding: const EdgeInsets.only(top: AppDimens.padding4),
               child: Text(
-                'Daily Goal',
+                context.loc.daily_goal,
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,
@@ -127,22 +128,23 @@ class _SettingsProfileState extends State<SettingsProfile> {
                       showDialog(
                         context: context,
                         builder: (context) => DialogWidget(
-                          title: 'Change Daily Goal',
+                          title: context.loc.change_daily_goal,
                           body: Center(
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 top: AppDimens.padding16,
                               ),
                               child: Text(
-                                'Confirm to change your daily goal',
+                                context.loc.change_daily_goal_dialog,
                                 style: TextStyle(
                                   fontSize: AppDimens.fontSizeDefault,
                                   color: AppColor.getWhiteBlack(context),
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
-                          buttonName: 'Confỉrm',
+                          buttonName: context.loc.confirm,
                         ),
                       ).then((value) {
                         if (!context.mounted) return;
@@ -176,7 +178,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                 spacing: AppDimens.padding4,
                 children: [
                   Text(
-                    'Advanced Mode',
+                    context.loc.advanced_mode,
                     style: TextStyle(
                       fontSize: AppDimens.fontSizeDefault,
                       fontWeight: FontWeight.bold,
@@ -188,11 +190,8 @@ class _SettingsProfileState extends State<SettingsProfile> {
                       showDialog(
                         context: context,
                         builder: (context) => InfoDialogWidget(
-                          title: 'Advanced Mode',
-                          content:
-                              'Very high water intake goals should be discussed '
-                              'with a healthcare professional. Excessive water '
-                              'consumption can be harmful.',
+                          title: context.loc.advanced_mode,
+                          content: context.loc.advanced_mode_dialog,
                         ),
                       );
                     },
@@ -211,9 +210,10 @@ class _SettingsProfileState extends State<SettingsProfile> {
                   ),
                 ],
               ),
-              subtitle:
-                  'Unlock goal to '
-                  '${advancedxDailyGoal.toStringAsFixed(0)}$unit',
+              subtitle: context.loc.advanced_mode_description(
+                advancedxDailyGoal.toStringAsFixed(0),
+                unit,
+              ),
               trailing: BlocBuilder<AppDataCubit, AppDataState>(
                 builder: (context, state) {
                   final dailyGoal = state.data.dailyGoal;
@@ -268,7 +268,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Profile',
+          context.loc.profile,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,

@@ -40,8 +40,8 @@ class SettingsAppearance extends StatelessWidget {
       spacing: AppDimens.padding12,
       children: [
         FeatureItemWidget(
-          title: 'Dark Mode',
-          subtitle: 'Switch to dark theme',
+          title: context.loc.dark_mode,
+          subtitle: context.loc.dark_mode_description,
           trailing: CupertinoSwitch(
             activeTrackColor: AppColor.getSwitchColor(
               context,
@@ -58,8 +58,8 @@ class SettingsAppearance extends StatelessWidget {
           ),
         ),
         FeatureItemWidget(
-          title: 'Units',
-          subtitle: 'Milliliters or fluid ounces',
+          title: context.loc.units,
+          subtitle: context.loc.units_description,
           trailing: BlocBuilder<AppDataCubit, AppDataState>(
             buildWhen: (previous, current) => current is UpdateVolumeUnitType,
             builder: (context, state) {
@@ -81,7 +81,7 @@ class SettingsAppearance extends StatelessWidget {
           buildWhen: (previous, current) => current is UpdateLocaleState,
           builder: (context, state) {
             return FeatureItemWidget(
-              title: 'Language',
+              title: context.loc.language,
               subtitle: LanguageCodeExtension.fromRawValue(
                 state.data.locale?.languageCode ?? '',
               ).rawValue,
@@ -116,7 +116,7 @@ class SettingsAppearance extends StatelessWidget {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Appearance',
+          context.loc.appearance,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,

@@ -23,6 +23,8 @@ import '../../app/theme/app_color.dart';
 import '../settings/cubit/hydration_calculator_cubit.dart';
 import 'widget/new_day_snack_bar.dart';
 
+bool _notificationScheduledRecently = false;
+
 class NavScreen extends StatefulWidget {
   const NavScreen({
     super.key,
@@ -96,8 +98,13 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
               current is UpdateReminderInterval ||
               current is UpdateEndTime ||
               current is UpdateReminderStatus ||
-              current is UpdateSoundEffectStatus && current.data.isInitComplete,
+              (current is UpdateSoundEffectStatus &&
+                  current.data.isInitComplete),
           listener: (context, state) {
+            if (_notificationScheduledRecently) return;
+
+            _notificationScheduledRecently = true;
+
             if (state.data.reminderStatus) {
               String titleString = '';
               final userName = state.data.userName;
@@ -122,6 +129,11 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
             } else {
               NotificationService().cancelScheduledNotification();
             }
+
+            // Reset after short delay
+            Future.delayed(Duration(seconds: 1), () {
+              _notificationScheduledRecently = false;
+            });
           },
         ),
         BlocListener<AppDataCubit, AppDataState>(
@@ -181,80 +193,87 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
           },
         ),
       ],
-      child: Scaffold(
-        body: widget.navigationShell,
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Divider(
-              height: 0,
-              thickness: AppDimens.borderWidth2,
-              color: AppColor.getNavBorderColor(context),
-            ),
+      child: PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          if (widget.navigationShell.currentIndex != 0) {
+            widget.navigationShell.goBranch(0);
+          }
+        },
+        child: Scaffold(
+          body: widget.navigationShell,
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Divider(
+                height: 0,
+                thickness: AppDimens.borderWidth2,
+                color: AppColor.getNavBorderColor(context),
+              ),
 
-            NavigationBar(
-              height: kBottomNavigationBarHeight,
-              selectedIndex: widget.navigationShell.currentIndex,
-              onDestinationSelected: (index) {
-                if (index != widget.navigationShell.currentIndex) {
-                  switch (index) {
-                    case 0:
-                      widget.homeScreenKey.currentState?.scrollToTop();
-                      break;
-                    case 1:
-                      widget.statisticsScreenKey.currentState?.scrollToTop();
-                      break;
-                    case 2:
-                      widget.settingsScreenKey.currentState?.scrollToTop();
-                      break;
+              NavigationBar(
+                height: kBottomNavigationBarHeight,
+                selectedIndex: widget.navigationShell.currentIndex,
+                onDestinationSelected: (index) {
+                  if (index != widget.navigationShell.currentIndex) {
+                    switch (index) {
+                      case 0:
+                        widget.homeScreenKey.currentState?.scrollToTop();
+                        break;
+                      case 1:
+                        widget.statisticsScreenKey.currentState?.scrollToTop();
+                        break;
+                      case 2:
+                        widget.settingsScreenKey.currentState?.scrollToTop();
+                        break;
+                    }
                   }
-                }
-                widget.navigationShell.goBranch(index);
-              },
-              destinations: [
-                NavigationDestination(
-                  icon: SvgPicture.asset(
-                    ImageConstant.drop,
-                    colorFilter: ColorFilter.mode(
-                      widget.navigationShell.currentIndex == 0
-                          ? AppColor.getActiveIconColor(context)
-                          : AppColor.getWhiteBlack(context),
-                      BlendMode.srcIn,
+                  widget.navigationShell.goBranch(index);
+                },
+                destinations: [
+                  NavigationDestination(
+                    icon: SvgPicture.asset(
+                      ImageConstant.drop,
+                      colorFilter: ColorFilter.mode(
+                        widget.navigationShell.currentIndex == 0
+                            ? AppColor.getActiveIconColor(context)
+                            : AppColor.getWhiteBlack(context),
+                        BlendMode.srcIn,
+                      ),
+                      height: AppDimens.iconSize20,
                     ),
-                    height: AppDimens.iconSize20,
+                    label: context.loc.home,
                   ),
-                  label: context.loc.home,
-                ),
-                NavigationDestination(
-                  icon: SvgPicture.asset(
-                    ImageConstant.chart,
-                    colorFilter: ColorFilter.mode(
-                      widget.navigationShell.currentIndex == 1
-                          ? AppColor.getActiveIconColor(context)
-                          : AppColor.getWhiteBlack(context),
-                      BlendMode.srcIn,
+                  NavigationDestination(
+                    icon: SvgPicture.asset(
+                      ImageConstant.chart,
+                      colorFilter: ColorFilter.mode(
+                        widget.navigationShell.currentIndex == 1
+                            ? AppColor.getActiveIconColor(context)
+                            : AppColor.getWhiteBlack(context),
+                        BlendMode.srcIn,
+                      ),
+                      height: AppDimens.iconSize20,
                     ),
-                    height: AppDimens.iconSize20,
+                    label: context.loc.statistics,
                   ),
-                  label: context.loc.statistics,
-                ),
-                NavigationDestination(
-                  icon: SvgPicture.asset(
-                    ImageConstant.setting,
-                    colorFilter: ColorFilter.mode(
-                      widget.navigationShell.currentIndex == 2
-                          ? AppColor.getActiveIconColor(context)
-                          : AppColor.getWhiteBlack(context),
-                      BlendMode.srcIn,
+                  NavigationDestination(
+                    icon: SvgPicture.asset(
+                      ImageConstant.setting,
+                      colorFilter: ColorFilter.mode(
+                        widget.navigationShell.currentIndex == 2
+                            ? AppColor.getActiveIconColor(context)
+                            : AppColor.getWhiteBlack(context),
+                        BlendMode.srcIn,
+                      ),
+                      height: AppDimens.iconSize20,
                     ),
-                    height: AppDimens.iconSize20,
+                    label: context.loc.settings,
                   ),
-                  label: context.loc.settings,
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

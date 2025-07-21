@@ -2,5 +2,224 @@
     "@@locale": "en",
     "home": "Home",
     "statistics": "Statistics",
-    "settings": "Settings"
+    "statistics_description": "Your hydration insights",
+    "settings": "Settings",
+    "settings_description": "Customize your experience",
+
+    "dailyGoalText": "of {value}{unit} daily goal",
+    "@dailyGoalText": {
+        "description": "Shows the current progress towards the daily goal",
+        "placeholders": {
+            "value": {},
+            "unit": {}
+        }
+    },
+    
+    "remaining": "{value}{unit} remaining",
+    "@remaining": {
+        "description": "Shows current amount needed to reach daily goal",
+        "placeholders": {
+            "value": {},
+            "unit": {}
+        }
+    },
+
+    "custom": "Custom",
+    "recent": "Recent",
+    "more": "More",
+    "no_water_intake_data": "You haven't had any water yet.",
+    "day_streak": "Day Streak",
+    "weekly_avg": "Weekly Avg",
+    "this_week": "This Week",
+    "this_month": "This Month",
+
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun",
+
+    "goals_met": "Goals Met",
+    "success_rate": "Success Rate",
+
+    "profile": "Profile",
+    "your_name": "Your Name",
+    "daily_goal": "Daily Goal",
+    "advanced_mode": "Advanced Mode",
+    "advanced_mode_description": "Unlock goal to {value}{unit}",
+    "@advanced_mode_description": {
+        "description": "Advanced Mode Description",
+        "placeholders":{
+            "value": {},
+            "unit": {}
+        }
+    },
+    "advanced_mode_dialog": "Very high water intake goals should be discussed with a healthcare professional. Excessive water consumption can be harmful.",
+    "change_daily_goal": "Change Daily Goal",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "change_daily_goal_dialog": "Are you sure you want to change your daily goal?",
+
+    "appearance": "Appearance",
+    "dark_mode": "Dark Mode",
+    "dark_mode_description": "Switch to dark theme",
+    "units": "Units",
+    "units_description": "Milliliters or fluuid ounces",
+    "language": "Language",
+
+    "reminders": "Reminders",
+    "enable_reminders": "Enable Reminders",
+    "enable_reminders_description": "Get notified to drink water",
+    "sound_effects": "Sound Effects",
+    "sound_effects_description": "Play sound for actions",
+    "reminder_interval": "Reminder Interval",
+    "sleep_hours": "Sleep Hours",
+    "sleep_hours_description": "Reminders will be paused during these hours",
+
+    "hydration_calculator": "Hydration Calculator",
+    "hydration_calculator_description": "Calculate your personalized daily water goal based on your body weight and activity level",
+    "body_weight": "Body Weight",
+    "daily_exercise_time": "Daily Exercise Time",
+    "recommended_daily_intake": "Recommended Daily Intake",
+    "base": "Base: {value} (based on body weight)",
+    "@base": {
+        "description": "Base hydration calculator",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "exercise": "Exercise: +{value} ({min} min activity)",
+    "@exercise": {
+        "description": "Add exercise time hydration calculator",
+        "placeholders":{
+            "value": {},
+            "min": {}
+        }
+    },
+    "apply_recommended_goal": "Apply Recommended Goal",
+    "apply_recommended_goal_success_dialog": "Your new daily goal will be set to {value}{unit}. Would you like to apply this change?",
+    "@apply_recommended_goal_success_dialog": {
+        "description": "Apply recommended goal success dialog",
+        "placeholders":{
+            "value": {},
+            "unit": {}
+        }
+    },
+    "apply_recommended_goal_failure_dialog": "Your goal should be between {value1}{unit} and {value2}{unit}. Let's tweak it and try again!",
+    "@apply_recommended_goal_failure_dialog": {
+        "description": "Apply recommended goal failure dialog",
+        "placeholders":{
+            "value1": {},
+            "value2": {},
+            "unit": {}
+        }
+    },
+    "invalid_goal_amount": "Invalid Goal Amount",
+    "close": "Close",
+
+    "quick_add_amounts": "Quick Add Amounts",
+    "quick_add_amounts_description": "Customize your quick-add buttons for common drink sizes",
+    "button": "Button",
+    "tip": "Tip",
+    "quick_add_amounts_tip": "Set these to your most common drink sizes (e.g., your favorite glass, water bottle, or mug capacity)",
+    "reset_to_default_value": "Reset to Default Value",
+    "reset_quick_add_confirmation": "This will reset your Quick-add buttons to their default values.",
+
+    "data_and_storage": "Data & Storage",
+    "data_and_storage_description": "Manage how your water intake data is stored and retained.",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "storage_info": "Storage Info",
+    "storage_info_content": "Your data is stored locally on your device. Shorter retention periods help keep your app running smoothly.",
+
+    "streakTitle0": "No streak yet – let's fix that!",
+    "streakTitle1": "First day streak!",
+    "streakTitle2": "{value} day streak!",
+    "@streakTitle2": {
+        "description": "Streak Title #2",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "streakContent0": "Every habit starts with one small action.",
+    "streakContent1": "Great start! A journey begins with a single step.",
+    "streakContent2": "You're picking up steam. Small wins add up.",
+    "streakContent3": "Solid progress! You're forming a strong habit.",
+    "streakContent4": "Impressive dedication. You're making this a lifestyle.",
+    "streakContent5": "You're a force of habit! This is how change happens.",
+    "streakContent6": "Legendary commitment. You're an inspiration.",
+    "streakAction0": "Take the first step",
+    "streakAction1": "Keep the momentum going",
+    "streakAction2": "Stay on track",
+    "streakAction3": "Don't lose your rhythm",
+    "streakAction4": "Keep pushing forward",
+    "streakAction5": "Inspire others",
+    "streakAction6": "Be proud and keep going",
+
+    "achievementTitle0": "Let's begin!",
+    "achievementTitle1": "Off to a start!",
+    "achievementTitle2": "Making progress!",
+    "achievementTitle3": "Over halfway!",
+    "achievementTitle4": "Almost there!",
+    "achievementTitle5": "Goal achieved!",
+    "achievementContent0": "You haven't started yet, but there's still time to crush your goal.",
+    "achievementContent1": "You're {value}% towards your daily goal. Every bit counts!",
+    "@achievementContent1": {
+        "description": "Achievement Content 1",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "achievementContent2": "You're {value}% there. Stay focused and keep moving!",
+    "@achievementContent2": {
+        "description": "Achievement Content 2",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "achievementContent3": "You're {value}% towards your goal. Great effort so far!",
+    "@achievementContent3": {
+        "description": "Achievement Content 3",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "achievementContent4": "You're {value}% in! One last push to reach your goal.",
+    "@achievementContent4": {
+        "description": "Achievement Content 4",
+        "placeholders":{
+            "value": {}
+        }
+    },
+    "achievementContent5": "You hit 100% of your daily goal. Amazing work!",
+    "achievementAction0": "Take the first step",
+    "achievementAction1": "Keep it going",
+    "achievementAction2": "You're halfway there",
+    "achievementAction3": "Push a little more",
+    "achievementAction4": "Finish strong",
+    "achievementAction5": "Celebrate your win",
+
+    "benefitTitle": "How water helps?",
+    "benefitAction": "Keep the good work going!",
+    "fact0": "Your body is about 60% water, vital for nearly every function.",
+    "fact1": "Your brain is 75% water. Even mild dehydration can affect concentration and mood.",
+    "fact2": "You can live for weeks without food, but only days without water.",
+    "fact3": "Hydration helps regulate your body temperature and prevent headaches.",
+    "fact4": "Hydration improves circulation and supports a healthy immune system.",
+    "fact5": "Drinking water helps cushion your joints and muscles during activity.",
+    "fact6": "Staying hydrated helps your brain work better, improving focus and memory.",
+    "fact7": "Water is aiding digestion and supporting your metabolism.",
+    "fact8": "Water is helping deliver nutrients to your cells and boosting energy.",
+
+    "factTitle": "Did you know?",
+    "factAction": "Keep the good work going!",
+    "benefit0": "Water is helping flush toxins from your kidneys and keeping your skin glowing.",
+    "benefit1": "Hydration is supporting your joints and reducing fatigue.",
+    "benefit2": "You're maintaining focus and mental clarity by staying hydrated.",
+    "benefit3": "You're supporting healthy skin, mood, and overall well-being right now.",
+    "benefit4": "Your heart is working more efficiently thanks to proper hydration.",
+    "benefit5": "You're helping your whole body feel better just by staying hydrated."
 }

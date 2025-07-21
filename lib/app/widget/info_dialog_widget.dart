@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import '../theme/app_color.dart';
 import '../theme/app_dimens.dart';
 
@@ -39,6 +40,7 @@ class InfoDialogWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: AppColor.getWhiteBlack(context),
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppDimens.padding16),
             Text(
@@ -73,7 +75,7 @@ class InfoDialogWidget extends StatelessWidget {
                   overlayColor: Colors.transparent,
                 ),
                 child: Text(
-                  'Close',
+                  context.loc.close,
                   style: TextStyle(
                     fontSize: AppDimens.fontSizeDefault,
                     fontWeight: FontWeight.bold,

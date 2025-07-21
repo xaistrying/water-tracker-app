@@ -2,5 +2,224 @@
     "@@locale": "vi",
     "home": "Trang chủ",
     "statistics": "Thống kê",
-    "settings": "Cài đặt"
+    "statistics_description": "Thông tin uống nước của bạn",
+    "settings": "Cài đặt",
+    "settings_description": "Tùy chỉnh trải nghiệm của bạn",
+
+    "dailyGoalText": "trên {value}{unit} mục tiêu/ngày",
+    "@dailyGoalText": {
+        "description": "Hiển thị tiến trình hiện tại so với mục tiêu hàng ngày",
+        "placeholders": {
+            "value": {},
+            "unit": {}
+        }
+    },
+    
+    "remaining": "còn lại {value}{unit}",
+    "@remaining": {
+        "description": "Hiển thị số lượng cần hiện tại để đạt được mục tiêu hàng ngày",
+        "placeholders": {
+            "value": {},
+            "unit": {}
+        }
+    },
+
+    "custom": "Tùy chỉnh",
+    "recent": "Gần đây",
+    "more": "Mở rộng",
+    "no_water_intake_data": "Bạn chưa uống chút nước nào hôm nay.",
+    "day_streak": "Chuỗi Ngày",
+    "weekly_avg": "TB Tuần",
+    "this_week": "Tuần Này",
+    "this_month": "Tháng Này",
+
+    "mon": "T2",
+    "tue": "T3",
+    "wed": "T4",
+    "thu": "T5",
+    "fri": "T6",
+    "sat": "T7",
+    "sun": "CN",
+
+    "goals_met": "Đạt Mục Tiêu",
+    "success_rate": "Hoàn Thành",
+
+    "profile": "Hồ sơ",
+    "your_name": "Tên của bạn",
+    "daily_goal": "Mục tiêu mỗi ngày",
+    "advanced_mode": "Chế độ nâng cao",
+    "advanced_mode_description": "Mở khóa mục tiêu lên {value}{unit}",
+    "@advanced_mode_description": {
+    "description": "Mô tả chế độ nâng cao",
+        "placeholders": {
+            "value": {},
+            "unit": {}
+        }
+    },
+    "advanced_mode_dialog": "Hãy hỏi ý kiến bác sĩ nếu đặt mục tiêu uống nước cao. Uống quá nhiều có thể gây hại đến sức khỏe.",
+    "change_daily_goal": "Thay đổi mục tiêu mỗi ngày",
+    "confirm": "Xác nhận",
+    "cancel": "Hủy",
+    "change_daily_goal_dialog": "Bạn có chắc muốn thay đổi mục tiêu mỗi ngày?",
+
+    "appearance": "Giao diện",
+    "dark_mode": "Chế độ tối",
+    "dark_mode_description": "Chuyển sang giao diện tối",
+    "units": "Đơn vị",
+    "units_description": "Mililít hoặc ounce",
+    "language": "Ngôn ngữ",
+
+    "reminders": "Nhắc nhở",
+    "enable_reminders": "Bật nhắc nhở",
+    "enable_reminders_description": "Nhận thông báo uống nước",
+    "sound_effects": "Âm thanh",
+    "sound_effects_description": "Phát âm thanh khi nhắc nhở",
+    "reminder_interval": "Khoảng cách nhắc nhở",
+    "sleep_hours": "Giờ ngủ",
+    "sleep_hours_description": "Tạm dừng nhắc nhở trong thời gian này",
+    
+    "hydration_calculator": "Máy tính lượng nước",
+    "hydration_calculator_description": "Tính toán mục tiêu uống nước hằng ngày của bạn dựa trên cân nặng và mức độ vận động",
+    "body_weight": "Cân nặng",
+    "daily_exercise_time": "Thời gian tập mỗi ngày",
+    "recommended_daily_intake": "Lượng khuyến nghị mỗi ngày",
+    "base": "Cơ bản: {value} (dựa trên cân nặng)",
+    "@base": {
+    "description": "Cơ sở trong máy tính lượng nước",
+        "placeholders": {
+            "value": {}
+        }
+    },
+    "exercise": "Tập luyện: +{value} (tập {min} phút)",
+    "@exercise": {
+        "description": "Phần bổ sung dựa trên thời gian tập luyện",
+        "placeholders": {
+            "value": {},
+            "min": {}
+        }
+    },
+    "apply_recommended_goal": "Áp dụng mục tiêu khuyến nghị",
+    "apply_recommended_goal_success_dialog": "Mục tiêu mới của bạn sẽ được đặt thành {value}{unit}. Bạn có muốn áp dụng thay đổi này không?",
+    "@apply_recommended_goal_success_dialog": {
+    "description": "Hộp thoại áp dụng mục tiêu khuyến nghị (thành công)",
+    "placeholders": {
+        "value": {},
+        "unit": {}
+    }
+    },
+    "apply_recommended_goal_failure_dialog": "Mục tiêu nên nằm trong khoảng từ {value1}{unit} đến {value2}{unit}. Hãy điều chỉnh và thử lại nhé!",
+    "@apply_recommended_goal_failure_dialog": {
+    "description": "Hộp thoại áp dụng mục tiêu khuyến nghị (thất bại)",
+    "placeholders": {
+        "value1": {},
+        "value2": {},
+        "unit": {}
+    }
+    },
+    "invalid_goal_amount": "Mức mục tiêu không hợp lệ",
+    "close": "Đóng",
+
+    "quick_add_amounts": "Tùy chỉnh thêm nhanh",
+    "quick_add_amounts_description": "Thiết lập các nút thêm nhanh để ghi nhận lượng nước bạn thường uống.",
+    "button": "Nút",
+    "tip": "Mẹo",
+    "quick_add_amounts_tip": "Cài đặt các mức thêm nhanh theo dung tích thường dùng (ví dụ: ly, chai nước hoặc cốc bạn hay dùng).",
+    "reset_to_default_value": "Đặt lại về mặc định",
+    "reset_quick_add_confirmation": "Thao tác này sẽ đặt lại các nút thêm nhanh về giá trị mặc định.",
+
+    "data_and_storage": "Dữ liệu & Lưu trữ",
+    "data_and_storage_description": "Quản lý cách dữ liệu uống nước của bạn được lưu trữ và giữ lại.",
+    "day": "Ngày",
+    "week": "Tuần",
+    "month": "Tháng",
+    "storage_info": "Thông tin lưu trữ",
+    "storage_info_content": "Dữ liệu của bạn được lưu trữ cục bộ trên thiết bị. Thời gian lưu giữ ngắn hơn giúp ứng dụng hoạt động mượt mà hơn.",
+    
+    "streakTitle0": "Hãy bắt đầu từ hôm nay!",
+    "streakTitle1": "Chuỗi ngày đầu tiên!",
+    "streakTitle2": "Chuỗi {value} ngày!",
+    "@streakTitle2": {
+        "description": "Tiêu đề chuỗi ngày #2",
+        "placeholders": {
+            "value": {}
+        }
+    },
+    "streakContent0": "Mọi thói quen đều bắt đầu từ một hành động nhỏ.",
+    "streakContent1": "Khởi đầu tuyệt vời! Mỗi hành trình bắt đầu từ một bước đi.",
+    "streakContent2": "Bạn đang dần tăng tốc. Những thành công nhỏ đang cộng dồn.",
+    "streakContent3": "Tiến bộ vững vàng! Bạn đang hình thành thói quen tốt.",
+    "streakContent4": "Tinh thần kiên trì đáng nể. Bạn đang biến điều này thành lối sống.",
+    "streakContent5": "Bạn thật sự có thói quen mạnh mẽ! Đây chính là cách thay đổi xảy ra.",
+    "streakContent6": "Cam kết đáng khâm phục. Bạn là nguồn cảm hứng cho người khác.",
+    "streakAction0": "Bắt đầu bước đầu tiên",
+    "streakAction1": "Giữ vững đà tiến",
+    "streakAction2": "Tiếp tục đúng hướng",
+    "streakAction3": "Đừng đánh mất nhịp độ",
+    "streakAction4": "Tiếp tục tiến về phía trước",
+    "streakAction5": "Truyền cảm hứng cho người khác",
+    "streakAction6": "Tự hào và tiếp tục cố gắng",
+
+    "achievementTitle0": "Bắt đầu thôi!",
+    "achievementTitle1": "Khởi đầu rồi!",
+    "achievementTitle2": "Đang tiến triển tốt!",
+    "achievementTitle3": "Hơn nửa chặng đường!",
+    "achievementTitle4": "Sắp hoàn thành!",
+    "achievementTitle5": "Đã hoàn thành mục tiêu!",
+    "achievementContent0": "Bạn chưa bắt đầu, nhưng vẫn còn thời gian để chinh phục mục tiêu.",
+    "achievementContent1": "Bạn đã đạt {value}% mục tiêu hôm nay. Mỗi bước đều quan trọng!",
+    "@achievementContent1": {
+    "description": "Nội dung thành tích 1",
+    "placeholders": {
+        "value": {}
+    }
+    },
+    "achievementContent2": "Bạn đã hoàn thành {value}% chặng đường. Giữ vững tinh thần nhé!",
+    "@achievementContent2": {
+    "description": "Nội dung thành tích 2",
+    "placeholders": {
+        "value": {}
+    }
+    },
+    "achievementContent3": "Bạn đã đạt {value}% mục tiêu. Cố gắng tuyệt vời cho đến nay!",
+    "@achievementContent3": {
+    "description": "Nội dung thành tích 3",
+    "placeholders": {
+        "value": {}
+    }
+    },
+    "achievementContent4": "Bạn đã hoàn thành {value}%. Chỉ còn chút nữa là đạt mục tiêu!",
+    "@achievementContent4": {
+    "description": "Nội dung thành tích 4",
+    "placeholders": {
+        "value": {}
+    }
+    },
+    "achievementContent5": "Bạn đã đạt 100% mục tiêu hôm nay. Làm rất tốt!",
+    "achievementAction0": "Bắt đầu ngay",
+    "achievementAction1": "Tiếp tục nhé",
+    "achievementAction2": "Đã đi được nửa đường",
+    "achievementAction3": "Cố thêm chút nữa",
+    "achievementAction4": "Kết thúc thật mạnh mẽ",
+    "achievementAction5": "Chúc mừng thành công",
+
+    "benefitTitle": "Nước mang lại lợi ích gì?",
+    "benefitAction": "Tiếp tục duy trì thói quen tốt nhé!",
+    "benefit0": "Nước giúp thải độc qua thận và giữ cho làn da bạn luôn rạng rỡ.",
+    "benefit1": "Cơ thể được cấp nước giúp hỗ trợ khớp và giảm mệt mỏi.",
+    "benefit2": "Bạn đang duy trì sự tập trung và minh mẫn nhờ uống đủ nước.",
+    "benefit3": "Bạn đang chăm sóc làn da, tâm trạng và sức khỏe tổng thể của mình.",
+    "benefit4": "Tim bạn hoạt động hiệu quả hơn khi được cung cấp đủ nước.",
+    "benefit5": "Chỉ cần uống đủ nước, cơ thể bạn sẽ cảm thấy dễ chịu hơn rất nhiều.",
+    "factTitle": "Bạn có biết?",
+    "factAction": "Tiếp tục duy trì thói quen tốt nhé!",
+
+    "fact0": "Cơ thể bạn chứa khoảng 60% nước - yếu tố quan trọng cho hầu hết chức năng sống.",
+    "fact1": "Não bộ có đến 75% là nước. Thiếu nước nhẹ cũng có thể ảnh hưởng đến sự tập trung và tâm trạng.",
+    "fact2": "Bạn có thể sống nhiều tuần không ăn, nhưng chỉ vài ngày nếu không uống nước.",
+    "fact3": "Uống đủ nước giúp điều hòa thân nhiệt và ngăn ngừa đau đầu.",
+    "fact4": "Cấp nước đầy đủ cải thiện tuần hoàn máu và tăng cường hệ miễn dịch.",
+    "fact5": "Nước giúp bảo vệ khớp và cơ bắp khi vận động.",
+    "fact6": "Uống đủ nước giúp não hoạt động tốt hơn, tăng khả năng tập trung và ghi nhớ.",
+    "fact7": "Nước hỗ trợ tiêu hóa và thúc đẩy quá trình trao đổi chất.",
+    "fact8": "Nước giúp vận chuyển dưỡng chất đến tế bào và tăng cường năng lượng."
 }

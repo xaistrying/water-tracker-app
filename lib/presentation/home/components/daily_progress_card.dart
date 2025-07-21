@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
@@ -51,7 +52,10 @@ class DailyProgressCard extends StatelessWidget {
                     final dailyGoal = state.data.dailyGoal;
                     final unit = state.data.volumeUnitType.rawValue;
                     return Text(
-                      'of ${dailyGoal.toStringAsFixed(0)}$unit daily goal',
+                      context.loc.dailyGoalText(
+                        dailyGoal.toStringAsFixed(0),
+                        unit,
+                      ),
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         color: AppColor.getGreyColorForText(context),
@@ -105,7 +109,10 @@ class DailyProgressCard extends StatelessWidget {
                       : 0;
                   final unit = state.data.volumeUnitType.rawValue;
                   return Text(
-                    '${dailyRemaining.toStringAsFixed(0)}$unit remaining',
+                    context.loc.remaining(
+                      dailyRemaining.toStringAsFixed(0),
+                      unit,
+                    ),
                     style: TextStyle(
                       fontSize: AppDimens.fontSizeDefault,
                       color: AppColor.getGreyColorForText(context),

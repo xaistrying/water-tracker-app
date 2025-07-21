@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -21,7 +22,7 @@ class StatisticsHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Statistics',
+              context.loc.statistics,
               style: TextStyle(
                 fontSize: AppDimens.fontSize20,
                 fontWeight: FontWeight.bold,
@@ -29,7 +30,7 @@ class StatisticsHeader extends StatelessWidget {
               ),
             ),
             Text(
-              'Your hydration insights',
+              context.loc.statistics_description,
               style: TextStyle(
                 fontSize: AppDimens.fontSize16,
                 color: AppColor.getContentColor(context),

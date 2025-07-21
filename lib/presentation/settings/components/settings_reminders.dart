@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
 import 'package:water_tracker_app/app/service/notification_service.dart';
@@ -77,8 +78,8 @@ class _SettingsReminderState extends State<SettingsReminder>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FeatureItemWidget(
-          title: 'Enable Reminders',
-          subtitle: 'Get notified to drink water',
+          title: context.loc.enable_reminders,
+          subtitle: context.loc.enable_reminders_description,
           trailing: BlocBuilder<AppDataCubit, AppDataState>(
             builder: (context, state) {
               return CupertinoSwitch(
@@ -114,8 +115,8 @@ class _SettingsReminderState extends State<SettingsReminder>
           ),
         ),
         FeatureItemWidget(
-          title: 'Sound Effects',
-          subtitle: 'Play sound for actions',
+          title: context.loc.sound_effects,
+          subtitle: context.loc.sound_effects_description,
           trailing: BlocBuilder<AppDataCubit, AppDataState>(
             builder: (context, state) {
               return CupertinoSwitch(
@@ -142,7 +143,7 @@ class _SettingsReminderState extends State<SettingsReminder>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Reminder Interval',
+              context.loc.reminder_interval,
               style: TextStyle(
                 fontSize: AppDimens.fontSizeDefault,
                 fontWeight: FontWeight.bold,
@@ -173,7 +174,7 @@ class _SettingsReminderState extends State<SettingsReminder>
             Padding(
               padding: const EdgeInsets.only(top: AppDimens.padding4),
               child: Text(
-                'Sleep Hours',
+                context.loc.sleep_hours,
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,
@@ -182,7 +183,7 @@ class _SettingsReminderState extends State<SettingsReminder>
               ),
             ),
             Text(
-              'Reminders will be paused during these hours',
+              context.loc.sleep_hours_description,
               style: TextStyle(
                 fontSize: AppDimens.fontSizeDefault,
                 color: AppColor.getContentColor(context),
@@ -288,7 +289,7 @@ class _SettingsReminderState extends State<SettingsReminder>
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Reminders',
+          context.loc.reminders,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,

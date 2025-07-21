@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/double_extension.dart';
 import '../../../app/constant/data_default.dart';
 import '../../../app/theme/app_color.dart';
@@ -45,7 +46,7 @@ class RecentMoreScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                'Recent',
+                context.loc.recent,
                 style: TextStyle(
                   fontSize: AppDimens.fontSize20,
                   fontWeight: FontWeight.bold,
@@ -62,7 +63,7 @@ class RecentMoreScreen extends StatelessWidget {
             if (historyLength == 0) {
               return Center(
                 child: Text(
-                  'You haven\'t had any water yet.',
+                  context.loc.no_water_intake_data,
                   style: TextStyle(color: AppColor.getContentColor(context)),
                 ),
               );

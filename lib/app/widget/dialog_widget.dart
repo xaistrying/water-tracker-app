@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import '../theme/app_color.dart';
 import '../theme/app_dimens.dart';
 
@@ -46,6 +47,7 @@ class DialogWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: AppColor.getWhiteBlack(context),
               ),
+              textAlign: TextAlign.center,
             ),
             // MARK: Body
             body ?? SizedBox.shrink(),
@@ -77,7 +79,7 @@ class DialogWidget extends StatelessWidget {
                       overlayColor: Colors.transparent,
                     ),
                     child: Text(
-                      cancelButtonName ?? 'Cancel',
+                      cancelButtonName ?? context.loc.cancel,
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         fontWeight: FontWeight.bold,
@@ -107,7 +109,7 @@ class DialogWidget extends StatelessWidget {
                       overlayColor: Colors.transparent,
                     ),
                     child: Text(
-                      buttonName ?? 'Confirm',
+                      buttonName ?? context.loc.confirm,
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         fontWeight: FontWeight.bold,

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/theme/app_color.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
@@ -47,7 +48,7 @@ class RecentMeasurementCard extends StatelessWidget {
           return Column(
             children: [
               Text(
-                'You haven\'t had any water yet.',
+                context.loc.no_water_intake_data,
                 style: TextStyle(color: AppColor.getContentColor(context)),
               ),
               SizedBox(height: AppDimens.padding12),
@@ -94,7 +95,7 @@ class RecentMeasurementCard extends StatelessWidget {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Recent',
+          context.loc.recent,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
@@ -105,7 +106,7 @@ class RecentMeasurementCard extends StatelessWidget {
         TextButton.icon(
           onPressed: () => context.push(AppRouter.recentMore),
           label: Text(
-            'More',
+            context.loc.more,
             style: TextStyle(color: AppColor.getGreyColorForText(context)),
           ),
           iconAlignment: IconAlignment.end,

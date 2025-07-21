@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/widget/custom_card_widget.dart';
 import '../../../app/constant/data_default.dart';
@@ -35,7 +36,7 @@ class StatisticsKey extends StatelessWidget {
                 ),
                 height: AppDimens.iconSize28,
               ),
-              label: 'Day Streak',
+              label: context.loc.day_streak,
               volume: state.data.numberOfStreak.toDouble(),
             );
           },
@@ -58,7 +59,7 @@ class StatisticsKey extends StatelessWidget {
                 ),
                 height: AppDimens.iconSize28,
               ),
-              label: 'Weekly Avg ($unit)',
+              label: '${context.loc.weekly_avg} ($unit)',
               volume: avg,
               decimalRange: decimalRange,
             );

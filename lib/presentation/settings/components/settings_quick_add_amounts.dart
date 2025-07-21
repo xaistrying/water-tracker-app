@@ -10,6 +10,7 @@ import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/quick_add_option.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
@@ -79,19 +80,19 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
           context,
           controller: _controllers[QuickAddOption.first.rawValue],
           option: QuickAddOption.first,
-          title: 'Button ${QuickAddOption.first.rawValue + 1}',
+          title: '${context.loc.button} ${QuickAddOption.first.rawValue + 1}',
         ),
         _buildQuickAddButton(
           context,
           controller: _controllers[QuickAddOption.second.rawValue],
           option: QuickAddOption.second,
-          title: 'Button ${QuickAddOption.second.rawValue + 1}',
+          title: '${context.loc.button} ${QuickAddOption.second.rawValue + 1}',
         ),
         _buildQuickAddButton(
           context,
           controller: _controllers[QuickAddOption.third.rawValue],
           option: QuickAddOption.third,
-          title: 'Button ${QuickAddOption.third.rawValue + 1}',
+          title: '${context.loc.button} ${QuickAddOption.third.rawValue + 1}',
         ),
       ],
     );
@@ -164,7 +165,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
         TextSpan(
           children: [
             TextSpan(
-              text: 'Tip: ',
+              text: '${context.loc.tip}: ',
               style: TextStyle(
                 fontSize: AppDimens.fontSizeDefault,
                 fontWeight: FontWeight.bold,
@@ -172,9 +173,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
               ),
             ),
             TextSpan(
-              text:
-                  'Set these to your most common drink sizes (e.g., your '
-                  'favorite glass, water bottle, or mug capacity)',
+              text: context.loc.quick_add_amounts_tip,
               style: TextStyle(
                 fontSize: AppDimens.fontSizeDefault,
                 fontWeight: FontWeight.normal,
@@ -200,7 +199,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Quick Add Amounts',
+          context.loc.quick_add_amounts,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
@@ -213,12 +212,11 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
             showDialog(
               context: context,
               builder: (context) => DialogWidget(
-                title: 'Reset to Default Value',
+                title: context.loc.reset_to_default_value,
                 body: Padding(
                   padding: const EdgeInsets.only(top: AppDimens.padding12),
                   child: Text(
-                    'This will reset your Quick-add buttons to their '
-                    'default values.',
+                    context.loc.reset_quick_add_confirmation,
                     style: TextStyle(
                       fontSize: AppDimens.fontSizeDefault,
                       color: AppColor.getWhiteBlack(context),
@@ -259,7 +257,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
 
   Widget _buildInfo(BuildContext context) {
     return Text(
-      'Customize your quick-add buttons for common drink sizes.',
+      context.loc.quick_add_amounts_description,
       style: TextStyle(
         fontSize: AppDimens.fontSizeDefault,
         color: AppColor.getContentColor(context),

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/presentation/home/components/quick_add_custom_dialog.dart';
 import '../../../app/constant/image_constant.dart';
@@ -130,7 +131,7 @@ class QuickAddWidget extends StatelessWidget {
           height: AppDimens.iconSize16,
         ),
         label: Text(
-          'Custom',
+          context.loc.custom,
           style: TextStyle(
             fontSize: AppDimens.fontSizeDefault,
             fontWeight: FontWeight.bold,

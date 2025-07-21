@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_config/app_config_cubit.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/l10n/generated/app_localizations.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/enum/language_code.dart';
@@ -46,7 +47,7 @@ class SettingsLanguageScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                'Language',
+                context.loc.language,
                 style: TextStyle(
                   fontSize: AppDimens.fontSize20,
                   fontWeight: FontWeight.bold,

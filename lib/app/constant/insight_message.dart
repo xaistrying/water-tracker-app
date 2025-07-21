@@ -1,58 +1,90 @@
 // Dart imports:
 import 'dart:math';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
+
 class InsightMessage {
   InsightMessage._();
 
-  static final List<String> _facts = [
-    "Your body is about 60% water, vital for nearly every function.",
-    "Your brain is 75% water. Even mild dehydration can affect concentration and mood.",
-    "You can live for weeks without food, but only days without water.",
-    "Hydration helps regulate your body temperature and prevent headaches.",
-    "Hydration improves circulation and supports a healthy immune system.",
-    "Drinking water helps cushion your joints and muscles during activity.",
-    "Staying hydrated helps your brain work better, improving focus and memory.",
-    "Water is aiding digestion and supporting your metabolism.",
-    "Water is helping deliver nutrients to your cells and boosting energy.",
-  ];
-
-  static final List<String> _benefits = [
-    "Water is helping flush toxins from your kidneys and keeping your skin glowing.",
-    "Hydration is supporting your joints and reducing fatigue.",
-    "You're maintaining focus and mental clarity by staying hydrated.",
-    "You're supporting healthy skin, mood, and overall well-being right now.",
-    "Your heart is working more efficiently thanks to proper hydration.",
-    "You're helping your whole body feel better just by staying hydrated.",
-  ];
-
   static final _random = Random();
-  static final _factContent = _facts[_random.nextInt(_facts.length)];
-  static final _benefitContent = _benefits[_random.nextInt(_benefits.length)];
 
-  static Map<String, String> getHydrationFact() {
+  static final _getRandomNumberForFacts = _random.nextInt(9);
+  static final _getRandomNumberForBenefits = _random.nextInt(6);
+
+  static String _getRandomFact(BuildContext context) {
+    final index = _getRandomNumberForFacts;
+    switch (index) {
+      case 0:
+        return context.loc.fact0;
+      case 1:
+        return context.loc.fact1;
+      case 2:
+        return context.loc.fact2;
+      case 3:
+        return context.loc.fact3;
+      case 4:
+        return context.loc.fact4;
+      case 5:
+        return context.loc.fact5;
+      case 6:
+        return context.loc.fact6;
+      case 7:
+        return context.loc.fact7;
+      case 8:
+        return context.loc.fact8;
+      default:
+        return context.loc.fact0;
+    }
+  }
+
+  static String _getRandomBenefit(BuildContext context) {
+    final index = _getRandomNumberForBenefits;
+    switch (index) {
+      case 0:
+        return context.loc.benefit0;
+      case 1:
+        return context.loc.benefit1;
+      case 2:
+        return context.loc.benefit2;
+      case 3:
+        return context.loc.benefit3;
+      case 4:
+        return context.loc.benefit4;
+      case 5:
+        return context.loc.benefit5;
+      default:
+        return context.loc.benefit0;
+    }
+  }
+
+  static Map<String, String> getHydrationFact(BuildContext context) {
     String icon = "💧";
-    String title = "Did you know?";
-    String action = "Keep the good work going!";
+    String title = context.loc.factTitle;
+    String action = context.loc.factAction;
 
     return {
       "type": "fact",
       "icon": icon,
       "title": title,
-      "content": _factContent,
+      "content": _getRandomFact(context),
       "action": action,
     };
   }
 
-  static Map<String, String> getHydrationBenefit() {
+  static Map<String, String> getHydrationBenefit(BuildContext context) {
     String icon = "🌟";
-    String title = "How water helps?";
-    String action = "Keep the good work going!";
+    String title = context.loc.benefitTitle;
+    String action = context.loc.benefitAction;
 
     return {
       "type": "benefit",
       "icon": icon,
       "title": title,
-      "content": '$_benefitContent\n',
+      "content": '${_getRandomBenefit(context)}\n',
       "action": action,
     };
   }
@@ -90,7 +122,10 @@ class InsightMessage {
     };
   }
 
-  static Map<String, String> getAchievementMessage(double progressPercentage) {
+  static Map<String, String> getAchievementMessage(
+    BuildContext context,
+    double progressPercentage,
+  ) {
     String icon = "🏆";
     String title;
     String content;
@@ -99,33 +134,29 @@ class InsightMessage {
     int roundedProgress = progressPercentage.round();
 
     if (progressPercentage == 0) {
-      title = "Let's begin!";
-      content =
-          "You haven't started yet, but there's still time to crush your goal.";
-      action = "Take the first step";
+      title = context.loc.achievementTitle0;
+      content = context.loc.achievementContent0;
+      action = context.loc.achievementAction0;
     } else if (progressPercentage < 25) {
-      title = "Off to a start!";
-      content =
-          "You're $roundedProgress% towards your daily goal. Every bit counts!";
-      action = "Keep it going";
+      title = context.loc.achievementTitle1;
+      content = context.loc.achievementContent1(roundedProgress);
+      action = context.loc.achievementAction1;
     } else if (progressPercentage < 50) {
-      title = "Making progress!";
-      content = "You're $roundedProgress% there. Stay focused and keep moving!";
-      action = "You're halfway there";
+      title = context.loc.achievementTitle2;
+      content = context.loc.achievementContent2(roundedProgress);
+      action = context.loc.achievementAction2;
     } else if (progressPercentage < 75) {
-      title = "Over halfway!";
-      content =
-          "You're $roundedProgress% towards your goal. Great effort so far!";
-      action = "Push a little more";
+      title = context.loc.achievementTitle3;
+      content = context.loc.achievementContent3(roundedProgress);
+      action = context.loc.achievementAction3;
     } else if (progressPercentage < 100) {
-      title = "Almost there!";
-      content =
-          "You're $roundedProgress% in! One last push to reach your goal.";
-      action = "Finish strong";
+      title = context.loc.achievementTitle4;
+      content = context.loc.achievementContent4(roundedProgress);
+      action = context.loc.achievementAction4;
     } else {
-      title = "Goal achieved!";
-      content = "You hit 100% of your daily goal. Amazing work!";
-      action = "Celebrate your win";
+      title = context.loc.achievementTitle5;
+      content = context.loc.achievementContent5;
+      action = context.loc.achievementAction5;
     }
 
     return {
@@ -137,36 +168,43 @@ class InsightMessage {
     };
   }
 
-  static Map<String, String> getStreakMessage(int currentStreak) {
+  static Map<String, String> getStreakMessage(
+    BuildContext context,
+    int currentStreak,
+  ) {
     String icon = "🔥";
     String title;
     String content;
     String action;
 
-    if (currentStreak == 1) {
-      title = "First day streak!";
-      content = "Great start! A journey begins with a single step.";
-      action = "Keep the momentum going";
+    if (currentStreak == 0) {
+      title = context.loc.streakTitle0;
+      content = context.loc.streakContent0;
+      action = context.loc.streakAction0;
+    } else if (currentStreak < 1) {
+      title = context.loc.streakTitle1;
+      content = context.loc.streakContent1;
+      action = context.loc.streakAction1;
     } else if (currentStreak < 5) {
-      title = "$currentStreak day streak!";
-      content = "You're picking up steam. Small wins add up.";
-      action = "Stay on track";
+      title = context.loc.streakTitle2(currentStreak);
+      content = context.loc.streakContent2;
+      action = context.loc.streakAction2;
     } else if (currentStreak < 10) {
-      title = "$currentStreak day streak!";
-      content = "Solid progress! You're forming a strong habit.";
-      action = "Don't lose your rhythm";
+      title = context.loc.streakTitle2(currentStreak);
+      content = context.loc.streakContent3;
+      action = context.loc.streakAction3;
     } else if (currentStreak < 30) {
-      title = "$currentStreak day streak!";
-      content = "Impressive dedication. You're making this a lifestyle.";
-      action = "Keep pushing forward";
+      title = context.loc.streakTitle2(currentStreak);
+      content = context.loc.streakContent4;
+      action = context.loc.streakAction4;
     } else if (currentStreak < 100) {
-      title = "$currentStreak day streak!";
-      content = "You're a force of habit! This is how change happens.";
-      action = "Inspire others";
+      title = context.loc.streakTitle2(currentStreak);
+      content = context.loc.streakContent5;
+      action = context.loc.streakAction5;
     } else {
-      title = "$currentStreak day streak!";
-      content = "Legendary commitment. You're an inspiration.";
-      action = "Be proud and keep going";
+      title = context.loc.streakTitle2(currentStreak);
+      content = context.loc.streakContent6;
+      action = context.loc.streakAction6;
     }
 
     return {

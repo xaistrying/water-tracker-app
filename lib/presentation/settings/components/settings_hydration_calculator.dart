@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Project imports:
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/info_dialog_widget.dart';
@@ -115,7 +116,7 @@ class SettingsHydrationCalculatorState
         Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding4),
           child: Text(
-            'Body Weight',
+            context.loc.body_weight,
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,
               fontWeight: FontWeight.bold,
@@ -194,7 +195,7 @@ class SettingsHydrationCalculatorState
             Padding(
               padding: const EdgeInsets.only(top: AppDimens.padding4),
               child: Text(
-                'Daily Excercise Time',
+                context.loc.daily_exercise_time,
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,
@@ -249,7 +250,7 @@ class SettingsHydrationCalculatorState
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Recommended Daily Intake',
+                        context.loc.recommended_daily_intake,
                         style: TextStyle(
                           fontSize: AppDimens.fontSizeDefault,
                           fontWeight: FontWeight.bold,
@@ -280,7 +281,7 @@ class SettingsHydrationCalculatorState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Recommended Daily Intake',
+                      context.loc.recommended_daily_intake,
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         fontWeight: FontWeight.bold,
@@ -311,9 +312,7 @@ class SettingsHydrationCalculatorState
                 builder: (context, value, child) {
                   return _buildListItem(
                     context,
-                    text:
-                        'Base: ${value.text.isEmpty ? 0 : value.text} '
-                        '(based on body weight)',
+                    text: context.loc.base(value.text.isEmpty ? 0 : value.text),
                   );
                 },
               ),
@@ -323,9 +322,10 @@ class SettingsHydrationCalculatorState
                 builder: (context, value, child) {
                   return _buildListItem(
                     context,
-                    text:
-                        'Exercise: +${_calculateExercise(exerciseTime: value)} '
-                        '(${value.toStringAsFixed(0)} min activity)',
+                    text: context.loc.exercise(
+                      _calculateExercise(exerciseTime: value),
+                      value.toStringAsFixed(0),
+                    ),
                   );
                 },
               ),
@@ -344,28 +344,40 @@ class SettingsHydrationCalculatorState
             final advancedModeStatus =
                 appDataCubit.state.data.advancedModeStatus;
 
+            final unit = appDataCubit.state.data.volumeUnitType.rawValue;
+            bool isOz =
+                appDataCubit.state.data.volumeUnitType == VolumeUnitType.ounces;
+
+            double minDailyGoal = DataDefault.minDailyGoal;
             double currentMaxDailyGoal = DataDefault.maxDailyGoal;
             if (advancedModeStatus) {
               currentMaxDailyGoal = DataDefault.advancedxDailyGoal;
             }
+
+            if (isOz) {
+              minDailyGoal = UnitConverter.mlToOz(minDailyGoal);
+              currentMaxDailyGoal = UnitConverter.mlToOz(currentMaxDailyGoal);
+            }
+
             return SizedBox(
               width: double.infinity,
               child: TextButton(
                 onPressed: () {
-                  if (calculationResult >= DataDefault.minDailyGoal &&
+                  if (calculationResult >= minDailyGoal &&
                       calculationResult <= currentMaxDailyGoal) {
                     showDialog(
                       context: context,
                       builder: (context) => DialogWidget(
-                        title: 'Apply Recommended Goal',
+                        title: context.loc.apply_recommended_goal,
                         body: Padding(
                           padding: const EdgeInsets.only(
                             top: AppDimens.padding16,
                           ),
                           child: Text(
-                            'Your new daily goal will be set to '
-                            '${calculationResult.toStringAsFixed(0)}ml. '
-                            'Would you like to apply this change?',
+                            context.loc.apply_recommended_goal_success_dialog(
+                              calculationResult.toStringAsFixed(0),
+                              unit,
+                            ),
                             style: TextStyle(
                               fontSize: AppDimens.fontSizeDefault,
                               color: AppColor.getWhiteBlack(context),
@@ -386,12 +398,13 @@ class SettingsHydrationCalculatorState
                     showDialog(
                       context: context,
                       builder: (context) => InfoDialogWidget(
-                        title: 'Invalid Goal Amount',
-                        content:
-                            'Your goal should be between '
-                            '${DataDefault.minDailyGoal.toStringAsFixed(0)}ml '
-                            'and ${currentMaxDailyGoal.toStringAsFixed(0)}ml. '
-                            'Let\'s tweak it and try again!',
+                        title: context.loc.invalid_goal_amount,
+                        content: context.loc
+                            .apply_recommended_goal_failure_dialog(
+                              minDailyGoal.toStringAsFixed(0),
+                              currentMaxDailyGoal.toStringAsFixed(0),
+                              unit,
+                            ),
                       ),
                     );
                   }
@@ -411,7 +424,7 @@ class SettingsHydrationCalculatorState
                   overlayColor: Colors.transparent,
                 ),
                 child: Text(
-                  'Apply Recommended Goal',
+                  context.loc.apply_recommended_goal,
                   style: TextStyle(
                     fontSize: AppDimens.fontSizeDefault,
                     fontWeight: FontWeight.bold,
@@ -462,7 +475,7 @@ class SettingsHydrationCalculatorState
           height: AppDimens.iconSize20,
         ),
         Text(
-          'Hydration Calculator',
+          context.loc.hydration_calculator,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
@@ -475,8 +488,7 @@ class SettingsHydrationCalculatorState
 
   Widget _buildInfo(BuildContext context) {
     return Text(
-      'Calculate your personalized daily water goal based on your body weight '
-      'and activity level',
+      context.loc.hydration_calculator_description,
       style: TextStyle(
         fontSize: AppDimens.fontSizeDefault,
         color: AppColor.getContentColor(context),

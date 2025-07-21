@@ -1,3 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
+
 extension StringExtension on String {
   String toCapitalized() {
     return length > 0
@@ -12,22 +18,22 @@ extension StringExtension on String {
     ).split(' ').map((str) => str.toCapitalized()).join(' ');
   }
 
-  String toShortDayOfWeek() {
+  String toShortDayOfWeek(BuildContext context) {
     switch (this) {
       case '1':
-        return 'Mon';
+        return context.loc.mon;
       case '2':
-        return 'Tue';
+        return context.loc.tue;
       case '3':
-        return 'Wed';
+        return context.loc.wed;
       case '4':
-        return 'Thu';
+        return context.loc.thu;
       case '5':
-        return 'Fri';
+        return context.loc.fri;
       case '6':
-        return 'Sat';
+        return context.loc.sat;
       case '7':
-        return 'Sun';
+        return context.loc.sun;
       default:
         throw ArgumentError('Unknown day');
     }

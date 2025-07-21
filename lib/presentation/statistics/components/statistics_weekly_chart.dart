@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/enum/unit_type.dart';
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/double_extension.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
@@ -59,7 +60,7 @@ class StatisticsWeeklyChart extends StatelessWidget {
                   SizedBox(
                     width: 36,
                     child: Text(
-                      (index + 1).toString().toShortDayOfWeek(),
+                      (index + 1).toString().toShortDayOfWeek(context),
                       style: TextStyle(
                         fontSize: AppDimens.fontSizeDefault,
                         color: AppColor.getGreyColorForText(context),
@@ -119,7 +120,7 @@ class StatisticsWeeklyChart extends StatelessWidget {
           height: AppDimens.iconSize20,
         ),
         Text(
-          'This Week',
+          context.loc.this_week,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,
