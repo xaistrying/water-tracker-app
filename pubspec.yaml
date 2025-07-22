@@ -26,6 +26,7 @@ dependencies:
   expandable_page_view: ^1.0.17
   awesome_notifications: ^0.10.1
   awesome_notifications_core: ^0.10.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +47,7 @@ flutter:
 
   assets:
   - assets/icons/
+  - assets/images/
 
   fonts:
     - family: OpenSans
