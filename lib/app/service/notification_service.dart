@@ -17,19 +17,19 @@ class NotificationService {
   final _awesomeNotifications = getIt<AwesomeNotifications>();
 
   Future<void> initNotification() async {
-    await _awesomeNotifications.initialize(null, [
+    await _awesomeNotifications.initialize('resource://drawable/glass_cup', [
       NotificationChannel(
         channelKey: AppStrings.scheduleChannelKey,
         channelName: AppStrings.scheduleChannelName,
         channelDescription: AppStrings.scheduleChannelDescription,
-        importance: NotificationImportance.High,
+        importance: NotificationImportance.Default,
         channelShowBadge: true,
       ),
       NotificationChannel(
         channelKey: AppStrings.scheduleSilentChannelKey,
         channelName: AppStrings.scheduleSilentChannelName,
         channelDescription: AppStrings.scheduleSilentChannelDescription,
-        importance: NotificationImportance.High,
+        importance: NotificationImportance.Default,
         channelShowBadge: true,
         enableVibration: false,
         enableLights: false,
@@ -58,6 +58,8 @@ class NotificationService {
     endTime = endTime ?? DataDefault.endTime.toDateTime();
     interval = interval ?? DataDefault.notificationInterval;
 
+    interval = 1;
+
     final now = DateTime.now();
     startTime = DateTime(
       now.year,
@@ -74,7 +76,7 @@ class NotificationService {
       endTime.minute,
     );
 
-    await AwesomeNotifications().cancelAllSchedules();
+    await _awesomeNotifications.cancelAll();
 
     for (
       DateTime time = startTime;
@@ -86,12 +88,15 @@ class NotificationService {
       }
       await _awesomeNotifications.createNotification(
         content: NotificationContent(
-          id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-          channelKey: AppStrings.scheduleChannelKey,
+          id: time.toIso8601String().hashCode,
+          channelKey: silent
+              ? AppStrings.scheduleSilentChannelKey
+              : AppStrings.scheduleChannelKey,
           title: title,
           body: body,
           notificationLayout: layout,
           category: NotificationCategory.Reminder,
+          backgroundColor: AppColor.blue500,
         ),
         schedule: NotificationCalendar(
           // year: time.year,
@@ -100,10 +105,10 @@ class NotificationService {
           hour: time.hour,
           minute: time.minute,
           second: 0,
-          millisecond: 0,
           timeZone: localTimeZone,
           repeats: true,
           allowWhileIdle: true,
+          preciseAlarm: true,
         ),
       );
     }

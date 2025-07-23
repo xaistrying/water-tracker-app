@@ -450,4 +450,16 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get benefit5 =>
       'Chỉ cần uống đủ nước, cơ thể bạn sẽ cảm thấy dễ chịu hơn rất nhiều.';
+
+  @override
+  String get notificationTitle0 => '💧 Đến giờ nghỉ ngơi và uống chút nước!';
+
+  @override
+  String notificationTitle1(Object userName) {
+    return '💧 Này $userName, hãy uống chút nước nào!';
+  }
+
+  @override
+  String get notificationBody =>
+      'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!';
 }

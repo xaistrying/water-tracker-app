@@ -221,5 +221,15 @@
     "benefit2": "You're maintaining focus and mental clarity by staying hydrated.",
     "benefit3": "You're supporting healthy skin, mood, and overall well-being right now.",
     "benefit4": "Your heart is working more efficiently thanks to proper hydration.",
-    "benefit5": "You're helping your whole body feel better just by staying hydrated."
+    "benefit5": "You're helping your whole body feel better just by staying hydrated.",
+
+    "notificationTitle0": "💧 A Little Water Break!",
+    "notificationTitle1": "💧 Hey {userName}! Time for a Water Break!",
+    "@notificationTitle1": {
+        "description": "Notification title with user name",
+        "placeholders":{
+            "userName": {}
+        }
+    },
+    "notificationBody": "Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!"
 }

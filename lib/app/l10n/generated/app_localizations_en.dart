@@ -449,4 +449,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get benefit5 =>
       'You\'re helping your whole body feel better just by staying hydrated.';
+
+  @override
+  String get notificationTitle0 => '💧 A Little Water Break!';
+
+  @override
+  String notificationTitle1(Object userName) {
+    return '💧 Hey $userName! Time for a Water Break!';
+  }
+
+  @override
+  String get notificationBody =>
+      'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!';
 }

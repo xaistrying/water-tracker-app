@@ -868,6 +868,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re helping your whole body feel better just by staying hydrated.'**
   String get benefit5;
+
+  /// No description provided for @notificationTitle0.
+  ///
+  /// In en, this message translates to:
+  /// **'💧 A Little Water Break!'**
+  String get notificationTitle0;
+
+  /// Notification title with user name
+  ///
+  /// In en, this message translates to:
+  /// **'💧 Hey {userName}! Time for a Water Break!'**
+  String notificationTitle1(Object userName);
+
+  /// No description provided for @notificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!'**
+  String get notificationBody;
 }
 
 class _AppLocalizationsDelegate

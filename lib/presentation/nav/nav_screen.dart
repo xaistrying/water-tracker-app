@@ -109,14 +109,13 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
               String titleString = '';
               final userName = state.data.userName;
               if (userName.isNotEmpty) {
-                titleString = '💧 Hey $userName! Time for a Water Break!';
+                titleString = context.loc.notificationTitle1(userName);
               } else {
-                titleString = '💧 A Little Water Break!';
+                titleString = context.loc.notificationTitle0;
               }
               NotificationService().createScheduledNotification(
                 title: titleString,
-                body:
-                    'Water makes everything better. Drink up and feel amazing!',
+                body: context.loc.notificationBody,
                 interval: state.data.reminderInterval?.toInt(),
                 startTime: DateFormat(
                   'hh:mm a',

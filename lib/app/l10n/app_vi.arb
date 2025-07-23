@@ -221,5 +221,15 @@
     "fact5": "Nước giúp bảo vệ khớp và cơ bắp khi vận động.",
     "fact6": "Uống đủ nước giúp não hoạt động tốt hơn, tăng khả năng tập trung và ghi nhớ.",
     "fact7": "Nước hỗ trợ tiêu hóa và thúc đẩy quá trình trao đổi chất.",
-    "fact8": "Nước giúp vận chuyển dưỡng chất đến tế bào và tăng cường năng lượng."
+    "fact8": "Nước giúp vận chuyển dưỡng chất đến tế bào và tăng cường năng lượng.",
+
+    "notificationTitle0": "💧 Đến giờ nghỉ ngơi và uống chút nước!",
+    "notificationTitle1": "💧 Này {userName}, hãy uống chút nước nào!",
+    "@notificationTitle1": {
+        "description": "Notification title with user name",
+        "placeholders":{
+            "userName": {}
+        }
+    },
+    "notificationBody": "Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!"
 }
