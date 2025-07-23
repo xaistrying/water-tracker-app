@@ -462,4 +462,17 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get notificationBody =>
       'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!';
+
+  @override
+  String get allow => 'Cho phép';
+
+  @override
+  String get dont_allow => 'Không cho phép';
+
+  @override
+  String get allow_notification => 'Cho phép thông báo';
+
+  @override
+  String get allow_notification_dialog =>
+      'Bật thông báo để nhận nhắc nhở thường xuyên về việc uống nước và giữ cơ thể luôn đủ nước.';
 }

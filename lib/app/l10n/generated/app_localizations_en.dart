@@ -461,4 +461,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationBody =>
       'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!';
+
+  @override
+  String get allow => 'Allow';
+
+  @override
+  String get dont_allow => 'Don\'t Allow';
+
+  @override
+  String get allow_notification => 'Allow Notifications';
+
+  @override
+  String get allow_notification_dialog =>
+      'Enable notifications to get regular reminders to drink water and stay hydrated.';
 }

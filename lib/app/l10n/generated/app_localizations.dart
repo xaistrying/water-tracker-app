@@ -886,6 +886,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!'**
   String get notificationBody;
+
+  /// No description provided for @allow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get allow;
+
+  /// No description provided for @dont_allow.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Allow'**
+  String get dont_allow;
+
+  /// No description provided for @allow_notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Notifications'**
+  String get allow_notification;
+
+  /// No description provided for @allow_notification_dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications to get regular reminders to drink water and stay hydrated.'**
+  String get allow_notification_dialog;
 }
 
 class _AppLocalizationsDelegate

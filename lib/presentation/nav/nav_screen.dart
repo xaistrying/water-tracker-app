@@ -126,7 +126,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
                 silent: state.data.soundEffectStatus,
               );
             } else {
-              NotificationService().cancelScheduledNotification();
+              NotificationService().cancelAllNotifications();
             }
 
             // Reset after short delay

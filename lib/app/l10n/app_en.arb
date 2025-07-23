@@ -231,5 +231,10 @@
             "userName": {}
         }
     },
-    "notificationBody": "Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!"
+    "notificationBody": "Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!",
+
+    "allow": "Allow",
+    "dont_allow": "Don't Allow",
+    "allow_notification": "Allow Notifications",
+    "allow_notification_dialog": "Enable notifications to get regular reminders to drink water and stay hydrated."
 }

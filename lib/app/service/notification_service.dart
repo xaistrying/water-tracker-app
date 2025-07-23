@@ -2,63 +2,59 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 // Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
 import '../constant/app_strings.dart';
 import '../constant/data_default.dart';
-import '../di/injector.dart';
 import '../theme/app_color.dart';
 import '../theme/app_dimens.dart';
 import '../widget/dialog_widget.dart';
 
 class NotificationService {
-  final _awesomeNotifications = getIt<AwesomeNotifications>();
+  final notificationPlugin = FlutterLocalNotificationsPlugin();
+
+  final bool _isInitialize = false;
+
+  bool get isInitialize => _isInitialize;
 
   Future<void> initNotification() async {
-    await _awesomeNotifications.initialize('resource://drawable/glass_cup', [
-      NotificationChannel(
-        channelKey: AppStrings.scheduleChannelKey,
-        channelName: AppStrings.scheduleChannelName,
-        channelDescription: AppStrings.scheduleChannelDescription,
-        importance: NotificationImportance.Default,
-        channelShowBadge: true,
-      ),
-      NotificationChannel(
-        channelKey: AppStrings.scheduleSilentChannelKey,
-        channelName: AppStrings.scheduleSilentChannelName,
-        channelDescription: AppStrings.scheduleSilentChannelDescription,
-        importance: NotificationImportance.Default,
-        channelShowBadge: true,
-        enableVibration: false,
-        enableLights: false,
-        playSound: false,
-      ),
-    ]);
+    if (_isInitialize) return;
+
+    tz.initializeTimeZones();
+    final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+
+    const initSettingsAndroid = AndroidInitializationSettings(
+      '@drawable/glass_cup',
+    );
+
+    const initSettings = InitializationSettings(android: initSettingsAndroid);
+
+    await notificationPlugin.initialize(initSettings);
   }
 
-  Future<void> cancelScheduledNotification() async {
-    await AwesomeNotifications().cancelAllSchedules();
+  Future<void> cancelAllNotifications() async {
+    await notificationPlugin.cancelAll();
   }
 
   Future<void> createScheduledNotification({
     required String title,
     required String body,
-    NotificationLayout layout = NotificationLayout.Inbox,
     DateTime? startTime,
     DateTime? endTime,
     int? interval,
     bool silent = false,
   }) async {
-    String localTimeZone = await _awesomeNotifications
-        .getLocalTimeZoneIdentifier();
-
     startTime = startTime ?? DataDefault.startTime.toDateTime();
     endTime = endTime ?? DataDefault.endTime.toDateTime();
     interval = interval ?? DataDefault.notificationInterval;
-
-    interval = 1;
 
     final now = DateTime.now();
     startTime = DateTime(
@@ -76,7 +72,7 @@ class NotificationService {
       endTime.minute,
     );
 
-    await _awesomeNotifications.cancelAll();
+    await cancelAllNotifications();
 
     for (
       DateTime time = startTime;
@@ -86,40 +82,38 @@ class NotificationService {
       if (time.isBefore(DateTime.now())) {
         continue;
       }
-      await _awesomeNotifications.createNotification(
-        content: NotificationContent(
-          id: time.toIso8601String().hashCode,
-          channelKey: silent
-              ? AppStrings.scheduleSilentChannelKey
-              : AppStrings.scheduleChannelKey,
-          title: title,
-          body: body,
-          notificationLayout: layout,
-          category: NotificationCategory.Reminder,
-          backgroundColor: AppColor.blue500,
-        ),
-        schedule: NotificationCalendar(
-          // year: time.year,
-          // month: time.month,
-          // day: time.day,
-          hour: time.hour,
-          minute: time.minute,
-          second: 0,
-          timeZone: localTimeZone,
-          repeats: true,
-          allowWhileIdle: true,
-          preciseAlarm: true,
-        ),
+      var scheduledDate = tz.TZDateTime(
+        tz.local,
+        now.year,
+        now.month,
+        now.day,
+        time.hour,
+        time.minute,
+        0,
+      );
+      await notificationPlugin.zonedSchedule(
+        time.toIso8601String().hashCode,
+        title,
+        body,
+        scheduledDate,
+        silent ? silentNotificationDetails() : notificationDetails(),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
       );
     }
   }
 
   Future<bool> checkIsNotificationAllowed() async {
-    return await _awesomeNotifications.isNotificationAllowed();
+    final bool? isGrantedAndroid = await notificationPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.areNotificationsEnabled();
+    return isGrantedAndroid ?? false;
   }
 
   Future<bool> requestNotificationIfNeeded(BuildContext context) async {
-    final isAllowed = await _awesomeNotifications.isNotificationAllowed();
+    final isAllowed = await checkIsNotificationAllowed();
 
     if (!context.mounted) return false;
 
@@ -132,12 +126,11 @@ class NotificationService {
     await showDialog(
       context: context,
       builder: (context) => DialogWidget(
-        title: 'Allow Notifications',
+        title: context.loc.allow_notification,
         body: Padding(
           padding: const EdgeInsets.only(top: AppDimens.padding16),
           child: Text(
-            'Enable notifications to get regular reminders to drink water '
-            'and stay hydrated.',
+            context.loc.allow_notification_dialog,
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,
               color: AppColor.getWhiteBlack(context),
@@ -145,15 +138,54 @@ class NotificationService {
             textAlign: TextAlign.center,
           ),
         ),
-        buttonName: 'Allow',
+        buttonName: context.loc.allow,
         buttonFunc: () async {
-          permissionGranted = await _awesomeNotifications
-              .requestPermissionToSendNotifications();
+          final ispermanetelydenied =
+              await Permission.notification.isPermanentlyDenied;
+          if (ispermanetelydenied) {
+            await openAppSettings();
+          } else {
+            final requestPermission = await Permission.notification.request();
+            permissionGranted = requestPermission == PermissionStatus.granted;
+          }
         },
-        cancelButtonName: 'Don\'t Allow',
+        cancelButtonName: context.loc.close,
       ),
     );
 
     return permissionGranted;
+  }
+
+  NotificationDetails notificationDetails() {
+    return const NotificationDetails(
+      android: AndroidNotificationDetails(
+        AppStrings.scheduleChannelKey,
+        AppStrings.scheduleChannelName,
+        channelDescription: AppStrings.scheduleChannelDescription,
+        importance: Importance.high,
+        priority: Priority.high,
+      ),
+    );
+  }
+
+  NotificationDetails silentNotificationDetails() {
+    return const NotificationDetails(
+      android: AndroidNotificationDetails(
+        AppStrings.scheduleSilentChannelKey,
+        AppStrings.scheduleSilentChannelName,
+        channelDescription: AppStrings.scheduleSilentChannelDescription,
+        importance: Importance.high,
+        priority: Priority.high,
+        playSound: false,
+        enableVibration: false,
+      ),
+    );
+  }
+
+  Future<void> showNotification({
+    required String title,
+    required String body,
+  }) async {
+    return notificationPlugin.show(0, title, body, notificationDetails());
   }
 }

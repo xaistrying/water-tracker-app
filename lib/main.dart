@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/router/app_router.dart';
+import 'package:water_tracker_app/app/service/noti_service.dart';
 import 'package:water_tracker_app/presentation/settings/cubit/hydration_calculator_cubit.dart';
 import 'app/bloc/app_config/app_config_cubit.dart';
 import 'app/bloc/app_data/app_data_cubit.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
   await NotificationService().initNotification();
+  await NotiService().initNotification();
   runApp(
     MultiBlocProvider(
       providers: [
