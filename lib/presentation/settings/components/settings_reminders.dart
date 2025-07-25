@@ -13,7 +13,6 @@ import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
-import 'package:water_tracker_app/app/service/noti_service.dart';
 import 'package:water_tracker_app/app/service/notification_service.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
@@ -134,11 +133,7 @@ class _SettingsReminderState extends State<SettingsReminder>
                 inactiveThumbColor: AppColor.getSwitchColor(context),
                 value: state.data.soundEffectStatus,
                 onChanged: (value) {
-                  NotiService().scheduleNotification(
-                    title: "title",
-                    body: "body",
-                  );
-                  // context.read<AppDataCubit>().updateSoundEffectStatus(value);
+                  context.read<AppDataCubit>().updateSoundEffectStatus(value);
                 },
               );
             },

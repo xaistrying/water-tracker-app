@@ -97,7 +97,7 @@ class NotificationService {
         body,
         scheduledDate,
         silent ? silentNotificationDetails() : notificationDetails(),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time,
       );
     }
