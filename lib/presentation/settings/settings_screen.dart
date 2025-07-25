@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water_tracker_app/app/bloc/app_config/app_config_cubit.dart';
 
 // Project imports:
 import 'package:water_tracker_app/presentation/settings/components/settings_quick_add_amounts.dart';
@@ -76,6 +77,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                     SettingsQuickAddAmounts(),
                     SizedBox(height: AppDimens.padding16),
                     SettingsStorage(),
+                    SizedBox(height: AppDimens.padding16),
+
+                    // App Version
+                    BlocBuilder<AppConfigCubit, AppConfigState>(
+                      builder: (context, state) {
+                        return Center(
+                          child: Text(
+                            'v${state.data.version ?? ''}',
+                            style: TextStyle(
+                              fontSize: AppDimens.fontSizeDefault,
+                              color: AppColor.getWhiteBlack(context),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ]),
                 ),
               ),

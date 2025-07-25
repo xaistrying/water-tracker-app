@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
-        android:label="water_tracker_app"
+        android:label="Drink Log"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 

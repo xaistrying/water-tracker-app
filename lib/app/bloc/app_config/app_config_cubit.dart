@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/enum/language_code.dart';
@@ -21,7 +22,10 @@ class AppConfigCubit extends Cubit<AppConfigState> {
 
   final _repo = getIt<ConfigRepository>();
 
-  void _init() {
+  Future<void> _init() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    updateAppVersion(packageInfo.version);
+
     final languageCode = _repo.getLanguageCode().getOrElse(
       (_) => LanguageCode.en.name,
     );
@@ -59,5 +63,9 @@ class AppConfigCubit extends Cubit<AppConfigState> {
     } else {
       emit(UpdateLocaleState(state.data.copyWith(themeMode: ThemeMode.light)));
     }
+  }
+
+  void updateAppVersion(String version) {
+    emit(UpdateAppVersion(state.data.copyWith(version: version)));
   }
 }

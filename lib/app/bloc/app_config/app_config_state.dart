@@ -5,6 +5,7 @@ abstract class AppConfigStateData with _$AppConfigStateData {
   const factory AppConfigStateData({
     final Locale? locale,
     @Default(ThemeMode.system) ThemeMode? themeMode,
+    String? version,
   }) = _AppConfigStateData;
 }
 
@@ -16,4 +17,6 @@ abstract class AppConfigState with _$AppConfigState {
       UpdateLocaleState;
   const factory AppConfigState.updateThemeMode(AppConfigStateData data) =
       UpdateThemeMode;
+  const factory AppConfigState.updateAppVersion(AppConfigStateData data) =
+      UpdateAppVersion;
 }
