@@ -174,7 +174,7 @@ class _SettingsReminderState extends State<SettingsReminder>
             Padding(
               padding: const EdgeInsets.only(top: AppDimens.padding4),
               child: Text(
-                context.loc.sleep_hours,
+                context.loc.active_hours,
                 style: TextStyle(
                   fontSize: AppDimens.fontSizeDefault,
                   fontWeight: FontWeight.bold,
@@ -183,7 +183,7 @@ class _SettingsReminderState extends State<SettingsReminder>
               ),
             ),
             Text(
-              context.loc.sleep_hours_description,
+              context.loc.active_hours_description,
               style: TextStyle(
                 fontSize: AppDimens.fontSizeDefault,
                 color: AppColor.getContentColor(context),

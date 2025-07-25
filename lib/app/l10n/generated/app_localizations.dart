@@ -373,17 +373,17 @@ abstract class AppLocalizations {
   /// **'Reminder Interval'**
   String get reminder_interval;
 
-  /// No description provided for @sleep_hours.
+  /// No description provided for @active_hours.
   ///
   /// In en, this message translates to:
-  /// **'Sleep Hours'**
-  String get sleep_hours;
+  /// **'Active Hours'**
+  String get active_hours;
 
-  /// No description provided for @sleep_hours_description.
+  /// No description provided for @active_hours_description.
   ///
   /// In en, this message translates to:
-  /// **'Reminders will be paused during these hours'**
-  String get sleep_hours_description;
+  /// **'Reminders will be active during these hours'**
+  String get active_hours_description;
 
   /// No description provided for @hydration_calculator.
   ///

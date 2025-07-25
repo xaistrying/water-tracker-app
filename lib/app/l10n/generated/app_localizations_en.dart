@@ -155,11 +155,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminder_interval => 'Reminder Interval';
 
   @override
-  String get sleep_hours => 'Sleep Hours';
+  String get active_hours => 'Active Hours';
 
   @override
-  String get sleep_hours_description =>
-      'Reminders will be paused during these hours';
+  String get active_hours_description =>
+      'Reminders will be active during these hours';
 
   @override
   String get hydration_calculator => 'Hydration Calculator';

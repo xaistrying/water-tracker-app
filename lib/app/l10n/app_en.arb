@@ -75,8 +75,8 @@
     "sound_effects": "Sound Effects",
     "sound_effects_description": "Play sound for actions",
     "reminder_interval": "Reminder Interval",
-    "sleep_hours": "Sleep Hours",
-    "sleep_hours_description": "Reminders will be paused during these hours",
+    "active_hours": "Active Hours",
+    "active_hours_description": "Reminders will be active during these hours",
 
     "hydration_calculator": "Hydration Calculator",
     "hydration_calculator_description": "Calculate your personalized daily water goal based on your body weight and activity level",

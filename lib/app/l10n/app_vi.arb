@@ -75,8 +75,8 @@
     "sound_effects": "Âm thanh",
     "sound_effects_description": "Phát âm thanh khi nhắc nhở",
     "reminder_interval": "Khoảng cách nhắc nhở",
-    "sleep_hours": "Giờ ngủ",
-    "sleep_hours_description": "Tạm dừng nhắc nhở trong thời gian này",
+    "active_hours": "Thời gian hoạt động",
+    "active_hours_description": "Nhắc nhở sẽ hoạt động trong thời gian này",
     
     "hydration_calculator": "Máy tính lượng nước",
     "hydration_calculator_description": "Tính toán mục tiêu uống nước hằng ngày của bạn dựa trên cân nặng và mức độ vận động",

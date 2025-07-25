@@ -155,10 +155,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reminder_interval => 'Khoảng cách nhắc nhở';
 
   @override
-  String get sleep_hours => 'Giờ ngủ';
+  String get active_hours => 'Thời gian hoạt động';
 
   @override
-  String get sleep_hours_description => 'Tạm dừng nhắc nhở trong thời gian này';
+  String get active_hours_description =>
+      'Nhắc nhở sẽ hoạt động trong thời gian này';
 
   @override
   String get hydration_calculator => 'Máy tính lượng nước';
