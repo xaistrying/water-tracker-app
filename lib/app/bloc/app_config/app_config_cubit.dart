@@ -26,9 +26,18 @@ class AppConfigCubit extends Cubit<AppConfigState> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     updateAppVersion(packageInfo.version);
 
-    final languageCode = _repo.getLanguageCode().getOrElse(
-      (_) => LanguageCode.en.name,
-    );
+    final languageCode = _repo.getLanguageCode().getOrElse((_) {
+      // Get Device Language Code
+      final Locale deviceLocale =
+          WidgetsBinding.instance.platformDispatcher.locale;
+      String languageCode = deviceLocale.languageCode;
+
+      if (!LanguageCode.values.any((value) => value.name == languageCode)) {
+        languageCode = LanguageCode.en.name;
+      }
+
+      return languageCode;
+    });
     final darkModeStatus = _repo.getDarkModeStatus().getOrElse((_) => null);
     updateLocale(
       AppLocalizations.supportedLocales.firstWhere(
