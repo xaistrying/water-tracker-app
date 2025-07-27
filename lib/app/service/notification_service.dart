@@ -98,8 +98,9 @@ class NotificationService {
         scheduledDate,
         silent ? silentNotificationDetails() : notificationDetails(),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
       );
+      debugPrint('Scheduled Notification Created at $scheduledDate');
     }
   }
 

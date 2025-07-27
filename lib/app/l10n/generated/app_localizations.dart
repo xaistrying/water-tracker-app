@@ -910,6 +910,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable notifications to get regular reminders to drink water and stay hydrated.'**
   String get allow_notification_dialog;
+
+  /// No description provided for @select_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Time'**
+  String get select_time;
 }
 
 class _AppLocalizationsDelegate

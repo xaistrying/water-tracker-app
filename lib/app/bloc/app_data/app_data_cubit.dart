@@ -589,13 +589,13 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   void updateStartTime(String? value) {
-    if (value == null) return;
+    if (value == null || value == state.data.startTime) return;
     _reminderRepo.cacheStartTime(timeString: value);
     emit(UpdateStartTime(state.data.copyWith(startTime: value)));
   }
 
   void updateEndTime(String? value) {
-    if (value == null) return;
+    if (value == null || value == state.data.endTime) return;
     _reminderRepo.cacheEndTime(timeString: value);
     emit(UpdateEndTime(state.data.copyWith(endTime: value)));
   }

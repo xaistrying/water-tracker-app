@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/context_extension.dart';
+import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/theme/app_dimens.dart';
 import 'package:water_tracker_app/presentation/home/home_screen.dart';
@@ -95,11 +95,12 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
         ),
         BlocListener<AppDataCubit, AppDataState>(
           listenWhen: (previous, current) =>
-              current is UpdateReminderInterval ||
-              current is UpdateEndTime ||
-              current is UpdateReminderStatus ||
-              (current is UpdateSoundEffectStatus &&
-                  current.data.isInitComplete),
+              current.data.isInitComplete &&
+              (current is UpdateReminderInterval ||
+                  current is UpdateEndTime ||
+                  current is UpdateReminderStatus ||
+                  current is UpdateSoundEffectStatus ||
+                  current is UpdateUserName),
           listener: (context, state) {
             if (_notificationScheduledRecently) return;
 
@@ -117,12 +118,8 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
                 title: titleString,
                 body: context.loc.notificationBody,
                 interval: state.data.reminderInterval?.toInt(),
-                startTime: DateFormat(
-                  'hh:mm a',
-                ).tryParse(state.data.startTime ?? ''),
-                endTime: DateFormat(
-                  'hh:mm a',
-                ).tryParse(state.data.endTime ?? ''),
+                startTime: (state.data.startTime ?? '').toDateTimeOrNull(),
+                endTime: (state.data.endTime ?? '').toDateTimeOrNull(),
                 silent: state.data.soundEffectStatus,
               );
             } else {
@@ -193,10 +190,11 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
         ),
       ],
       child: PopScope(
+        canPop: widget.navigationShell.currentIndex == 0,
         onPopInvokedWithResult: (didPop, result) {
           if (widget.navigationShell.currentIndex != 0) {
             widget.navigationShell.goBranch(0);
-          }
+          } else {}
         },
         child: Scaffold(
           body: widget.navigationShell,

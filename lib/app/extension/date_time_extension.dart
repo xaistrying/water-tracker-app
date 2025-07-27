@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:intl/intl.dart';
+
 extension DateTimeExtension on DateTime {
   String get uniqueId => microsecondsSinceEpoch.toString();
 
@@ -34,5 +37,9 @@ extension DateTimeExtension on DateTime {
 
   TimeOfDay toTimeOfDay() {
     return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  String toTimeString() {
+    return DateFormat('hh:mm a', 'en_US').format(this);
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water_tracker_app/app/bloc/app_config/app_config_cubit.dart';
 
 // Project imports:
+import 'package:water_tracker_app/app/bloc/app_config/app_config_cubit.dart';
 import 'package:water_tracker_app/presentation/settings/components/settings_quick_add_amounts.dart';
 import 'package:water_tracker_app/presentation/settings/components/settings_reminders.dart';
 import 'package:water_tracker_app/presentation/settings/cubit/hydration_calculator_cubit.dart';

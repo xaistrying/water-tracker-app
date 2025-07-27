@@ -2,10 +2,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:intl/intl.dart';
-
 // Project imports:
+import 'package:water_tracker_app/app/extension/context_extension.dart';
+import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
@@ -28,9 +27,7 @@ class TimePickerField extends StatelessWidget {
           initalTime: initialTime,
         );
         if (time != null) {
-          controller.text = DateFormat(
-            'hh:mm a',
-          ).format(_convertTimeOfDayToDateTime(time));
+          controller.text = _convertTimeOfDayToDateTime(time).toTimeString();
         }
       },
       child: Container(
@@ -73,11 +70,13 @@ Future<TimeOfDay?> _showCustomTimePicker(
     initialTime: initalTime,
     initialEntryMode: TimePickerEntryMode.dialOnly,
     orientation: Orientation.portrait,
+    cancelText: context.loc.cancel,
+    confirmText: context.loc.confirm,
     builder: (BuildContext context, Widget? child) {
       return Localizations.override(
         context: context,
         locale: Locale('en', ''), // forces 12 hour format
-        delegates: [const CustomLocalizationsDelegate()],
+        delegates: [CustomLocalizationsDelegate(context)],
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
           child: Theme(
@@ -118,20 +117,26 @@ Future<TimeOfDay?> _showCustomTimePicker(
 }
 
 class CustomLocalizations extends DefaultMaterialLocalizations {
+  final BuildContext context;
+
+  CustomLocalizations({required this.context});
+
   @override
-  String get timePickerDialHelpText => 'Hi'; // custom text
+  String get timePickerDialHelpText => context.loc.select_time; // custom text
 }
 
 class CustomLocalizationsDelegate
     extends LocalizationsDelegate<MaterialLocalizations> {
-  const CustomLocalizationsDelegate();
+  final BuildContext context;
+
+  const CustomLocalizationsDelegate(this.context);
 
   @override
   bool isSupported(Locale locale) => locale.languageCode == 'en';
 
   @override
   Future<MaterialLocalizations> load(Locale locale) async {
-    return SynchronousFuture(CustomLocalizations());
+    return SynchronousFuture(CustomLocalizations(context: context));
   }
 
   @override

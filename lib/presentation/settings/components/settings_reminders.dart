@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
 import 'package:water_tracker_app/app/constant/data_default.dart';
 import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/extension/date_time_extension.dart';
+import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/app/extension/time_of_day_extension.dart';
 import 'package:water_tracker_app/app/service/notification_service.dart';
 import '../../../app/constant/image_constant.dart';
@@ -42,15 +42,9 @@ class _SettingsReminderState extends State<SettingsReminder>
     String? endTime = appDataState.data.endTime;
 
     startTimeController.text =
-        startTime ??
-        DateFormat(
-          'hh:mm a',
-        ).format(DataDefault.startTime.toDateTime()).toString();
+        startTime ?? DataDefault.startTime.toDateTime().toTimeString();
     endTimeController.text =
-        endTime ??
-        DateFormat(
-          'hh:mm a',
-        ).format(DataDefault.endTime.toDateTime()).toString();
+        endTime ?? DataDefault.endTime.toDateTime().toTimeString();
   }
 
   @override
@@ -199,8 +193,8 @@ class _SettingsReminderState extends State<SettingsReminder>
                     final timeText1 = value.text;
                     final timeText2 = endTimeController.text;
 
-                    final time1 = DateFormat('hh:mm a').tryParse(timeText1);
-                    final time2 = DateFormat('hh:mm a').tryParse(timeText2);
+                    final time1 = timeText1.toDateTimeOrNull();
+                    final time2 = timeText2.toDateTimeOrNull();
 
                     if (time1 != null &&
                         time2 != null &&
@@ -222,9 +216,7 @@ class _SettingsReminderState extends State<SettingsReminder>
                       child: TimePickerField(
                         controller: startTimeController,
                         initialTime:
-                            DateFormat(
-                              'hh:mm a',
-                            ).tryParse(value.text)?.toTimeOfDay() ??
+                            value.text.toDateTimeOrNull()?.toTimeOfDay() ??
                             TimeOfDay.now(),
                       ),
                     );
@@ -238,8 +230,8 @@ class _SettingsReminderState extends State<SettingsReminder>
                       final timeText1 = value.text;
                       final timeText2 = startTimeController.text;
 
-                      final time1 = DateFormat('hh:mm a').tryParse(timeText1);
-                      final time2 = DateFormat('hh:mm a').tryParse(timeText2);
+                      final time1 = timeText1.toDateTimeOrNull();
+                      final time2 = timeText2.toDateTimeOrNull();
 
                       if (time1 != null &&
                           time2 != null &&
@@ -260,9 +252,7 @@ class _SettingsReminderState extends State<SettingsReminder>
                       return TimePickerField(
                         controller: endTimeController,
                         initialTime:
-                            DateFormat(
-                              'hh:mm a',
-                            ).tryParse(value.text)?.toTimeOfDay() ??
+                            value.text.toDateTimeOrNull()?.toTimeOfDay() ??
                             TimeOfDay.now(),
                       );
                     },

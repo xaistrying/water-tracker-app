@@ -476,4 +476,7 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get allow_notification_dialog =>
       'Bật thông báo để nhận nhắc nhở thường xuyên về việc uống nước và giữ cơ thể luôn đủ nước.';
+
+  @override
+  String get select_time => 'Chọn thời gian';
 }

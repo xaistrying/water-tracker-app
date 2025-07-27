@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:intl/intl.dart';
+
 // Project imports:
 import 'package:water_tracker_app/app/extension/context_extension.dart';
 
@@ -37,5 +40,9 @@ extension StringExtension on String {
       default:
         throw ArgumentError('Unknown day');
     }
+  }
+
+  DateTime? toDateTimeOrNull() {
+    return DateFormat('hh:mm a', 'en_US').tryParse(this);
   }
 }

@@ -232,8 +232,11 @@
         }
     },
     "notificationBody": "Nước giúp mọi thứ trở nên tốt hơn. Uống ngay để cảm thấy sảng khoái nhé!",
+
     "allow": "Cho phép",
     "dont_allow": "Không cho phép",
     "allow_notification": "Cho phép thông báo",
-    "allow_notification_dialog": "Bật thông báo để nhận nhắc nhở thường xuyên về việc uống nước và giữ cơ thể luôn đủ nước."
+    "allow_notification_dialog": "Bật thông báo để nhận nhắc nhở thường xuyên về việc uống nước và giữ cơ thể luôn đủ nước.",
+
+    "select_time": "Chọn thời gian"
 }

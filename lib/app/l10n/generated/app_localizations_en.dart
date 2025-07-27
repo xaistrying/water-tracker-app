@@ -474,4 +474,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get allow_notification_dialog =>
       'Enable notifications to get regular reminders to drink water and stay hydrated.';
+
+  @override
+  String get select_time => 'Select Time';
 }

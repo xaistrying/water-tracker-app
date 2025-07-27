@@ -236,5 +236,7 @@
     "allow": "Allow",
     "dont_allow": "Don't Allow",
     "allow_notification": "Allow Notifications",
-    "allow_notification_dialog": "Enable notifications to get regular reminders to drink water and stay hydrated."
+    "allow_notification_dialog": "Enable notifications to get regular reminders to drink water and stay hydrated.",
+
+    "select_time": "Select Time"
 }
