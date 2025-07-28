@@ -68,31 +68,37 @@ class RecentMoreScreen extends StatelessWidget {
                 ),
               );
             }
-            return ListView.separated(
+            return ListView.builder(
               padding: const EdgeInsets.all(AppDimens.padding16),
               itemCount: listHistory.length,
               itemBuilder: (context, index) {
                 final itemIndex = historyLength - index - 1;
                 final item = listHistory[itemIndex];
+
+                if (item.isDeleted == true) return const SizedBox.shrink();
+
                 final dateTime = DateTime.tryParse(item.date ?? '');
                 final decimalRange = (item.intake ?? 0.0).isDecimal()
                     ? DataDefault.decimalRange
                     : 0;
                 String time = '';
                 if (dateTime != null) {
-                  time = DateFormat.yMd()
-                      .addPattern('hh:mm a')
-                      .format(dateTime);
+                  time = DateFormat(
+                    'dd/MM/yyyy hh:mm a',
+                    'en_US',
+                  ).format(dateTime);
                 }
-                return _buildRecentMeasurementCard(
-                  context,
-                  time: time,
-                  volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
-                  unit: item.unit ?? '',
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: AppDimens.padding8),
+                  child: _buildRecentMeasurementCard(
+                    context,
+                    id: item.id,
+                    time: time,
+                    volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
+                    unit: item.unit ?? '',
+                  ),
                 );
               },
-              separatorBuilder: (context, index) =>
-                  SizedBox(height: AppDimens.padding8),
             );
           },
         ),
@@ -102,6 +108,7 @@ class RecentMoreScreen extends StatelessWidget {
 
   Widget _buildRecentMeasurementCard(
     BuildContext context, {
+    required String? id,
     required String time,
     required String volume,
     required String unit,
@@ -139,18 +146,22 @@ class RecentMoreScreen extends StatelessWidget {
               ),
             ],
           ),
-          // IconButton(
-          //   onPressed: () {},
-          //   style: IconButton.styleFrom(
-          //     tapTargetSize: MaterialTapTargetSize.padded,
-          //     splashFactory: NoSplash.splashFactory,
-          //   ),
-          //   icon: Icon(
-          //     Icons.remove_circle_outline_rounded,
-          //     size: AppDimens.iconSize28,
-          //     color: AppColor.getWhiteBlack(context),
-          //   ),
-          // ),
+          if (DateFormat('dd/MM/yyyy hh:mm a', 'en_US').tryParse(time)?.day ==
+                  DateTime.now().day &&
+              id != null)
+            IconButton(
+              onPressed: () {
+                context.read<AppDataCubit>().deleteSingleIntakeInDay(id: id);
+              },
+              style: IconButton.styleFrom(
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              icon: Icon(
+                Icons.remove_circle_outline_rounded,
+                size: AppDimens.iconSize20,
+                color: AppColor.getWhiteBlack(context),
+              ),
+            ),
         ],
       ),
     );

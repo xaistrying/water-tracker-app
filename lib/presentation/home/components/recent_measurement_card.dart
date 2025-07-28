@@ -42,8 +42,11 @@ class RecentMeasurementCard extends StatelessWidget {
   Widget _buildRecentMeasurementList(BuildContext context) {
     return BlocBuilder<AppDataCubit, AppDataState>(
       builder: (context, state) {
-        final listHistory = state.data.listIntakeHistory;
-        final historyLength = listHistory.length;
+        final listHistory = [...state.data.listIntakeHistory];
+        final listHistoryLegit = listHistory
+            .where((e) => e.isDeleted == false || e.isDeleted == null)
+            .toList();
+        final historyLength = listHistoryLegit.length;
         if (historyLength == 0) {
           return Column(
             children: [
@@ -56,25 +59,32 @@ class RecentMeasurementCard extends StatelessWidget {
           );
         }
         return Column(
-          spacing: AppDimens.padding12,
           children: List.generate(historyLength < 3 ? historyLength : 3, (
             index,
           ) {
             final itemIndex = historyLength - index - 1;
-            final item = listHistory[itemIndex];
+            final item = listHistoryLegit[itemIndex];
+
+            if (item.isDeleted == true) return const SizedBox.shrink();
+
             final dateTime = DateTime.tryParse(item.date ?? '');
             final decimalRange = (item.intake ?? 0.0).isDecimal()
                 ? DataDefault.decimalRange
                 : 0;
             String time = '';
             if (dateTime != null) {
-              time = DateFormat.yMd().addPattern('hh:mm a').format(dateTime);
+              time = DateFormat('dd/MM/yyyy hh:mm a', 'en_US').format(dateTime);
             }
-            return _buildRecentMeasurementItem(
-              context,
-              time: time,
-              volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
-              unit: item.unit ?? state.data.volumeUnitType.rawValue,
+            return Padding(
+              padding: index != (historyLength < 3 ? historyLength : 3) - 1
+                  ? const EdgeInsets.only(bottom: AppDimens.padding12)
+                  : EdgeInsets.zero,
+              child: _buildRecentMeasurementItem(
+                context,
+                time: time,
+                volume: item.intake?.toStringAsFixed(decimalRange) ?? '',
+                unit: item.unit ?? state.data.volumeUnitType.rawValue,
+              ),
             );
           }),
         );

@@ -3,6 +3,7 @@ import 'dart:async';
 
 // Package imports:
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
@@ -297,8 +298,14 @@ class AppDataCubit extends Cubit<AppDataState> {
     }
   }
 
-  void updateDailyIntake({required double value, bool isInitialize = false}) {
-    final currentIntake = state.data.dailyIntake + value;
+  void updateDailyIntake({
+    required double value,
+    bool isInitialize = false,
+    bool isAdding = true,
+  }) {
+    final currentIntake = isAdding
+        ? state.data.dailyIntake + value
+        : state.data.dailyIntake - value;
 
     // Save to 1 day local storage
     _progressRepo.cacheDailyIntake(value: currentIntake);
@@ -598,5 +605,52 @@ class AppDataCubit extends Cubit<AppDataState> {
     if (value == null || value == state.data.endTime) return;
     _reminderRepo.cacheEndTime(timeString: value);
     emit(UpdateEndTime(state.data.copyWith(endTime: value)));
+  }
+
+  void deleteSingleIntakeInDay({required String id}) {
+    // Check if intake data exist
+
+    final listIntakeHistory = [...state.data.listIntakeHistory];
+    final intakeData = listIntakeHistory.firstWhereOrNull((e) => e.id == id);
+    if (intakeData == null || intakeData.intake == null) return;
+
+    // Update current intake
+
+    double amount = intakeData.intake!;
+    final unit = intakeData.unit;
+    final currentUnit = state.data.volumeUnitType;
+    if (currentUnit == VolumeUnitType.milliliters &&
+        currentUnit.rawValue != unit) {
+      amount = UnitConverter.ozToMl(amount);
+    } else if (currentUnit == VolumeUnitType.ounces &&
+        currentUnit.rawValue != unit) {
+      amount = UnitConverter.mlToOz(amount);
+    }
+    updateDailyIntake(value: amount, isAdding: false);
+
+    intakeData.isDeleted = true;
+
+    // Update Intake History
+
+    _progressRepo.cacheDailyIntakeHistory(data: intakeData);
+    final intakeIndex = listIntakeHistory.indexWhere((e) => e.id == id);
+    if (intakeIndex != -1) {
+      listIntakeHistory[intakeIndex] = intakeData;
+      updateIntakeHistory(listIntakeHistory);
+    }
+
+    // Update Streak Status, Streak Count, Monthly Goal Met
+
+    final currentAmount = state.data.dailyIntake;
+    if (state.data.isAchieveStreakToday) {
+      if (currentAmount < state.data.dailyGoal) {
+        final streaks = state.data.numberOfStreak - 1;
+        updateStreakNumber(streaks);
+        updateStreakStatus(false);
+
+        final monthlyGoalMets = state.data.monthlyGoalMets - 1;
+        updateMonthlyGoalMets(monthlyGoalMets);
+      }
+    }
   }
 }

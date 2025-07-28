@@ -51,6 +51,13 @@ class MainApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: state.data.locale,
+          builder: (context, child) {
+            final mediaQueryData = MediaQuery.of(context);
+            return MediaQuery(
+              data: mediaQueryData.copyWith(textScaler: TextScaler.noScaling),
+              child: child!,
+            );
+          },
         );
       },
     );
