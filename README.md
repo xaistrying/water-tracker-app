@@ -15,7 +15,7 @@ Drink Log - Water Tracker is a lightweight mobile app that helps users stay on t
 
 ## 📸 Screenshots
 
-|     |     |     |
-|:---:|:---:|:---:|
-| ![Artboard 1](assets/screenshots/artboard_1.png) | ![Artboard 2](assets/screenshots/artboard_2.png) | ![Artboard 3](assets/screenshots/artboard_3.png) | 
-| ![Artboard 4](assets/screenshots/artboard_4.png) | ![Artboard 5](assets/screenshots/artboard_5.png) | | 
+|     |     |     |     |     |
+|:---:|:---:|:---:|:---:|:---:|
+| ![Artboard 1](assets/screenshots/artboard_1.png) | ![Artboard 2](assets/screenshots/artboard_2.png) | ![Artboard 3](assets/screenshots/artboard_3.png) | ![Artboard 4](assets/screenshots/artboard_4.png) | ![Artboard 5](assets/screenshots/artboard_5.png) |
+| ![Artboard 6](assets/screenshots/artboard_6.png) | ![Artboard 7](assets/screenshots/artboard_7.png) | ![Artboard 8](assets/screenshots/artboard_8.png) | ![Artboard 9](assets/screenshots/artboard_9.png) | ![Artboard 10](assets/screenshots/artboard_10.png) | 
