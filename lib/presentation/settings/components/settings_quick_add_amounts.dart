@@ -105,7 +105,10 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
     required String title,
   }) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 0.0,
+        vertical: 0.0,
+      ),
       title: Text(
         title,
         style: TextStyle(
@@ -156,7 +159,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
 
   Widget _buildTipContent(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppDimens.padding16),
+      padding: const EdgeInsets.all(AppDimens.padding16),
       decoration: BoxDecoration(
         color: AppColor.getTipCardColor(context),
         borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
@@ -206,7 +209,7 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
             color: AppColor.getWhiteBlack(context),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         IconButton(
           onPressed: () {
             showDialog(
@@ -237,8 +240,8 @@ class _SettingsQuickAddAmountsState extends State<SettingsQuickAddAmounts> {
               }
             });
           },
-          padding: EdgeInsets.only(right: AppDimens.padding4),
-          constraints: BoxConstraints(),
+          padding: const EdgeInsets.only(right: AppDimens.padding4),
+          constraints: const BoxConstraints(),
           style: IconButton.styleFrom(
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),

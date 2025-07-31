@@ -55,7 +55,7 @@ class SettingsStorage extends StatelessWidget {
 
   Widget _buildInfoContent(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppDimens.padding16),
+      padding: const EdgeInsets.all(AppDimens.padding16),
       decoration: BoxDecoration(
         color: AppColor.getTipCardColor(context),
         borderRadius: BorderRadius.circular(AppDimens.borderRadius8),

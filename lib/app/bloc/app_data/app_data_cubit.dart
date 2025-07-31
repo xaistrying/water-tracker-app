@@ -27,7 +27,7 @@ part 'app_data_state.dart';
 part 'app_data_cubit.freezed.dart';
 
 class AppDataCubit extends Cubit<AppDataState> {
-  AppDataCubit() : super(_InitialState(AppDataStateData())) {
+  AppDataCubit() : super(const _InitialState(AppDataStateData())) {
     _init();
   }
 

@@ -77,7 +77,7 @@ class SettingsLanguageScreen extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) =>
-              SizedBox(height: AppDimens.padding8),
+              const SizedBox(height: AppDimens.padding8),
         ),
       ),
     );
@@ -92,7 +92,7 @@ class SettingsLanguageScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppDimens.padding16,
           vertical: AppDimens.padding20,
         ),
@@ -116,7 +116,10 @@ class SettingsLanguageScreen extends StatelessWidget {
             if (isSelected)
               SvgPicture.asset(
                 ImageConstant.check,
-                colorFilter: ColorFilter.mode(AppColor.white, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  AppColor.white,
+                  BlendMode.srcIn,
+                ),
                 height: AppDimens.iconSize20,
               ),
           ],

@@ -28,7 +28,7 @@ class StatisticsWeeklyChart extends StatelessWidget {
       child: Column(
         children: [
           _buildHeader(context),
-          SizedBox(height: AppDimens.padding12),
+          const SizedBox(height: AppDimens.padding12),
           _buildWeeklyChart(context),
         ],
       ),

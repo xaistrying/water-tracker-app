@@ -16,7 +16,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }) async {
     try {
       _dataSource.cacheReminderStatus(status: status);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -41,7 +41,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }) async {
     try {
       _dataSource.cacheSoundEffectStatus(status: status);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -66,7 +66,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }) async {
     try {
       _dataSource.cacheReminderInterval(value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -91,7 +91,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }) async {
     try {
       _dataSource.cacheStartTime(value: timeString);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -116,7 +116,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }) async {
     try {
       _dataSource.cacheEndTime(value: timeString);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

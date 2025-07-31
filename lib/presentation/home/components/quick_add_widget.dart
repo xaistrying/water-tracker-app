@@ -99,7 +99,7 @@ class QuickAddWidget extends StatelessWidget {
             context,
             onPressed: () => showDialog(
               context: context,
-              builder: (context) => QuickAddCustomDialog(),
+              builder: (context) => const QuickAddCustomDialog(),
             ),
           ),
         ),
@@ -118,7 +118,7 @@ class QuickAddWidget extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
           side: BorderSide.none,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: AppDimens.padding12,
             vertical: AppDimens.padding16,
           ),
@@ -127,12 +127,12 @@ class QuickAddWidget extends StatelessWidget {
         ),
         icon: SvgPicture.asset(
           ImageConstant.add,
-          colorFilter: ColorFilter.mode(AppColor.white, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(AppColor.white, BlendMode.srcIn),
           height: AppDimens.iconSize16,
         ),
         label: Text(
           context.loc.custom,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: AppDimens.fontSizeDefault,
             fontWeight: FontWeight.bold,
             color: AppColor.white,
@@ -159,7 +159,7 @@ class QuickAddWidget extends StatelessWidget {
           width: AppDimens.borderWidth2,
           strokeAlign: BorderSide.strokeAlignOutside,
         ),
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppDimens.padding12,
           vertical: AppDimens.padding16,
         ),
@@ -177,7 +177,7 @@ class QuickAddWidget extends StatelessWidget {
       ),
       label: Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: AppDimens.fontSizeDefault,
           fontWeight: FontWeight.bold,
         ),

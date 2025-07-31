@@ -54,7 +54,7 @@ class RecentMeasurementCard extends StatelessWidget {
                 context.loc.no_water_intake_data,
                 style: TextStyle(color: AppColor.getContentColor(context)),
               ),
-              SizedBox(height: AppDimens.padding12),
+              const SizedBox(height: AppDimens.padding12),
             ],
           );
         }
@@ -112,7 +112,7 @@ class RecentMeasurementCard extends StatelessWidget {
             color: AppColor.getWhiteBlack(context),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         TextButton.icon(
           onPressed: () => context.push(AppRouter.recentMore),
           label: Text(
@@ -142,7 +142,7 @@ class RecentMeasurementCard extends StatelessWidget {
     required String unit,
   }) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(
+      contentPadding: const EdgeInsets.symmetric(
         horizontal: AppDimens.padding4,
         vertical: 0.0,
       ),

@@ -31,7 +31,10 @@ class FeatureItemWidget extends StatelessWidget {
         highlightColor: Colors.transparent,
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 0.0,
+          vertical: 0.0,
+        ),
         minTileHeight: 0.0,
         minVerticalPadding: AppDimens.padding4,
         title:

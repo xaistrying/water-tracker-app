@@ -23,7 +23,7 @@ class StatisticsMonthlySummary extends StatelessWidget {
       child: Column(
         children: [
           _buildHeader(context),
-          SizedBox(height: AppDimens.padding12),
+          const SizedBox(height: AppDimens.padding12),
           BlocBuilder<AppDataCubit, AppDataState>(
             builder: (context, state) {
               final monthlyGoalMets = state.data.monthlyGoalMets;

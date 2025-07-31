@@ -114,7 +114,7 @@ class RecentMoreScreen extends StatelessWidget {
     required String unit,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppDimens.padding16,
         vertical: AppDimens.padding16,
       ),

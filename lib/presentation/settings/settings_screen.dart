@@ -62,22 +62,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                 padding: const EdgeInsets.all(AppDimens.padding16),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    SettingsHeader(),
-                    SizedBox(height: AppDimens.padding16),
-                    SettingsProfile(),
-                    SizedBox(height: AppDimens.padding16),
-                    SettingsAppearance(),
-                    SizedBox(height: AppDimens.padding16),
-                    SettingsReminder(),
-                    SizedBox(height: AppDimens.padding16),
+                    const SettingsHeader(),
+                    const SizedBox(height: AppDimens.padding16),
+                    const SettingsProfile(),
+                    const SizedBox(height: AppDimens.padding16),
+                    const SettingsAppearance(),
+                    const SizedBox(height: AppDimens.padding16),
+                    const SettingsReminder(),
+                    const SizedBox(height: AppDimens.padding16),
                     SettingsHydrationCalculator(
                       key: _settingsHydrationCalculatorKey,
                     ),
-                    SizedBox(height: AppDimens.padding16),
-                    SettingsQuickAddAmounts(),
-                    SizedBox(height: AppDimens.padding16),
-                    SettingsStorage(),
-                    SizedBox(height: AppDimens.padding16),
+                    const SizedBox(height: AppDimens.padding16),
+                    const SettingsQuickAddAmounts(),
+                    const SizedBox(height: AppDimens.padding16),
+                    const SettingsStorage(),
+                    const SizedBox(height: AppDimens.padding16),
 
                     // App Version
                     BlocBuilder<AppConfigCubit, AppConfigState>(

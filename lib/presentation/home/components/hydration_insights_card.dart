@@ -146,7 +146,7 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
             RichText(
               text: TextSpan(
                 text: emoji,
-                style: TextStyle(fontFamily: 'NotoColorEmoji'),
+                style: const TextStyle(fontFamily: 'NotoColorEmoji'),
               ),
             ),
             const SizedBox(width: 12),

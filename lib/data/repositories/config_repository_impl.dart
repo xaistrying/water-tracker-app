@@ -29,7 +29,7 @@ class ConfigRepositoryImpl implements ConfigRepository {
   }) async {
     try {
       _dataSource.cacheLanguageCode(languageCode: languageCode);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -54,7 +54,7 @@ class ConfigRepositoryImpl implements ConfigRepository {
   }) async {
     try {
       _dataSource.cacheDarkModeStatus(status: status);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

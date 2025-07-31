@@ -183,7 +183,7 @@ class _SettingsReminderState extends State<SettingsReminder>
                 color: AppColor.getContentColor(context),
               ),
             ),
-            SizedBox(height: AppDimens.padding12),
+            const SizedBox(height: AppDimens.padding12),
             Row(
               spacing: AppDimens.padding4,
               children: [
@@ -222,7 +222,10 @@ class _SettingsReminderState extends State<SettingsReminder>
                     );
                   },
                 ),
-                Icon(Icons.arrow_forward_rounded, size: AppDimens.iconSize20),
+                const Icon(
+                  Icons.arrow_forward_rounded,
+                  size: AppDimens.iconSize20,
+                ),
                 Expanded(
                   child: ValueListenableBuilder(
                     valueListenable: endTimeController,

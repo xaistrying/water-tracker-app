@@ -62,7 +62,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             thumbColor: AppColor.getBlueCyanColor(context),
             inactiveTrackColor: AppColor.getSliderTrackColor(context),
             activeTrackColor: AppColor.getBlueCyanColor(context),
-            overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
             overlayColor: AppColor.getBlueCyanColor(
               context,
             ).withValues(alpha: 0.2),
@@ -73,7 +73,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             max: widget.max,
             divisions: widget.divisions,
             onChangeEnd: widget.onChangeEnd,
-            padding: EdgeInsets.only(top: AppDimens.padding8),
+            padding: const EdgeInsets.only(top: AppDimens.padding8),
             onChanged: (value) {
               setState(() {
                 _currentSliderValue = value;

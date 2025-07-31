@@ -12,7 +12,7 @@ class AppTheme {
     brightness: Brightness.light,
     fontFamily: 'OpenSans',
     scaffoldBackgroundColor: Colors.transparent,
-    navigationBarTheme: NavigationBarThemeData(
+    navigationBarTheme: const NavigationBarThemeData(
       indicatorColor: Colors.transparent,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: kBottomNavigationBarHeight,
@@ -26,7 +26,7 @@ class AppTheme {
     brightness: Brightness.dark,
     fontFamily: 'OpenSans',
     scaffoldBackgroundColor: Colors.transparent,
-    navigationBarTheme: NavigationBarThemeData(
+    navigationBarTheme: const NavigationBarThemeData(
       indicatorColor: Colors.transparent,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: kBottomNavigationBarHeight,

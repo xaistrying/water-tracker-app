@@ -195,7 +195,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
                         ),
                       );
                     },
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     style: IconButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,

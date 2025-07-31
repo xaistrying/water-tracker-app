@@ -27,7 +27,7 @@ class QuickAddRepositoryImpl implements QuickAddRepository {
   }) async {
     try {
       _dataSource.cacheSpecificQuickAddValue(option: option, value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

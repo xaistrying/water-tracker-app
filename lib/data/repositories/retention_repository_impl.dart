@@ -27,7 +27,7 @@ class RetentionPeriodRepositoryImpl implements RetentionPeriodRepository {
   }) async {
     try {
       _dataSource.cacheRetentionPeriodValue(retentionPeriod: retentionPeriod);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

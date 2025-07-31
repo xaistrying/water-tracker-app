@@ -236,7 +236,7 @@ class SettingsHydrationCalculatorState
 
         // MARK: Recommendation
         Container(
-          padding: EdgeInsets.all(AppDimens.padding16),
+          padding: const EdgeInsets.all(AppDimens.padding16),
           decoration: BoxDecoration(
             color: AppColor.getTipCardColor(context),
             borderRadius: BorderRadius.circular(AppDimens.borderRadius8),
@@ -258,7 +258,7 @@ class SettingsHydrationCalculatorState
                         ),
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     BlocBuilder<
                       HydrationCalculatorCubit,
                       HydrationCalculatorState
@@ -306,7 +306,7 @@ class SettingsHydrationCalculatorState
                   ],
                 ),
 
-              SizedBox(height: AppDimens.padding8),
+              const SizedBox(height: AppDimens.padding8),
               ValueListenableBuilder(
                 valueListenable: baseTextController,
                 builder: (context, value, child) {
@@ -316,7 +316,7 @@ class SettingsHydrationCalculatorState
                   );
                 },
               ),
-              SizedBox(height: AppDimens.padding4),
+              const SizedBox(height: AppDimens.padding4),
               ValueListenableBuilder(
                 valueListenable: excerciseTimeNotifier,
                 builder: (context, value, child) {

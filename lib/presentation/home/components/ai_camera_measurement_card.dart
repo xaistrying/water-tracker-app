@@ -29,10 +29,13 @@ class AiCameraMeasurementCard extends StatelessWidget {
         children: [
           SvgPicture.asset(
             ImageConstant.camera,
-            colorFilter: ColorFilter.mode(AppColor.white, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(
+              AppColor.white,
+              BlendMode.srcIn,
+            ),
             height: 48.0,
           ),
-          Text(
+          const Text(
             'AI Water Measurement',
             style: TextStyle(
               fontSize: AppDimens.fontSize18,
@@ -40,7 +43,7 @@ class AiCameraMeasurementCard extends StatelessWidget {
               color: AppColor.white,
             ),
           ),
-          Text(
+          const Text(
             'Take a photo to automatically measure water volume',
             style: TextStyle(
               fontSize: AppDimens.fontSizeDefault,

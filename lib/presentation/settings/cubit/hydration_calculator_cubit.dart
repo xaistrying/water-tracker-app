@@ -7,7 +7,7 @@ part 'hydration_calculator_cubit.freezed.dart';
 
 class HydrationCalculatorCubit extends Cubit<HydrationCalculatorState> {
   HydrationCalculatorCubit()
-    : super(_InitialState(HydrationCalculatorStateData()));
+    : super(const _InitialState(HydrationCalculatorStateData()));
 
   void updateCalculationResult(double calculationResult) {
     emit(

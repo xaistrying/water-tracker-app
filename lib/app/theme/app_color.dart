@@ -78,7 +78,7 @@ class AppColor {
 
   static LinearGradient getColorfullCardColor(BuildContext context) {
     return context.isDarkMode
-        ? LinearGradient(
+        ? const LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [cyan600, teal600],

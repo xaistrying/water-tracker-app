@@ -27,7 +27,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
   }) async {
     try {
       _dataSource.cacheWeightUnitType(weightUnitType: weightUnitType);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -49,7 +49,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
   }) async {
     try {
       _dataSource.cacheVolumeUnitType(volumeUnitType: volumeUnitType);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

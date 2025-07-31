@@ -56,7 +56,9 @@ class SegmentedButtonWidget extends StatelessWidget {
           context,
         ),
         splashFactory: NoSplash.splashFactory,
-        visualDensity: VisualDensity(horizontal: VisualDensity.minimumDensity),
+        visualDensity: const VisualDensity(
+          horizontal: VisualDensity.minimumDensity,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimens.borderRadius4),
         ),

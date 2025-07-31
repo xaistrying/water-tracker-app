@@ -28,7 +28,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> cacheDailyGoal({required double value}) async {
     try {
       _dataSource.cacheDailyGoal(value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -53,7 +53,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.cacheDailyIntake(value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -63,7 +63,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> removeDailyIntake() async {
     try {
       _dataSource.removeDailyIntake();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -86,7 +86,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> cacheLastOpenDay() async {
     try {
       _dataSource.cacheLastOpenDay();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -108,7 +108,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.cacheDailyIntakeHistory(data: data);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -120,7 +120,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.removeDailyIntakeHistory(keepDays: keepDays);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -143,7 +143,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> cacheStreakNumber({required int value}) async {
     try {
       _dataSource.cacheStreakNumber(value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -153,7 +153,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> removeStreakNumber() async {
     try {
       _dataSource.removeStreakNumber();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -175,7 +175,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.cacheWeeklyIntake(data: data);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -185,7 +185,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> removeOldWeeklyIntake() async {
     try {
       _dataSource.removeOldWeeklyIntake();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -210,7 +210,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.cacheMonthlyGoalMets(value: value);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -220,7 +220,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> removeMonthlyGoalMets() async {
     try {
       _dataSource.removeMonthlyGoalMets();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -245,7 +245,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }) async {
     try {
       _dataSource.cacheStreakStatus(status: status);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -255,7 +255,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
   Future<Either<Failure, void>> removeStreakStatus() async {
     try {
       _dataSource.removeStreakStatus();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

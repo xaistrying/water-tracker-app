@@ -16,7 +16,7 @@ part 'app_config_state.dart';
 part 'app_config_cubit.freezed.dart';
 
 class AppConfigCubit extends Cubit<AppConfigState> {
-  AppConfigCubit() : super(_InitialState(AppConfigStateData())) {
+  AppConfigCubit() : super(const _InitialState(AppConfigStateData())) {
     _init();
   }
 

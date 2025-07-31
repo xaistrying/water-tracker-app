@@ -28,7 +28,7 @@ class InfoDialogWidget extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.all(AppDimens.padding24),
-        constraints: BoxConstraints(maxWidth: 400.0),
+        constraints: const BoxConstraints(maxWidth: 400.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -31,7 +31,7 @@ class TimePickerField extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.all(AppDimens.padding12),
+        padding: const EdgeInsets.all(AppDimens.padding12),
         decoration: BoxDecoration(
           color: AppColor.getInputFieldColor(context),
           border: BoxBorder.all(color: AppColor.getGreyColorForText(context)),
@@ -75,7 +75,7 @@ Future<TimeOfDay?> _showCustomTimePicker(
     builder: (BuildContext context, Widget? child) {
       return Localizations.override(
         context: context,
-        locale: Locale('en', ''), // forces 12 hour format
+        locale: const Locale('en', ''), // forces 12 hour format
         delegates: [CustomLocalizationsDelegate(context)],
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
@@ -108,7 +108,7 @@ Future<TimeOfDay?> _showCustomTimePicker(
                 ),
               ),
             ),
-            child: child ?? SizedBox.shrink(),
+            child: child ?? const SizedBox.shrink(),
           ),
         ),
       );

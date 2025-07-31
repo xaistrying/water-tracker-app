@@ -26,7 +26,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     try {
       _dataSource.cacheUserName(userName: userName);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -48,7 +48,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     try {
       _dataSource.cacheAdvancedModeStatus(status: status);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

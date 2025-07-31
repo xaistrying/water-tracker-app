@@ -6,7 +6,7 @@ import '../../../app/theme/app_color.dart';
 import '../../../app/theme/app_dimens.dart';
 
 SnackBar newDaySnackbar(BuildContext context) => SnackBar(
-  content: Column(
+  content: const Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
