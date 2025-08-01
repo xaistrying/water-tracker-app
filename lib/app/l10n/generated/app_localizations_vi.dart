@@ -85,12 +85,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get success_rate => 'Hoàn Thành';
 
   @override
-  String get profile => 'Hồ sơ';
-
-  @override
-  String get your_name => 'Tên của bạn';
-
-  @override
   String get daily_goal => 'Mục tiêu mỗi ngày';
 
   @override

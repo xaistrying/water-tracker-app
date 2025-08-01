@@ -44,8 +44,6 @@
     "goals_met": "Goals Met",
     "success_rate": "Success Rate",
 
-    "profile": "Profile",
-    "your_name": "Your Name",
     "daily_goal": "Daily Goal",
     "advanced_mode": "Advanced Mode",
     "advanced_mode_description": "Unlock goal to {value}{unit}",

@@ -12,6 +12,10 @@ abstract class ProgressDataSource {
   Future<void> cacheDailyGoal({required double value});
   double? getDailyGoal();
 
+  // Advanced Mode Status
+  Future<void> cacheAdvancedModeStatus({required bool status});
+  bool? getAdvancedModeStatus();
+
   // Daily Intake
   Future<void> cacheDailyIntake({required double value});
   double? getDailyIntake();
@@ -51,6 +55,7 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   final _pref = getIt<AppPrefsServiceHelper>();
 
   static const dailyGoalKey = 'DAILY_GOAL_KEY';
+  static const advancedModeKey = 'ADVANCED_MODE_KEY';
   static const dailyIntakeKey = 'DAILY_INTAKE_KEY';
   static const lastOpenDayKey = 'LAST_OPEN_DAY_KEY';
   static const dailyIntakeHistoryKey = 'DAILY_INTAKE_HISTORY_KEY';
@@ -67,6 +72,16 @@ class ProgressDataSourceImpl implements ProgressDataSource {
   @override
   double? getDailyGoal() {
     return _pref.getValue<double>(dailyGoalKey);
+  }
+
+  @override
+  Future<void> cacheAdvancedModeStatus({required bool status}) async {
+    await _pref.setValue<bool>(advancedModeKey, status);
+  }
+
+  @override
+  bool? getAdvancedModeStatus() {
+    return _pref.getValue<bool>(advancedModeKey);
   }
 
   @override

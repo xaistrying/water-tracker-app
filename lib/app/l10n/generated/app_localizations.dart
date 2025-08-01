@@ -241,18 +241,6 @@ abstract class AppLocalizations {
   /// **'Success Rate'**
   String get success_rate;
 
-  /// No description provided for @profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profile;
-
-  /// No description provided for @your_name.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Name'**
-  String get your_name;
-
   /// No description provided for @daily_goal.
   ///
   /// In en, this message translates to:

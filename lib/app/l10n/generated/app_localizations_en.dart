@@ -85,12 +85,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get success_rate => 'Success Rate';
 
   @override
-  String get profile => 'Profile';
-
-  @override
-  String get your_name => 'Your Name';
-
-  @override
   String get daily_goal => 'Daily Goal';
 
   @override

@@ -79,20 +79,21 @@ class NotificationService {
       time.isBefore(endTime) || time.isAtSameMomentAs(endTime);
       time = time.add(Duration(minutes: interval))
     ) {
-      if (time.isBefore(DateTime.now())) {
-        continue;
+      DateTime scheduledTime = time;
+      if (scheduledTime.isBefore(DateTime.now())) {
+        scheduledTime = scheduledTime.add(const Duration(days: 1));
       }
       var scheduledDate = tz.TZDateTime(
         tz.local,
-        now.year,
-        now.month,
-        now.day,
-        time.hour,
-        time.minute,
+        scheduledTime.year,
+        scheduledTime.month,
+        scheduledTime.day,
+        scheduledTime.hour,
+        scheduledTime.minute,
         0,
       );
       await notificationPlugin.zonedSchedule(
-        time.toIso8601String().hashCode,
+        scheduledTime.toIso8601String().hashCode,
         title,
         body,
         scheduledDate,

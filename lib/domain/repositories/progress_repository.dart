@@ -10,6 +10,10 @@ abstract class ProgressRepository {
   Either<Failure, double> getDailyGoal();
   Future<Either<Failure, void>> cacheDailyGoal({required double value});
 
+  // Advanced Mode Status
+  Either<Failure, bool?> getAdvancedModeStatus();
+  Future<Either<Failure, void>> cacheAdvancedModeStatus({required bool status});
+
   // Daily Intake
   Either<Failure, double> getDailyIntake();
   Future<Either<Failure, void>> cacheDailyIntake({required double value});

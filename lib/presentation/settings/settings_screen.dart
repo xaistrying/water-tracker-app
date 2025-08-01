@@ -12,9 +12,9 @@ import 'package:water_tracker_app/presentation/settings/cubit/hydration_calculat
 import '../../app/theme/app_color.dart';
 import '../../app/theme/app_dimens.dart';
 import 'components/settings_appearance.dart';
+import 'components/settings_daily_goal.dart';
 import 'components/settings_header.dart';
 import 'components/settings_hydration_calculator.dart';
-import 'components/settings_profile.dart';
 import 'components/settings_storage.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -64,7 +64,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   delegate: SliverChildListDelegate([
                     const SettingsHeader(),
                     const SizedBox(height: AppDimens.padding16),
-                    const SettingsProfile(),
+                    const SettingsDailyGoal(),
                     const SizedBox(height: AppDimens.padding16),
                     const SettingsAppearance(),
                     const SizedBox(height: AppDimens.padding16),

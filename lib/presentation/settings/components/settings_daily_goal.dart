@@ -14,7 +14,6 @@ import 'package:water_tracker_app/app/extension/context_extension.dart';
 import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/app/widget/dialog_widget.dart';
 import 'package:water_tracker_app/app/widget/info_dialog_widget.dart';
-import 'package:water_tracker_app/app/widget/text_form_field_widget.dart';
 import 'package:water_tracker_app/presentation/settings/widget/slider_widget.dart';
 import '../../../app/constant/image_constant.dart';
 import '../../../app/theme/app_color.dart';
@@ -22,28 +21,8 @@ import '../../../app/theme/app_dimens.dart';
 import '../../../app/widget/custom_card_widget.dart';
 import '../widget/feature_item_widget.dart';
 
-class SettingsProfile extends StatefulWidget {
-  const SettingsProfile({super.key});
-
-  @override
-  State<SettingsProfile> createState() => _SettingsProfileState();
-}
-
-class _SettingsProfileState extends State<SettingsProfile> {
-  final _userNameTextController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    final appDataCubit = context.read<AppDataCubit>().state.data;
-    _userNameTextController.text = appDataCubit.userName;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _userNameTextController.dispose();
-  }
+class SettingsDailyGoal extends StatelessWidget {
+  const SettingsDailyGoal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,38 +40,20 @@ class _SettingsProfileState extends State<SettingsProfile> {
       spacing: AppDimens.padding12,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: AppDimens.padding4),
-          child: Text(
-            context.loc.your_name,
-            style: TextStyle(
-              fontSize: AppDimens.fontSizeDefault,
-              fontWeight: FontWeight.bold,
-              color: AppColor.getWhiteBlack(context),
-            ),
-          ),
-        ),
-        TextFormFieldWidget(
-          controller: _userNameTextController,
-          onTapOutside: () => context.read<AppDataCubit>().updateUserName(
-            _userNameTextController.text,
-          ),
-          isDense: false,
-        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: AppDimens.padding4),
-              child: Text(
-                context.loc.daily_goal,
-                style: TextStyle(
-                  fontSize: AppDimens.fontSizeDefault,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.getWhiteBlack(context),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: AppDimens.padding4),
+            //   child: Text(
+            //     context.loc.daily_goal,
+            //     style: TextStyle(
+            //       fontSize: AppDimens.fontSizeDefault,
+            //       fontWeight: FontWeight.bold,
+            //       color: AppColor.getWhiteBlack(context),
+            //     ),
+            //   ),
+            // ),
             BlocBuilder<AppDataCubit, AppDataState>(
               builder: (context, state) {
                 final dailyGoal = state.data.dailyGoal;
@@ -260,7 +221,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
       spacing: AppDimens.padding12,
       children: [
         SvgPicture.asset(
-          ImageConstant.user,
+          ImageConstant.target,
           colorFilter: ColorFilter.mode(
             AppColor.getGreyColorForText(context),
             BlendMode.srcIn,
@@ -268,7 +229,7 @@ class _SettingsProfileState extends State<SettingsProfile> {
           height: AppDimens.iconSize20,
         ),
         Text(
-          context.loc.profile,
+          context.loc.daily_goal,
           style: TextStyle(
             fontSize: AppDimens.fontSize16,
             fontWeight: FontWeight.bold,

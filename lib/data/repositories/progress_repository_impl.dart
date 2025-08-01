@@ -35,6 +35,28 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }
 
   @override
+  Either<Failure, bool?> getAdvancedModeStatus() {
+    try {
+      final res = _dataSource.getAdvancedModeStatus();
+      return Right(res);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> cacheAdvancedModeStatus({
+    required bool status,
+  }) async {
+    try {
+      _dataSource.cacheAdvancedModeStatus(status: status);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
   Either<Failure, double> getDailyIntake() {
     try {
       final res = _dataSource.getDailyIntake();

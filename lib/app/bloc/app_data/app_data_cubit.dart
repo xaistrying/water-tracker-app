@@ -14,7 +14,6 @@ import 'package:water_tracker_app/app/extension/date_time_extension.dart';
 import 'package:water_tracker_app/app/extension/string_extension.dart';
 import 'package:water_tracker_app/app/functions/unit_converter.dart';
 import 'package:water_tracker_app/domain/models/daily_intake_model.dart';
-import 'package:water_tracker_app/domain/repositories/profile_repository.dart';
 import 'package:water_tracker_app/domain/repositories/quick_add_repository.dart';
 import 'package:water_tracker_app/domain/repositories/reminder_repository.dart';
 import 'package:water_tracker_app/domain/repositories/retention_period_repository.dart';
@@ -32,7 +31,6 @@ class AppDataCubit extends Cubit<AppDataState> {
   }
 
   final _unitRepo = getIt<UnitsRepository>();
-  final _profileRepo = getIt<ProfileRepository>();
   final _quickAddRepo = getIt<QuickAddRepository>();
   final _progressRepo = getIt<ProgressRepository>();
   final _retentionPeriodRepo = getIt<RetentionPeriodRepository>();
@@ -53,10 +51,8 @@ class AppDataCubit extends Cubit<AppDataState> {
     final volumeUnitType = _unitRepo.getVolumeUnitType().getOrElse(
       (_) => VolumeUnitType.milliliters,
     );
-    final userName = _profileRepo.getUserName().getOrElse((_) => '');
     updateVolumeUnitType(volumeUnitType);
     updateWeightUnitType(weightUnitType);
-    updateUserName(userName);
 
     // Get All Local Quick Add Amounts, If ALL Null Then Get Default
     final List<String> values = [];
@@ -83,7 +79,7 @@ class AppDataCubit extends Cubit<AppDataState> {
     );
 
     // Advanced Mode
-    final advancedModeStatus = _profileRepo.getAdvancedModeStatus().getOrElse(
+    final advancedModeStatus = _progressRepo.getAdvancedModeStatus().getOrElse(
       (_) => null,
     );
     updateAdvancedModeStatus(status: advancedModeStatus);
@@ -236,11 +232,6 @@ class AppDataCubit extends Cubit<AppDataState> {
     );
   }
 
-  void updateUserName(String userName) {
-    _profileRepo.cacheUserName(userName: userName);
-    emit(UpdateUserName(state.data.copyWith(userName: userName)));
-  }
-
   void updateDailyGoal({required double value, bool isInitialize = false}) {
     if (isInitialize == false) {
       if (state.data.isAchieveStreakToday) {
@@ -289,7 +280,7 @@ class AppDataCubit extends Cubit<AppDataState> {
     if (status == null) {
       return;
     } else {
-      _profileRepo.cacheAdvancedModeStatus(status: status);
+      _progressRepo.cacheAdvancedModeStatus(status: status);
       emit(
         UpdateAdvancedModeStatus(
           state.data.copyWith(advancedModeStatus: status),
