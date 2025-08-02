@@ -236,5 +236,9 @@
     "allow_notification": "Cho phép thông báo",
     "allow_notification_dialog": "Bật thông báo để nhận nhắc nhở thường xuyên về việc uống nước và giữ cơ thể luôn đủ nước.",
 
-    "select_time": "Chọn thời gian"
+    "select_time": "Chọn thời gian",
+
+    "updateTitle": "Phiên bản mới đã sẵn sàng!",
+    "updateContent": "Ứng dụng đã được nâng cấp với những tính năng và cải tiến mới.",
+    "updateAction": "Cập nhật ngay nào"
 }

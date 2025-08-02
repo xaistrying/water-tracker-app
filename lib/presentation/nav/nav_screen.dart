@@ -1,10 +1,12 @@
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:upgrader/upgrader.dart';
 
 // Project imports:
 import 'package:water_tracker_app/app/bloc/app_data/app_data_cubit.dart';
@@ -18,9 +20,11 @@ import 'package:water_tracker_app/presentation/settings/settings_screen.dart';
 import 'package:water_tracker_app/presentation/statistics/statistics_screen.dart';
 import '../../app/constant/image_constant.dart';
 import '../../app/enum/unit_type.dart';
+import '../../app/functions/version_checking.dart';
 import '../../app/service/notification_service.dart';
 import '../../app/theme/app_color.dart';
 import '../settings/cubit/hydration_calculator_cubit.dart';
+import 'widget/custom_upgrader_alert.dart';
 import 'widget/new_day_snack_bar.dart';
 
 bool _notificationScheduledRecently = false;
@@ -59,6 +63,13 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _checkUpdate() async {
+    final available = await checkIfUpdateAvailable();
+    if (mounted) {
+      context.read<AppDataCubit>().getNewUpdateStatus(available);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -74,6 +85,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
       onResume: _beforeClosingApp,
     );
     context.read<AppDataCubit>().updateWeeklyIntakeByUnit();
+    _checkUpdate();
   }
 
   @override
@@ -194,82 +206,89 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
         onPopInvokedWithResult: (didPop, result) {
           if (widget.navigationShell.currentIndex != 0) {
             widget.navigationShell.goBranch(0);
-          } else {}
+          }
         },
-        child: Scaffold(
-          body: widget.navigationShell,
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Divider(
-                height: 0,
-                thickness: AppDimens.borderWidth2,
-                color: AppColor.getNavBorderColor(context),
-              ),
+        child: CustomUpgraderAlert(
+          upgrader: Upgrader(
+            debugDisplayAlways: kDebugMode,
+            debugLogging: kDebugMode,
+          ),
+          child: Scaffold(
+            body: widget.navigationShell,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Divider(
+                  height: 0,
+                  thickness: AppDimens.borderWidth2,
+                  color: AppColor.getNavBorderColor(context),
+                ),
 
-              NavigationBar(
-                height: kBottomNavigationBarHeight,
-                selectedIndex: widget.navigationShell.currentIndex,
-                onDestinationSelected: (index) {
-                  if (index != widget.navigationShell.currentIndex) {
-                    switch (index) {
-                      case 0:
-                        widget.homeScreenKey.currentState?.scrollToTop();
-                        break;
-                      case 1:
-                        widget.statisticsScreenKey.currentState?.scrollToTop();
-                        break;
-                      case 2:
-                        widget.settingsScreenKey.currentState?.scrollToTop();
-                        break;
+                NavigationBar(
+                  height: kBottomNavigationBarHeight,
+                  selectedIndex: widget.navigationShell.currentIndex,
+                  onDestinationSelected: (index) {
+                    if (index != widget.navigationShell.currentIndex) {
+                      switch (index) {
+                        case 0:
+                          widget.homeScreenKey.currentState?.scrollToTop();
+                          break;
+                        case 1:
+                          widget.statisticsScreenKey.currentState
+                              ?.scrollToTop();
+                          break;
+                        case 2:
+                          widget.settingsScreenKey.currentState?.scrollToTop();
+                          break;
+                      }
                     }
-                  }
-                  widget.navigationShell.goBranch(index);
-                },
-                destinations: [
-                  NavigationDestination(
-                    icon: SvgPicture.asset(
-                      ImageConstant.drop,
-                      colorFilter: ColorFilter.mode(
-                        widget.navigationShell.currentIndex == 0
-                            ? AppColor.getActiveIconColor(context)
-                            : AppColor.getWhiteBlack(context),
-                        BlendMode.srcIn,
+                    widget.navigationShell.goBranch(index);
+                  },
+                  destinations: [
+                    NavigationDestination(
+                      icon: SvgPicture.asset(
+                        ImageConstant.drop,
+                        colorFilter: ColorFilter.mode(
+                          widget.navigationShell.currentIndex == 0
+                              ? AppColor.getActiveIconColor(context)
+                              : AppColor.getWhiteBlack(context),
+                          BlendMode.srcIn,
+                        ),
+                        height: AppDimens.iconSize20,
                       ),
-                      height: AppDimens.iconSize20,
+                      label: context.loc.home,
                     ),
-                    label: context.loc.home,
-                  ),
-                  NavigationDestination(
-                    icon: SvgPicture.asset(
-                      ImageConstant.chart,
-                      colorFilter: ColorFilter.mode(
-                        widget.navigationShell.currentIndex == 1
-                            ? AppColor.getActiveIconColor(context)
-                            : AppColor.getWhiteBlack(context),
-                        BlendMode.srcIn,
+                    NavigationDestination(
+                      icon: SvgPicture.asset(
+                        ImageConstant.chart,
+                        colorFilter: ColorFilter.mode(
+                          widget.navigationShell.currentIndex == 1
+                              ? AppColor.getActiveIconColor(context)
+                              : AppColor.getWhiteBlack(context),
+                          BlendMode.srcIn,
+                        ),
+                        height: AppDimens.iconSize20,
                       ),
-                      height: AppDimens.iconSize20,
+                      label: context.loc.statistics,
                     ),
-                    label: context.loc.statistics,
-                  ),
-                  NavigationDestination(
-                    icon: SvgPicture.asset(
-                      ImageConstant.setting,
-                      colorFilter: ColorFilter.mode(
-                        widget.navigationShell.currentIndex == 2
-                            ? AppColor.getActiveIconColor(context)
-                            : AppColor.getWhiteBlack(context),
-                        BlendMode.srcIn,
+                    NavigationDestination(
+                      icon: SvgPicture.asset(
+                        ImageConstant.setting,
+                        colorFilter: ColorFilter.mode(
+                          widget.navigationShell.currentIndex == 2
+                              ? AppColor.getActiveIconColor(context)
+                              : AppColor.getWhiteBlack(context),
+                          BlendMode.srcIn,
+                        ),
+                        height: AppDimens.iconSize20,
                       ),
-                      height: AppDimens.iconSize20,
+                      label: context.loc.settings,
                     ),
-                    label: context.loc.settings,
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

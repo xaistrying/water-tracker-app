@@ -473,4 +473,14 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get select_time => 'Chọn thời gian';
+
+  @override
+  String get updateTitle => 'Phiên bản mới đã sẵn sàng!';
+
+  @override
+  String get updateContent =>
+      'Ứng dụng đã được nâng cấp với những tính năng và cải tiến mới.';
+
+  @override
+  String get updateAction => 'Cập nhật ngay nào';
 }

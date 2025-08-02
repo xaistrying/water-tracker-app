@@ -24,6 +24,7 @@ abstract class AppDataStateData with _$AppDataStateData {
     String? startTime,
     String? endTime,
     @Default(false) bool isInitComplete,
+    @Default(false) bool isNewUpdateAvailable,
   }) = _AppDataStateData;
 }
 
@@ -77,4 +78,6 @@ abstract class AppDataState with _$AppDataState {
       UpdateStartTime;
   const factory AppDataState.updateEndTime(AppDataStateData data) =
       UpdateEndTime;
+  const factory AppDataState.getNewUpdateStatus(AppDataStateData data) =
+      GetNewUpdateStatus;
 }

@@ -24,6 +24,12 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
   final _pageController = PageController(initialPage: 0);
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _insightCard(context);
   }
@@ -66,6 +72,14 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
           // Main card content
           BlocBuilder<AppDataCubit, AppDataState>(
             builder: (context, state) {
+              int itemCount = EmojiType.values.length;
+
+              // Check If Exist New Update
+              final isNewUpdateAvailable = state.data.isNewUpdateAvailable;
+              if (isNewUpdateAvailable) {
+                itemCount += 1;
+              }
+
               // Streak
               final streaks = state.data.numberOfStreak;
 
@@ -76,8 +90,10 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
 
               return ExpandablePageView.builder(
                 controller: _pageController,
-                itemCount: EmojiType.values.length,
+                itemCount: itemCount,
                 itemBuilder: (BuildContext context, int index) {
+                  int customIndex = index;
+
                   var insight = {
                     "type": "",
                     "icon": "",
@@ -85,7 +101,24 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
                     "content": "",
                     "action": "",
                   };
-                  switch (EmojiType.values[index]) {
+
+                  if (isNewUpdateAvailable) {
+                    if (customIndex == 0) {
+                      insight = InsightMessage.getNewUpdateNoti(context);
+                      return _insightContentCard(
+                        context,
+                        count: itemCount,
+                        index: index,
+                        emoji: insight['icon'] ?? '',
+                        title: insight['title'] ?? '',
+                        content: insight['content'] ?? '',
+                        action: insight['action'] ?? '',
+                      );
+                    } else {
+                      customIndex -= 1;
+                    }
+                  }
+                  switch (EmojiType.values[customIndex]) {
                     case EmojiType.streak:
                       insight = InsightMessage.getStreakMessage(
                         context,
@@ -112,6 +145,7 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
                   }
                   return _insightContentCard(
                     context,
+                    count: itemCount,
                     index: index,
                     emoji: insight['icon'] ?? '',
                     title: insight['title'] ?? '',
@@ -129,6 +163,7 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
 
   Widget _insightContentCard(
     BuildContext context, {
+    required int count,
     required String emoji,
     required String title,
     required int index,
@@ -170,7 +205,7 @@ class _HydrationInsightsCardState extends State<HydrationInsightsCard> {
                       ),
                       AnimatedSmoothIndicator(
                         activeIndex: index,
-                        count: EmojiType.values.length,
+                        count: count,
                         duration: Duration.zero,
                         effect: SwapEffect(
                           dotHeight: 8,

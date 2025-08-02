@@ -644,4 +644,8 @@ class AppDataCubit extends Cubit<AppDataState> {
       }
     }
   }
+
+  void getNewUpdateStatus(bool status) {
+    emit(GetNewUpdateStatus(state.data.copyWith(isNewUpdateAvailable: status)));
+  }
 }

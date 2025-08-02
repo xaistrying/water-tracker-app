@@ -236,5 +236,9 @@
     "allow_notification": "Allow Notifications",
     "allow_notification_dialog": "Enable notifications to get regular reminders to drink water and stay hydrated.",
 
-    "select_time": "Select Time"
+    "select_time": "Select Time",
+
+    "updateTitle": "New Update Available!",
+    "updateContent": "A new version of the app is ready. Get the latest features and improvements.",
+    "updateAction": "Update Now"
 }

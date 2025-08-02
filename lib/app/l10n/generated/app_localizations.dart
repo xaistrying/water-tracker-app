@@ -904,6 +904,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Time'**
   String get select_time;
+
+  /// No description provided for @updateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Update Available!'**
+  String get updateTitle;
+
+  /// No description provided for @updateContent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of the app is ready. Get the latest features and improvements.'**
+  String get updateContent;
+
+  /// No description provided for @updateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Now'**
+  String get updateAction;
 }
 
 class _AppLocalizationsDelegate

@@ -75,6 +75,21 @@ class InsightMessage {
     };
   }
 
+  static Map<String, String> getNewUpdateNoti(BuildContext context) {
+    String icon = "🚀";
+    String title = context.loc.updateTitle;
+    String content = context.loc.updateContent;
+    String action = context.loc.updateAction;
+
+    return {
+      "type": "notification",
+      "icon": icon,
+      "title": title,
+      "content": content,
+      "action": action,
+    };
+  }
+
   static Map<String, String> getHydrationBenefit(BuildContext context) {
     String icon = "🌟";
     String title = context.loc.benefitTitle;

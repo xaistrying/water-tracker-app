@@ -471,4 +471,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get select_time => 'Select Time';
+
+  @override
+  String get updateTitle => 'New Update Available!';
+
+  @override
+  String get updateContent =>
+      'A new version of the app is ready. Get the latest features and improvements.';
+
+  @override
+  String get updateAction => 'Update Now';
 }
