@@ -32,7 +32,7 @@ class NotificationService {
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
 
     const initSettingsAndroid = AndroidInitializationSettings(
-      '@drawable/glass_cup',
+      '@drawable/drink_log_noti_icon',
     );
 
     const initSettings = InitializationSettings(android: initSettingsAndroid);

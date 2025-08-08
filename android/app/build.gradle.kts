@@ -67,6 +67,18 @@ android {
                 file("proguard-rules.pro")
             )
         }
+
+        flavorDimensions += "default"
+        productFlavors {
+            create("staging") {
+                dimension = "default"
+                applicationIdSuffix = ".staging"
+            }
+            create("production") {
+                dimension = "default"
+                applicationIdSuffix = ""
+            }
+        }
     }
 }
 
